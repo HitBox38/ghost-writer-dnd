@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -11,20 +11,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useSettingsStore } from '@/stores/settings-store';
-import { testConnection } from '@/lib/ai-generator';
-import { MODEL_OPTIONS } from '@/lib/types';
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSettingsStore } from "@/stores/settings-store";
+import { testConnection } from "@/lib/ai-generator";
+import { MODEL_OPTIONS } from "@/lib/types";
 import {
   Settings,
   Key,
@@ -37,8 +37,8 @@ import {
   Sun,
   Moon,
   Monitor,
-} from 'lucide-react';
-import { toast } from 'sonner';
+} from "lucide-react";
+import { toast } from "sonner";
 
 export const SettingsDialog = () => {
   const { settings, updateSettings, setProvider, setTheme, exportData, importData, clearAllData } =
@@ -49,7 +49,7 @@ export const SettingsDialog = () => {
 
   const handleTestConnection = async () => {
     if (!settings.apiKey) {
-      toast.error('Please enter an API key first');
+      toast.error("Please enter an API key first");
       return;
     }
 
@@ -60,14 +60,14 @@ export const SettingsDialog = () => {
       const result = await testConnection(settings.provider, settings.model, settings.apiKey);
       setTestResult(result);
       if (result) {
-        toast.success('Connection successful!');
+        toast.success("Connection successful!");
       } else {
-        toast.error('Connection failed. Please check your API key.');
+        toast.error("Connection failed. Please check your API key.");
       }
     } catch (error) {
-      console.error('Test connection error:', error);
+      console.error("Test connection error:", error);
       setTestResult(false);
-      toast.error('Connection failed. Please check your API key.');
+      toast.error("Connection failed. Please check your API key.");
     } finally {
       setIsTesting(false);
     }
@@ -79,25 +79,25 @@ export const SettingsDialog = () => {
 
     try {
       await importData(file);
-      toast.success('Data imported successfully');
+      toast.success("Data imported successfully");
       setIsOpen(false);
     } catch (error) {
-      console.error('Import error:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to import data');
+      console.error("Import error:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to import data");
     }
 
     // Reset input
-    e.target.value = '';
+    e.target.value = "";
   };
 
   const handleClearAll = () => {
     if (
       confirm(
-        'Are you sure you want to clear ALL data? This will delete all characters, favorites, and settings. This cannot be undone.'
+        "Are you sure you want to clear ALL data? This will delete all characters, favorites, and settings. This cannot be undone."
       )
     ) {
       clearAllData();
-      toast.success('All data cleared');
+      toast.success("All data cleared");
       setIsOpen(false);
     }
   };
@@ -137,7 +137,7 @@ export const SettingsDialog = () => {
               <div className="space-y-3 p-4 rounded-lg border bg-card">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">OpenAI</h3>
-                  {settings.provider === 'openai' && (
+                  {settings.provider === "openai" && (
                     <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
                       Active
                     </span>
@@ -148,40 +148,19 @@ export const SettingsDialog = () => {
                   <Input
                     id="openai-key"
                     type="password"
-                    value={settings.apiKeys.openai || ''}
+                    value={settings.apiKeys.openai || ""}
                     onChange={(e) => {
                       const apiKeys = { ...settings.apiKeys, openai: e.target.value };
-                      updateSettings({ 
+                      updateSettings({
                         apiKeys,
-                        ...(settings.provider === 'openai' && { apiKey: e.target.value })
+                        ...(settings.provider === "openai" && { apiKey: e.target.value }),
                       });
-                      if (e.target.value && settings.provider !== 'openai') {
-                        setProvider('openai');
+                      if (e.target.value && settings.provider !== "openai") {
+                        setProvider("openai");
                       }
                     }}
                     placeholder="sk-..."
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="openai-model">Model</Label>
-                  <Select
-                    value={settings.provider === 'openai' ? settings.model : MODEL_OPTIONS.openai[0].value}
-                    onValueChange={(v) => {
-                      setProvider('openai');
-                      updateSettings({ model: v });
-                    }}
-                  >
-                    <SelectTrigger id="openai-model">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {MODEL_OPTIONS.openai.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                 </div>
               </div>
 
@@ -189,7 +168,7 @@ export const SettingsDialog = () => {
               <div className="space-y-3 p-4 rounded-lg border bg-card">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">Anthropic</h3>
-                  {settings.provider === 'anthropic' && (
+                  {settings.provider === "anthropic" && (
                     <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
                       Active
                     </span>
@@ -200,40 +179,19 @@ export const SettingsDialog = () => {
                   <Input
                     id="anthropic-key"
                     type="password"
-                    value={settings.apiKeys.anthropic || ''}
+                    value={settings.apiKeys.anthropic || ""}
                     onChange={(e) => {
                       const apiKeys = { ...settings.apiKeys, anthropic: e.target.value };
-                      updateSettings({ 
+                      updateSettings({
                         apiKeys,
-                        ...(settings.provider === 'anthropic' && { apiKey: e.target.value })
+                        ...(settings.provider === "anthropic" && { apiKey: e.target.value }),
                       });
-                      if (e.target.value && settings.provider !== 'anthropic') {
-                        setProvider('anthropic');
+                      if (e.target.value && settings.provider !== "anthropic") {
+                        setProvider("anthropic");
                       }
                     }}
                     placeholder="sk-ant-..."
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="anthropic-model">Model</Label>
-                  <Select
-                    value={settings.provider === 'anthropic' ? settings.model : MODEL_OPTIONS.anthropic[0].value}
-                    onValueChange={(v) => {
-                      setProvider('anthropic');
-                      updateSettings({ model: v });
-                    }}
-                  >
-                    <SelectTrigger id="anthropic-model">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {MODEL_OPTIONS.anthropic.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                 </div>
               </div>
 
@@ -241,7 +199,7 @@ export const SettingsDialog = () => {
               <div className="space-y-3 p-4 rounded-lg border bg-card">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">Google AI</h3>
-                  {settings.provider === 'google' && (
+                  {settings.provider === "google" && (
                     <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
                       Active
                     </span>
@@ -252,61 +210,20 @@ export const SettingsDialog = () => {
                   <Input
                     id="google-key"
                     type="password"
-                    value={settings.apiKeys.google || ''}
+                    value={settings.apiKeys.google || ""}
                     onChange={(e) => {
                       const apiKeys = { ...settings.apiKeys, google: e.target.value };
-                      updateSettings({ 
+                      updateSettings({
                         apiKeys,
-                        ...(settings.provider === 'google' && { apiKey: e.target.value })
+                        ...(settings.provider === "google" && { apiKey: e.target.value }),
                       });
-                      if (e.target.value && settings.provider !== 'google') {
-                        setProvider('google');
+                      if (e.target.value && settings.provider !== "google") {
+                        setProvider("google");
                       }
                     }}
                     placeholder="AIza..."
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="google-model">Model</Label>
-                  <Select
-                    value={settings.provider === 'google' ? settings.model : MODEL_OPTIONS.google[0].value}
-                    onValueChange={(v) => {
-                      setProvider('google');
-                      updateSettings({ model: v });
-                    }}
-                  >
-                    <SelectTrigger id="google-model">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {MODEL_OPTIONS.google.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <Separator />
-
-              {/* Temperature Control */}
-              <div className="space-y-2">
-                <Label htmlFor="temperature">
-                  Temperature: {settings.temperature.toFixed(2)}
-                </Label>
-                <Slider
-                  id="temperature"
-                  min={0}
-                  max={1}
-                  step={0.05}
-                  value={[settings.temperature]}
-                  onValueChange={([v]) => updateSettings({ temperature: v })}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Lower = more focused, Higher = more creative
-                </p>
               </div>
 
               <Separator />
@@ -316,15 +233,14 @@ export const SettingsDialog = () => {
                 <Button
                   onClick={handleTestConnection}
                   disabled={isTesting || !settings.apiKey}
-                  className="flex-1"
-                >
+                  className="flex-1">
                   {isTesting ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                       Testing...
                     </>
                   ) : (
-                    'Test Connection'
+                    "Test Connection"
                   )}
                 </Button>
                 {testResult !== null && (
@@ -346,26 +262,23 @@ export const SettingsDialog = () => {
                 <Label>Theme</Label>
                 <div className="grid grid-cols-3 gap-2">
                   <Button
-                    variant={settings.theme === 'light' ? 'default' : 'outline'}
-                    onClick={() => setTheme('light')}
-                    className="w-full"
-                  >
+                    variant={settings.theme === "light" ? "default" : "outline"}
+                    onClick={() => setTheme("light")}
+                    className="w-full">
                     <Sun className="h-4 w-4 mr-2" />
                     Light
                   </Button>
                   <Button
-                    variant={settings.theme === 'dark' ? 'default' : 'outline'}
-                    onClick={() => setTheme('dark')}
-                    className="w-full"
-                  >
+                    variant={settings.theme === "dark" ? "default" : "outline"}
+                    onClick={() => setTheme("dark")}
+                    className="w-full">
                     <Moon className="h-4 w-4 mr-2" />
                     Dark
                   </Button>
                   <Button
-                    variant={settings.theme === 'system' ? 'default' : 'outline'}
-                    onClick={() => setTheme('system')}
-                    className="w-full"
-                  >
+                    variant={settings.theme === "system" ? "default" : "outline"}
+                    onClick={() => setTheme("system")}
+                    className="w-full">
                     <Monitor className="h-4 w-4 mr-2" />
                     System
                   </Button>
@@ -413,8 +326,7 @@ export const SettingsDialog = () => {
                 <Button
                   onClick={handleClearAll}
                   variant="destructive"
-                  className="w-full justify-start"
-                >
+                  className="w-full justify-start">
                   <Trash2 className="h-4 w-4 mr-2" />
                   Clear All Data
                 </Button>
