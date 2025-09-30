@@ -48,9 +48,9 @@ export default function FavoritesPage() {
   };
 
   return (
-    <Card>
-      <CardContent className="pt-6">
-        <div className="space-y-4">
+    <Card className="h-fit max-h-[calc(100vh-12rem)]">
+      <CardContent className="pt-6 h-full flex flex-col">
+        <div className="flex flex-col min-h-0 flex-1 space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold">Favorites</h2>
@@ -86,7 +86,7 @@ export default function FavoritesPage() {
                   </p>
                 </div>
               ) : (
-                <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-2">
+                <div className="space-y-2 overflow-y-auto pr-2 flex-1 min-h-0">
                   {filteredFavorites.map((favorite) => (
                     <div
                       key={favorite.id}

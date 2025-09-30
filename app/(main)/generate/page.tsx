@@ -10,23 +10,38 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Slider } from '@/components/ui/slider';
 import { useCharacterStore } from '@/stores/character-store';
 import { useSettingsStore } from '@/stores/settings-store';
+import { useResultsStore } from '@/stores/results-store';
 import { generateFlavorText } from '@/lib/ai-generator';
 import { MODEL_OPTIONS } from '@/lib/types';
-import type { GenerationType, GenerationResult, AIProvider } from '@/lib/types';
+import type { AIProvider } from '@/lib/types';
 import { Sparkles, Loader2, Heart, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function GeneratePage() {
   const { getActiveCharacter, addFavorite } = useCharacterStore();
   const { settings, updateSettings } = useSettingsStore();
+  const { 
+    results, 
+    generationType, 
+    context, 
+    favorites,
+    setResults, 
+    toggleFavorite,
+    setGenerationType: setStoreGenerationType,
+    setContext: setStoreContext
+  } = useResultsStore();
   const activeCharacter = getActiveCharacter();
 
-  const [generationType, setGenerationType] = useState<GenerationType>('mockery');
-  const [context, setContext] = useState('');
-  const [results, setResults] = useState<GenerationResult[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [resultCount, setResultCount] = useState(5);
+
+  const handleGenerationTypeChange = (type: typeof generationType) => {
+    setStoreGenerationType(type);
+  };
+
+  const handleContextChange = (newContext: string) => {
+    setStoreContext(newContext);
+  };
 
   const handleGenerate = async () => {
     if (!activeCharacter) {
@@ -52,8 +67,7 @@ export default function GeneratePage() {
         resultCount
       );
 
-      setResults(generated);
-      setFavorites(new Set());
+      setResults(generated, generationType, context);
       toast.success(`Generated ${generated.length} ${generationType === 'mockery' ? 'combat quips' : 'catchphrases'}`);
     } catch (error) {
       console.error('Generation error:', error);
@@ -63,18 +77,14 @@ export default function GeneratePage() {
     }
   };
 
-  const handleToggleFavorite = (result: GenerationResult) => {
+  const handleToggleFavorite = (result: { id: string; text: string }) => {
     if (!activeCharacter) return;
 
     if (favorites.has(result.id)) {
-      setFavorites((prev) => {
-        const next = new Set(prev);
-        next.delete(result.id);
-        return next;
-      });
+      toggleFavorite(result.id);
     } else {
       addFavorite(activeCharacter.id, result.text, generationType, context);
-      setFavorites((prev) => new Set(prev).add(result.id));
+      toggleFavorite(result.id);
       toast.success('Added to favorites');
     }
   };
@@ -115,7 +125,7 @@ export default function GeneratePage() {
           <CardContent className="pt-6 space-y-4">
             <div className="space-y-2">
               <Label>Generation Type</Label>
-              <Tabs value={generationType} onValueChange={(v) => setGenerationType(v as GenerationType)}>
+              <Tabs value={generationType} onValueChange={(v) => handleGenerationTypeChange(v as typeof generationType)}>
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="mockery">Combat Quips</TabsTrigger>
                   <TabsTrigger value="catchphrase">Catchphrases</TabsTrigger>
@@ -200,7 +210,7 @@ export default function GeneratePage() {
               <Textarea
                 id="context"
                 value={context}
-                onChange={(e) => setContext(e.target.value)}
+                onChange={(e) => handleContextChange(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={
                   generationType === 'mockery'
@@ -246,8 +256,8 @@ export default function GeneratePage() {
 
       {/* Right Side - Results */}
       <div className="lg:col-span-3">
-        <Card>
-          <CardContent className="pt-6">
+        <Card className="h-fit max-h-[calc(100vh-12rem)]">
+          <CardContent className="pt-6 h-full flex flex-col">
             {results.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Sparkles className="h-12 w-12 text-muted-foreground mb-4" />
@@ -257,14 +267,14 @@ export default function GeneratePage() {
                 </p>
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="flex flex-col min-h-0 flex-1">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-semibold">Generated Results</h3>
                   <span className="text-sm text-muted-foreground">
                     {results.length} {results.length === 1 ? 'result' : 'results'}
                   </span>
                 </div>
-                <div className="space-y-2 max-h-[70vh] overflow-y-auto pr-2">
+                <div className="space-y-2 overflow-y-auto pr-2 flex-1 min-h-0">
                   {results.map((result) => (
                     <div
                       key={result.id}
