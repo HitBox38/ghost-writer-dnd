@@ -27,7 +27,8 @@ export interface CharacterProfile {
 
 export interface Settings {
   provider: AIProvider;
-  apiKey: string;
+  apiKey: string; // Currently active API key
+  apiKeys: Record<AIProvider, string>; // Store all API keys
   model: string;
   temperature: number;
   theme: 'light' | 'dark' | 'system';

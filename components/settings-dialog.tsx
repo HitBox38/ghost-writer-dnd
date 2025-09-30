@@ -25,7 +25,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSettingsStore } from '@/stores/settings-store';
 import { testConnection } from '@/lib/ai-generator';
 import { MODEL_OPTIONS } from '@/lib/types';
-import type { AIProvider } from '@/lib/types';
 import {
   Settings,
   Key,
@@ -47,11 +46,6 @@ export const SettingsDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
   const [testResult, setTestResult] = useState<boolean | null>(null);
-
-  const handleProviderChange = (provider: AIProvider) => {
-    setProvider(provider);
-    setTestResult(null);
-  };
 
   const handleTestConnection = async () => {
     if (!settings.apiKey) {
@@ -134,58 +128,170 @@ export const SettingsDialog = () => {
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
               <p className="text-sm text-blue-600 dark:text-blue-400 flex items-center gap-2">
                 <Key className="h-4 w-4" />
-                Your API key never leaves your browser and is stored locally
+                Your API keys never leave your browser and are stored locally
               </p>
             </div>
 
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="provider">AI Provider</Label>
-                <Select
-                  value={settings.provider}
-                  onValueChange={(v) => handleProviderChange(v as AIProvider)}
-                >
-                  <SelectTrigger id="provider">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="openai">OpenAI</SelectItem>
-                    <SelectItem value="anthropic">Anthropic</SelectItem>
-                    <SelectItem value="google">Google AI</SelectItem>
-                  </SelectContent>
-                </Select>
+            <div className="space-y-6">
+              {/* OpenAI Section */}
+              <div className="space-y-3 p-4 rounded-lg border bg-card">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">OpenAI</h3>
+                  {settings.provider === 'openai' && (
+                    <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
+                      Active
+                    </span>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="openai-key">API Key</Label>
+                  <Input
+                    id="openai-key"
+                    type="password"
+                    value={settings.apiKeys.openai || ''}
+                    onChange={(e) => {
+                      const apiKeys = { ...settings.apiKeys, openai: e.target.value };
+                      updateSettings({ 
+                        apiKeys,
+                        ...(settings.provider === 'openai' && { apiKey: e.target.value })
+                      });
+                      if (e.target.value && settings.provider !== 'openai') {
+                        setProvider('openai');
+                      }
+                    }}
+                    placeholder="sk-..."
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="openai-model">Model</Label>
+                  <Select
+                    value={settings.provider === 'openai' ? settings.model : MODEL_OPTIONS.openai[0].value}
+                    onValueChange={(v) => {
+                      setProvider('openai');
+                      updateSettings({ model: v });
+                    }}
+                  >
+                    <SelectTrigger id="openai-model">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {MODEL_OPTIONS.openai.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="apiKey">API Key</Label>
-                <Input
-                  id="apiKey"
-                  type="password"
-                  value={settings.apiKey}
-                  onChange={(e) => updateSettings({ apiKey: e.target.value })}
-                  placeholder="sk-..."
-                />
+              {/* Anthropic Section */}
+              <div className="space-y-3 p-4 rounded-lg border bg-card">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Anthropic</h3>
+                  {settings.provider === 'anthropic' && (
+                    <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
+                      Active
+                    </span>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="anthropic-key">API Key</Label>
+                  <Input
+                    id="anthropic-key"
+                    type="password"
+                    value={settings.apiKeys.anthropic || ''}
+                    onChange={(e) => {
+                      const apiKeys = { ...settings.apiKeys, anthropic: e.target.value };
+                      updateSettings({ 
+                        apiKeys,
+                        ...(settings.provider === 'anthropic' && { apiKey: e.target.value })
+                      });
+                      if (e.target.value && settings.provider !== 'anthropic') {
+                        setProvider('anthropic');
+                      }
+                    }}
+                    placeholder="sk-ant-..."
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="anthropic-model">Model</Label>
+                  <Select
+                    value={settings.provider === 'anthropic' ? settings.model : MODEL_OPTIONS.anthropic[0].value}
+                    onValueChange={(v) => {
+                      setProvider('anthropic');
+                      updateSettings({ model: v });
+                    }}
+                  >
+                    <SelectTrigger id="anthropic-model">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {MODEL_OPTIONS.anthropic.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="model">Model</Label>
-                <Select
-                  value={settings.model}
-                  onValueChange={(v) => updateSettings({ model: v })}
-                >
-                  <SelectTrigger id="model">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {MODEL_OPTIONS[settings.provider].map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              {/* Google AI Section */}
+              <div className="space-y-3 p-4 rounded-lg border bg-card">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold">Google AI</h3>
+                  {settings.provider === 'google' && (
+                    <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
+                      Active
+                    </span>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="google-key">API Key</Label>
+                  <Input
+                    id="google-key"
+                    type="password"
+                    value={settings.apiKeys.google || ''}
+                    onChange={(e) => {
+                      const apiKeys = { ...settings.apiKeys, google: e.target.value };
+                      updateSettings({ 
+                        apiKeys,
+                        ...(settings.provider === 'google' && { apiKey: e.target.value })
+                      });
+                      if (e.target.value && settings.provider !== 'google') {
+                        setProvider('google');
+                      }
+                    }}
+                    placeholder="AIza..."
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="google-model">Model</Label>
+                  <Select
+                    value={settings.provider === 'google' ? settings.model : MODEL_OPTIONS.google[0].value}
+                    onValueChange={(v) => {
+                      setProvider('google');
+                      updateSettings({ model: v });
+                    }}
+                  >
+                    <SelectTrigger id="google-model">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {MODEL_OPTIONS.google.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
+              <Separator />
+
+              {/* Temperature Control */}
               <div className="space-y-2">
                 <Label htmlFor="temperature">
                   Temperature: {settings.temperature.toFixed(2)}
@@ -205,6 +311,7 @@ export const SettingsDialog = () => {
 
               <Separator />
 
+              {/* Test Connection */}
               <div className="flex items-center gap-2">
                 <Button
                   onClick={handleTestConnection}

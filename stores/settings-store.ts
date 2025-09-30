@@ -24,6 +24,11 @@ interface SettingsStore {
 const DEFAULT_SETTINGS: Settings = {
   provider: 'openai',
   apiKey: '',
+  apiKeys: {
+    openai: '',
+    anthropic: '',
+    google: '',
+  },
   model: DEFAULT_MODELS.openai,
   temperature: 0.8,
   theme: 'system',
@@ -34,9 +39,20 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
 
   loadSettings: () => {
     const savedSettings = storage.getSettings();
-    set({
-      settings: { ...DEFAULT_SETTINGS, ...savedSettings },
-    });
+    const mergedSettings = { ...DEFAULT_SETTINGS, ...savedSettings };
+    // Ensure apiKeys object exists for backwards compatibility
+    if (!mergedSettings.apiKeys) {
+      mergedSettings.apiKeys = {
+        openai: '',
+        anthropic: '',
+        google: '',
+      };
+      // If there's an old apiKey, assign it to the current provider
+      if (mergedSettings.apiKey) {
+        mergedSettings.apiKeys[mergedSettings.provider] = mergedSettings.apiKey;
+      }
+    }
+    set({ settings: mergedSettings });
   },
 
   updateSettings: (updates) => {
@@ -46,17 +62,24 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   },
 
   setProvider: (provider) => {
+    const currentSettings = get().settings;
     const settings = {
-      ...get().settings,
+      ...currentSettings,
       provider,
       model: DEFAULT_MODELS[provider],
+      apiKey: currentSettings.apiKeys[provider] || '',
     };
     storage.saveSettings(settings);
     set({ settings });
   },
 
   setApiKey: (apiKey) => {
-    get().updateSettings({ apiKey });
+    const currentSettings = get().settings;
+    const apiKeys = {
+      ...currentSettings.apiKeys,
+      [currentSettings.provider]: apiKey,
+    };
+    get().updateSettings({ apiKey, apiKeys });
   },
 
   setModel: (model) => {
