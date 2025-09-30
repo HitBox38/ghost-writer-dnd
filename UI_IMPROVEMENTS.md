@@ -5,6 +5,20 @@ This document describes the major UI/UX improvements made to the D&D Flavor Text
 
 ## Recent Updates (Latest)
 
+### Fixed Scrolling with ScrollArea Component ✅ (Most Recent)
+- **Replaced Custom CSS Scrolling**: Implemented shadcn/ui's `ScrollArea` component for proper scroll behavior
+- **Changes Made**:
+  - Both `/generate` and `/favorites` pages now use `<ScrollArea>` component
+  - Set fixed height: `h-[calc(100vh-20rem)]` for consistent viewport usage
+  - Added proper padding `pr-4` inside ScrollArea for visual spacing
+  - Removed complex flexbox constraints that caused overflow issues
+  
+- **Benefits**:
+  - **No More Overflow**: Content stays within Card boundaries
+  - **Smooth Scrolling**: Native browser scrolling with custom styled scrollbar
+  - **Consistent Height**: Fixed height prevents page overflow
+  - **Better UX**: Professional scroll indicators and behavior
+
 ### Persistent Results & Improved Scrolling ✅
 - **Results Persistence**: Created a new Zustand store (`results-store.ts`) to maintain generated results across page navigation
 - **Benefits**:
@@ -12,12 +26,6 @@ This document describes the major UI/UX improvements made to the D&D Flavor Text
   - Only cleared when user generates new results or refreshes the page
   - Generation type and context also persist
   - Favorite state maintained during navigation
-
-- **Enhanced Scrolling**:
-  - Added proper height constraints to result containers (`max-h-[calc(100vh-12rem)]`)
-  - Implemented flexbox layout for better scroll behavior
-  - Results and favorites lists now scroll properly without overflowing the page
-  - Both pages maintain their scroll position when navigating
 
 ## Changes Implemented
 

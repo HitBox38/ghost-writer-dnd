@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useCharacterStore } from '@/stores/character-store';
 import { useSettingsStore } from '@/stores/settings-store';
 import { useResultsStore } from '@/stores/results-store';
@@ -256,8 +257,8 @@ export default function GeneratePage() {
 
       {/* Right Side - Results */}
       <div className="lg:col-span-3">
-        <Card className="h-fit max-h-[calc(100vh-12rem)]">
-          <CardContent className="pt-6 h-full flex flex-col">
+        <Card>
+          <CardContent className="pt-6">
             {results.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Sparkles className="h-12 w-12 text-muted-foreground mb-4" />
@@ -267,47 +268,49 @@ export default function GeneratePage() {
                 </p>
               </div>
             ) : (
-              <div className="flex flex-col min-h-0 flex-1">
-                <div className="flex items-center justify-between mb-4">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold">Generated Results</h3>
                   <span className="text-sm text-muted-foreground">
                     {results.length} {results.length === 1 ? 'result' : 'results'}
                   </span>
                 </div>
-                <div className="space-y-2 overflow-y-auto pr-2 flex-1 min-h-0">
-                  {results.map((result) => (
-                    <div
-                      key={result.id}
-                      className="group flex items-start gap-2 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
-                    >
-                      <p className="flex-1 text-sm leading-relaxed">{result.text}</p>
-                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="h-7 w-7 shrink-0"
-                          onClick={() => handleToggleFavorite(result)}
-                        >
-                          <Heart
-                            className={`h-3.5 w-3.5 ${
-                              favorites.has(result.id)
-                                ? 'fill-red-500 text-red-500'
-                                : ''
-                            }`}
-                          />
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          className="h-7 w-7 shrink-0"
-                          onClick={() => handleCopy(result.text)}
-                        >
-                          <Copy className="h-3.5 w-3.5" />
-                        </Button>
+                <ScrollArea className="h-[calc(100vh-20rem)] w-full rounded-md">
+                  <div className="space-y-2 pr-4">
+                    {results.map((result) => (
+                      <div
+                        key={result.id}
+                        className="group flex items-start gap-2 p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                      >
+                        <p className="flex-1 text-sm leading-relaxed">{result.text}</p>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-7 w-7 shrink-0"
+                            onClick={() => handleToggleFavorite(result)}
+                          >
+                            <Heart
+                              className={`h-3.5 w-3.5 ${
+                                favorites.has(result.id)
+                                  ? 'fill-red-500 text-red-500'
+                                  : ''
+                              }`}
+                            />
+                          </Button>
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            className="h-7 w-7 shrink-0"
+                            onClick={() => handleCopy(result.text)}
+                          >
+                            <Copy className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </div>
             )}
           </CardContent>

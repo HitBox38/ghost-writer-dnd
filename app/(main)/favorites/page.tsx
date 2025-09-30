@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useCharacterStore } from '@/stores/character-store';
 import type { GenerationType } from '@/lib/types';
 import { Heart, Copy, Trash2 } from 'lucide-react';
@@ -48,9 +49,9 @@ export default function FavoritesPage() {
   };
 
   return (
-    <Card className="h-fit max-h-[calc(100vh-12rem)]">
-      <CardContent className="pt-6 h-full flex flex-col">
-        <div className="flex flex-col min-h-0 flex-1 space-y-4">
+    <Card>
+      <CardContent className="pt-6">
+        <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold">Favorites</h2>
@@ -86,51 +87,53 @@ export default function FavoritesPage() {
                   </p>
                 </div>
               ) : (
-                <div className="space-y-2 overflow-y-auto pr-2 flex-1 min-h-0">
-                  {filteredFavorites.map((favorite) => (
-                    <div
-                      key={favorite.id}
-                      className="group p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
-                    >
-                      <div className="space-y-2">
-                        <div className="flex items-start gap-2">
-                          <p className="flex-1 text-sm leading-relaxed">{favorite.text}</p>
-                          <div className="flex gap-1">
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                              onClick={() => handleCopy(favorite.text)}
-                              title="Copy to clipboard"
-                            >
-                              <Copy className="h-3.5 w-3.5" />
-                            </Button>
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                              onClick={() => handleRemove(favorite.id)}
-                              title="Remove from favorites"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </Button>
+                <ScrollArea className="h-[calc(100vh-20rem)] w-full rounded-md">
+                  <div className="space-y-2 pr-4">
+                    {filteredFavorites.map((favorite) => (
+                      <div
+                        key={favorite.id}
+                        className="group p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+                      >
+                        <div className="space-y-2">
+                          <div className="flex items-start gap-2">
+                            <p className="flex-1 text-sm leading-relaxed">{favorite.text}</p>
+                            <div className="flex gap-1">
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                onClick={() => handleCopy(favorite.text)}
+                                title="Copy to clipboard"
+                              >
+                                <Copy className="h-3.5 w-3.5" />
+                              </Button>
+                              <Button
+                                size="icon"
+                                variant="ghost"
+                                className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                                onClick={() => handleRemove(favorite.id)}
+                                title="Remove from favorites"
+                              >
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </Button>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                            <Badge variant="outline" className="text-xs">
+                              {favorite.type === 'mockery' ? 'Combat Quip' : 'Catchphrase'}
+                            </Badge>
+                            {favorite.context && (
+                              <span className="truncate">Context: {favorite.context}</span>
+                            )}
+                            <span className="ml-auto">
+                              {new Date(favorite.createdAt).toLocaleDateString()}
+                            </span>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
-                          <Badge variant="outline" className="text-xs">
-                            {favorite.type === 'mockery' ? 'Combat Quip' : 'Catchphrase'}
-                          </Badge>
-                          {favorite.context && (
-                            <span className="truncate">Context: {favorite.context}</span>
-                          )}
-                          <span className="ml-auto">
-                            {new Date(favorite.createdAt).toLocaleDateString()}
-                          </span>
-                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               )}
             </TabsContent>
           </Tabs>
