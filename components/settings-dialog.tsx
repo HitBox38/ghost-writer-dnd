@@ -12,19 +12,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSettingsStore } from "@/stores/settings-store";
 import { testConnection } from "@/lib/ai-generator";
 import { MODEL_OPTIONS } from "@/lib/types";
+import type { AIProvider } from "@/lib/types";
 import {
   Settings,
   Key,
@@ -45,31 +38,48 @@ export const SettingsDialog = () => {
     useSettingsStore();
   const [isOpen, setIsOpen] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
-  const [testResult, setTestResult] = useState<boolean | null>(null);
+  const [testResults, setTestResults] = useState<Record<string, boolean>>({});
 
   const handleTestConnection = async () => {
-    if (!settings.apiKey) {
-      toast.error("Please enter an API key first");
+    // Find all providers with API keys
+    const providersToTest = (Object.entries(settings.apiKeys) as [AIProvider, string][])
+      .filter(([, key]) => key && key.length > 0);
+
+    if (providersToTest.length === 0) {
+      toast.error("Please enter at least one API key");
       return;
     }
 
     setIsTesting(true);
-    setTestResult(null);
+    setTestResults({});
 
-    try {
-      const result = await testConnection(settings.provider, settings.model, settings.apiKey);
-      setTestResult(result);
-      if (result) {
-        toast.success("Connection successful!");
-      } else {
-        toast.error("Connection failed. Please check your API key.");
+    const results: Record<string, boolean> = {};
+    
+    // Test each provider with an API key
+    for (const [provider, apiKey] of providersToTest) {
+      try {
+        const model = MODEL_OPTIONS[provider][0].value;
+        const result = await testConnection(provider, model, apiKey);
+        results[provider] = result;
+      } catch (error) {
+        console.error(`Test connection error for ${provider}:`, error);
+        results[provider] = false;
       }
-    } catch (error) {
-      console.error("Test connection error:", error);
-      setTestResult(false);
-      toast.error("Connection failed. Please check your API key.");
-    } finally {
-      setIsTesting(false);
+    }
+
+    setTestResults(results);
+    setIsTesting(false);
+
+    // Show summary toast
+    const successCount = Object.values(results).filter(r => r).length;
+    const totalCount = Object.keys(results).length;
+    
+    if (successCount === totalCount) {
+      toast.success(`All ${totalCount} provider(s) connected successfully!`);
+    } else if (successCount > 0) {
+      toast.warning(`${successCount}/${totalCount} provider(s) connected successfully`);
+    } else {
+      toast.error("All connection tests failed. Please check your API keys.");
     }
   };
 
@@ -229,27 +239,42 @@ export const SettingsDialog = () => {
               <Separator />
 
               {/* Test Connection */}
-              <div className="flex items-center gap-2">
+              <div className="space-y-3">
                 <Button
                   onClick={handleTestConnection}
-                  disabled={isTesting || !settings.apiKey}
-                  className="flex-1">
+                  disabled={isTesting || Object.values(settings.apiKeys).every(key => !key)}
+                  className="w-full">
                   {isTesting ? (
                     <>
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Testing...
+                      Testing Connections...
                     </>
                   ) : (
-                    "Test Connection"
+                    "Test All Connections"
                   )}
                 </Button>
-                {testResult !== null && (
-                  <div className="flex items-center">
-                    {testResult ? (
-                      <CheckCircle2 className="h-5 w-5 text-green-500" />
-                    ) : (
-                      <XCircle className="h-5 w-5 text-red-500" />
-                    )}
+                
+                {/* Show individual test results */}
+                {Object.keys(testResults).length > 0 && (
+                  <div className="space-y-2">
+                    {Object.entries(testResults).map(([provider, success]) => (
+                      <div key={provider} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
+                        <span className="text-sm font-medium capitalize">{provider}</span>
+                        <div className="flex items-center gap-2">
+                          {success ? (
+                            <>
+                              <CheckCircle2 className="h-4 w-4 text-green-500" />
+                              <span className="text-xs text-green-600 dark:text-green-400">Connected</span>
+                            </>
+                          ) : (
+                            <>
+                              <XCircle className="h-4 w-4 text-red-500" />
+                              <span className="text-xs text-red-600 dark:text-red-400">Failed</span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
