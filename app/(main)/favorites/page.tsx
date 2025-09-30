@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useCharacterStore } from '@/stores/character-store';
-import type { GenerationType } from '@/lib/types';
-import { Heart, Copy, Trash2 } from 'lucide-react';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useCharacterStore } from "@/stores/character-store";
+import type { GenerationType } from "@/lib/types";
+import { Heart, Copy, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function FavoritesPage() {
   const { getActiveCharacter, removeFavorite } = useCharacterStore();
   const activeCharacter = getActiveCharacter();
-  const [filterType, setFilterType] = useState<GenerationType | 'all'>('all');
+  const [filterType, setFilterType] = useState<GenerationType | "all">("all");
 
   if (!activeCharacter) {
     return (
@@ -34,46 +34,45 @@ export default function FavoritesPage() {
 
   const favorites = activeCharacter.favorites;
   const filteredFavorites =
-    filterType === 'all' ? favorites : favorites.filter((f) => f.type === filterType);
+    filterType === "all" ? favorites : favorites.filter((f) => f.type === filterType);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast.success('Copied to clipboard');
+    toast.success("Copied to clipboard");
   };
 
   const handleRemove = (favoriteId: string) => {
-    if (confirm('Remove this from favorites?')) {
+    if (confirm("Remove this from favorites?")) {
       removeFavorite(activeCharacter.id, favoriteId);
-      toast.success('Removed from favorites');
+      toast.success("Removed from favorites");
     }
   };
 
   return (
     <Card>
-      <CardContent className="pt-6">
-        <div className="space-y-4">
+      <CardHeader>
+        <CardTitle>
           <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold">Favorites</h2>
-              <p className="text-sm text-muted-foreground">
-                Saved flavor text for {activeCharacter.name}
-              </p>
-            </div>
+            Favorites
             <Badge variant="secondary" className="text-base px-3 py-1">
-              {filteredFavorites.length} {filterType === 'all' ? 'total' : filterType}
+              {filteredFavorites.length} {filterType === "all" ? "total" : filterType}
             </Badge>
           </div>
-
-          <Tabs value={filterType} onValueChange={(v) => setFilterType(v as GenerationType | 'all')}>
+        </CardTitle>
+        <CardDescription>Saved flavor text for {activeCharacter.name}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <Tabs
+            value={filterType}
+            onValueChange={(v) => setFilterType(v as GenerationType | "all")}>
             <TabsList className="grid w-full grid-cols-3 max-w-md">
-              <TabsTrigger value="all">
-                All ({favorites.length})
-              </TabsTrigger>
+              <TabsTrigger value="all">All ({favorites.length})</TabsTrigger>
               <TabsTrigger value="mockery">
-                Quips ({favorites.filter((f) => f.type === 'mockery').length})
+                Quips ({favorites.filter((f) => f.type === "mockery").length})
               </TabsTrigger>
               <TabsTrigger value="catchphrase">
-                Catchphrases ({favorites.filter((f) => f.type === 'catchphrase').length})
+                Catchphrases ({favorites.filter((f) => f.type === "catchphrase").length})
               </TabsTrigger>
             </TabsList>
 
@@ -87,13 +86,12 @@ export default function FavoritesPage() {
                   </p>
                 </div>
               ) : (
-                <ScrollArea className="h-[calc(100vh-20rem)] w-full rounded-md">
+                <ScrollArea className="h-[calc(100vh-25rem)] w-full rounded-md">
                   <div className="space-y-2 pr-4">
                     {filteredFavorites.map((favorite) => (
                       <div
                         key={favorite.id}
-                        className="group p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
-                      >
+                        className="group p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors">
                         <div className="space-y-2">
                           <div className="flex items-start gap-2">
                             <p className="flex-1 text-sm leading-relaxed">{favorite.text}</p>
@@ -103,8 +101,7 @@ export default function FavoritesPage() {
                                 variant="ghost"
                                 className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
                                 onClick={() => handleCopy(favorite.text)}
-                                title="Copy to clipboard"
-                              >
+                                title="Copy to clipboard">
                                 <Copy className="h-3.5 w-3.5" />
                               </Button>
                               <Button
@@ -112,15 +109,14 @@ export default function FavoritesPage() {
                                 variant="ghost"
                                 className="h-7 w-7 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
                                 onClick={() => handleRemove(favorite.id)}
-                                title="Remove from favorites"
-                              >
+                                title="Remove from favorites">
                                 <Trash2 className="h-3.5 w-3.5" />
                               </Button>
                             </div>
                           </div>
                           <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
                             <Badge variant="outline" className="text-xs">
-                              {favorite.type === 'mockery' ? 'Combat Quip' : 'Catchphrase'}
+                              {favorite.type === "mockery" ? "Combat Quip" : "Catchphrase"}
                             </Badge>
                             {favorite.context && (
                               <span className="truncate">Context: {favorite.context}</span>
