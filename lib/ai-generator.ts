@@ -23,6 +23,7 @@ function getAIModel(provider: AIProvider, model: string, apiKey: string) {
 function buildPrompt(
   character: CharacterProfile,
   type: GenerationType,
+  count: number,
   additionalContext?: string
 ): string {
   const baseContext = `
@@ -46,30 +47,20 @@ ${character.worldSetting || 'Standard fantasy setting'}
     return `${baseContext}
 
 ${additionalContext ? `Context: ${additionalContext}\n` : ''}
-Generate 5 creative, in-character insulting combat quips that ${character.name} would use during battle, particularly when casting spells like Vicious Mockery. These should be witty, cutting, and reflect the character's personality, background, and speech patterns.
+Generate exactly ${count} creative, in-character insulting combat quips that ${character.name} would use during battle, particularly when casting spells like Vicious Mockery. These should be witty, cutting, and reflect the character's personality, background, and speech patterns.
 
 Format each quip on a new line starting with a dash (-). Make them memorable, punchy, and battle-ready. Consider the character's class, backstory, and personality traits.
 
-Example format:
-- [quip 1]
-- [quip 2]
-- [quip 3]
-- [quip 4]
-- [quip 5]`;
+Generate exactly ${count} quips.`;
   } else {
     return `${baseContext}
 
 ${additionalContext ? `Context: ${additionalContext}\n` : ''}
-Generate 5 signature catchphrases that ${character.name} would say. These should be memorable phrases that capture the character's essence, reflect their personality, backstory, and values. They could be battle cries, philosophical statements, running jokes, or signature sayings.
+Generate exactly ${count} signature catchphrases that ${character.name} would say. These should be memorable phrases that capture the character's essence, reflect their personality, backstory, and values. They could be battle cries, philosophical statements, running jokes, or signature sayings.
 
 Format each catchphrase on a new line starting with a dash (-). Make them distinctive and true to the character's voice.
 
-Example format:
-- [catchphrase 1]
-- [catchphrase 2]
-- [catchphrase 3]
-- [catchphrase 4]
-- [catchphrase 5]`;
+Generate exactly ${count} catchphrases.`;
   }
 }
 
@@ -95,7 +86,8 @@ export async function generateFlavorText(
   model: string,
   apiKey: string,
   temperature: number,
-  additionalContext?: string
+  additionalContext?: string,
+  count: number = 5
 ): Promise<GenerationResult[]> {
   if (!apiKey) {
     throw new Error('API key is required. Please configure it in settings.');
@@ -103,7 +95,7 @@ export async function generateFlavorText(
 
   try {
     const aiModel = getAIModel(provider, model, apiKey);
-    const prompt = buildPrompt(character, type, additionalContext);
+    const prompt = buildPrompt(character, type, count, additionalContext);
 
     const { text } = await generateText({
       model: aiModel,

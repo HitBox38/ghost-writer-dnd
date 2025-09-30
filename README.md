@@ -101,17 +101,21 @@ pnpm dev
 
 ### Generating Flavor Text
 
-1. **Select Character**: Choose your character from the profile dropdown
-2. **Choose Generation Type**: 
-   - Combat Quips: For insulting battle dialogue
-   - Catchphrases: For signature character phrases
-3. **Add Context** (optional): Provide additional context like "against a pompous noble"
+1. **Navigate to Generate**: Click "Generate" in the navigation bar or visit `/generate`
+2. **Select Character**: Choose your character from the profile dropdown
+3. **Configure Generation** (left panel):
+   - Choose generation type (Combat Quips or Catchphrases)
+   - Select AI provider and model
+   - Adjust temperature (0-1) for creativity
+   - Set number of results (1-25)
+   - Add optional context
 4. **Generate**: Click the Generate button or press Ctrl+Enter
-5. **Save Favorites**: Click the heart icon on any result to save it
+5. **Review Results** (right panel): See all generated results in a scrollable list
+6. **Save Favorites**: Click the heart icon on any result to save it
 
 ### Managing Favorites
 
-1. Switch to the "Favorites" tab
+1. **Navigate to Favorites**: Click "Favorites" in the navigation bar or visit `/favorites`
 2. Filter by type (All, Quips, or Catchphrases)
 3. Copy any favorite to clipboard
 4. Remove favorites you no longer need
