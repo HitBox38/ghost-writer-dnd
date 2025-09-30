@@ -41,7 +41,7 @@ export interface GenerationResult {
 export const DEFAULT_MODELS: Record<AIProvider, string> = {
   openai: 'gpt-4o-mini',
   anthropic: 'claude-3-5-sonnet-20241022',
-  google: 'gemini-2.0-flash-exp',
+  google: 'gemini-2.5-flash',
 };
 
 export const MODEL_OPTIONS: Record<AIProvider, { value: string; label: string }[]> = {
@@ -56,8 +56,8 @@ export const MODEL_OPTIONS: Record<AIProvider, { value: string; label: string }[
     { value: 'claude-3-opus-20240229', label: 'Claude 3 Opus' },
   ],
   google: [
-    { value: 'gemini-2.0-flash-exp', label: 'Gemini 2.0 Flash' },
-    { value: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro' },
-    { value: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash' },
+    { value: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
+    { value: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
+    { value: 'gemini-2.5-flash-lite', label: 'Gemini 2.5 Flash Lite' },
   ],
 };

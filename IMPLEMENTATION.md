@@ -61,7 +61,7 @@ This document provides a comprehensive overview of the implementation.
 - Model selection per provider:
   - OpenAI: GPT-4o, GPT-4o Mini, GPT-4 Turbo
   - Anthropic: Claude 3.5 Sonnet, Claude 3.5 Haiku, Claude 3 Opus
-  - Google: Gemini 2.0 Flash, Gemini 1.5 Pro, Gemini 1.5 Flash
+  - Google: Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite
 - Temperature slider (0-1)
 - Test connection functionality
 - Clear privacy messaging
