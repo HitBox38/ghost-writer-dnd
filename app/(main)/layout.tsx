@@ -1,18 +1,14 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { ProfileSelector } from '@/components/profile-selector';
-import { SettingsDialog } from '@/components/settings-dialog';
-import { Providers } from '@/components/providers';
-import { Sparkles } from 'lucide-react';
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ProfileSelector } from "@/components/profile-selector";
+import { SettingsDialog } from "@/components/settings-dialog";
+import { Providers } from "@/components/providers";
+import { Sparkles } from "lucide-react";
 
-export default function MainLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function MainLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
@@ -35,16 +31,10 @@ export default function MainLayout({
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <ProfileSelector />
               <nav className="flex gap-2">
-                <Button
-                  variant={pathname === '/generate' ? 'default' : 'ghost'}
-                  asChild
-                >
+                <Button variant={pathname === "/generate" ? "default" : "ghost"} asChild>
                   <Link href="/generate">Generate</Link>
                 </Button>
-                <Button
-                  variant={pathname === '/favorites' ? 'default' : 'ghost'}
-                  asChild
-                >
+                <Button variant={pathname === "/favorites" ? "default" : "ghost"} asChild>
                   <Link href="/favorites">Favorites</Link>
                 </Button>
               </nav>
@@ -52,17 +42,7 @@ export default function MainLayout({
           </div>
         </div>
 
-        <main className="container mx-auto px-4 py-8">
-          {children}
-        </main>
-
-        <footer className="border-t mt-12">
-          <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
-            <p>
-              Your API key and data never leave your browser. All storage is local.
-            </p>
-          </div>
-        </footer>
+        <main className="container mx-auto px-4 py-8">{children}</main>
       </div>
     </Providers>
   );
