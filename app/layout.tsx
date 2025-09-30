@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+import { loadTheme, saveTheme } from "@/lib/storage";
+import * as React from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,13 +25,47 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const theme = typeof window === "undefined" ? "dark" : loadTheme();
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" className={theme === "dark" ? "dark" : undefined}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ThemeProvider>{children}</ThemeProvider>
+        <Toaster />
       </body>
     </html>
+  );
+}
+
+function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setTheme] = React.useState<string>("dark");
+  React.useEffect(() => {
+    const t = loadTheme();
+    setTheme(t);
+    document.documentElement.classList.toggle("dark", t === "dark");
+  }, []);
+  const toggle = React.useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      document.documentElement.classList.toggle("dark", next === "dark");
+      saveTheme(next as any);
+      return next;
+    });
+  }, []);
+  return (
+    <div className="min-h-screen">
+      <div className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+          <div className="text-sm font-semibold">D&D Flavor Text Generator</div>
+          <button
+            onClick={toggle}
+            className="rounded-md border px-3 py-1 text-xs hover:bg-accent"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? "Light" : "Dark"}
+          </button>
+        </div>
+      </div>
+      <div className="mx-auto max-w-5xl px-4 py-6">{children}</div>
+    </div>
   );
 }
