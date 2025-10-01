@@ -151,7 +151,7 @@ export const SettingsDialog = () => {
                 <AccordionTrigger className="flex gap-2">
                   <h3 className="text-lg font-semibold">OpenAI</h3>
                   {settings.provider === "openai" && (
-                    <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
+                    <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded no-underline">
                       Active
                     </span>
                   )}
@@ -183,7 +183,7 @@ export const SettingsDialog = () => {
                   <div className="flex gap-2">
                     <h3 className="text-lg font-semibold">Anthropic</h3>
                     {settings.provider === "anthropic" && (
-                      <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
+                      <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded no-underline">
                         Active
                       </span>
                     )}
@@ -216,7 +216,7 @@ export const SettingsDialog = () => {
                   <div className="flex gap-4">
                     <h3 className="text-lg font-semibold">Gemini</h3>
                     {settings.provider === "google" && (
-                      <Badge className="" variant="secondary">
+                      <Badge className="no-underline" variant="secondary">
                         Active
                       </Badge>
                     )}
