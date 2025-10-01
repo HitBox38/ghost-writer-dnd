@@ -148,13 +148,17 @@ export const SettingsDialog = () => {
             <Accordion type="single" collapsible className="space-y-6">
               {/* OpenAI Section */}
               <AccordionItem value="openai">
-                <AccordionTrigger className="flex gap-2">
-                  <h3 className="text-lg font-semibold">OpenAI</h3>
-                  {settings.provider === "openai" && (
-                    <Badge className="no-underline" variant="secondary">
-                      Active
-                    </Badge>
-                  )}
+                <AccordionTrigger>
+                  <div className="flex gap-2 items-center flex-1">
+                    <h3 className="text-lg font-semibold">OpenAI</h3>
+                    {settings.provider === "openai" && (
+                      <span className="inline-block">
+                        <Badge variant="secondary">
+                          Active
+                        </Badge>
+                      </span>
+                    )}
+                  </div>
                 </AccordionTrigger>
                 <AccordionContent className="space-y-2">
                   <Label htmlFor="openai-key">API Key</Label>
@@ -180,12 +184,14 @@ export const SettingsDialog = () => {
               {/* Anthropic Section */}
               <AccordionItem value="anthropic">
                 <AccordionTrigger>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 items-center flex-1">
                     <h3 className="text-lg font-semibold">Anthropic</h3>
                     {settings.provider === "anthropic" && (
-                      <Badge className="no-underline" variant="secondary">
-                        Active
-                      </Badge>
+                      <span className="inline-block">
+                        <Badge variant="secondary">
+                          Active
+                        </Badge>
+                      </span>
                     )}
                   </div>
                 </AccordionTrigger>
@@ -213,12 +219,14 @@ export const SettingsDialog = () => {
               {/* Google AI Section */}
               <AccordionItem value="google">
                 <AccordionTrigger>
-                  <div className="flex gap-4">
+                  <div className="flex gap-2 items-center flex-1">
                     <h3 className="text-lg font-semibold">Gemini</h3>
                     {settings.provider === "google" && (
-                      <Badge className="no-underline" variant="secondary">
-                        Active
-                      </Badge>
+                      <span className="inline-block">
+                        <Badge variant="secondary">
+                          Active
+                        </Badge>
+                      </span>
                     )}
                   </div>
                 </AccordionTrigger>
