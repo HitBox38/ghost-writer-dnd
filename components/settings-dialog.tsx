@@ -32,6 +32,8 @@ import {
   Monitor,
 } from "lucide-react";
 import { toast } from "sonner";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
+import { Badge } from "./ui/badge";
 
 export const SettingsDialog = () => {
   const { settings, updateSettings, setProvider, setTheme, exportData, importData, clearAllData } =
@@ -42,8 +44,9 @@ export const SettingsDialog = () => {
 
   const handleTestConnection = async () => {
     // Find all providers with API keys
-    const providersToTest = (Object.entries(settings.apiKeys) as [AIProvider, string][])
-      .filter(([, key]) => key && key.length > 0);
+    const providersToTest = (Object.entries(settings.apiKeys) as [AIProvider, string][]).filter(
+      ([, key]) => key && key.length > 0
+    );
 
     if (providersToTest.length === 0) {
       toast.error("Please enter at least one API key");
@@ -54,7 +57,7 @@ export const SettingsDialog = () => {
     setTestResults({});
 
     const results: Record<string, boolean> = {};
-    
+
     // Test each provider with an API key
     for (const [provider, apiKey] of providersToTest) {
       try {
@@ -71,9 +74,9 @@ export const SettingsDialog = () => {
     setIsTesting(false);
 
     // Show summary toast
-    const successCount = Object.values(results).filter(r => r).length;
+    const successCount = Object.values(results).filter((r) => r).length;
     const totalCount = Object.keys(results).length;
-    
+
     if (successCount === totalCount) {
       toast.success(`All ${totalCount} provider(s) connected successfully!`);
     } else if (successCount > 0) {
@@ -142,18 +145,18 @@ export const SettingsDialog = () => {
               </p>
             </div>
 
-            <div className="space-y-6">
+            <Accordion type="single" collapsible className="space-y-6">
               {/* OpenAI Section */}
-              <div className="space-y-3 p-4 rounded-lg border bg-card">
-                <div className="flex items-center justify-between">
+              <AccordionItem value="openai">
+                <AccordionTrigger className="flex gap-2">
                   <h3 className="text-lg font-semibold">OpenAI</h3>
                   {settings.provider === "openai" && (
                     <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
                       Active
                     </span>
                   )}
-                </div>
-                <div className="space-y-2">
+                </AccordionTrigger>
+                <AccordionContent className="space-y-2">
                   <Label htmlFor="openai-key">API Key</Label>
                   <Input
                     id="openai-key"
@@ -171,20 +174,22 @@ export const SettingsDialog = () => {
                     }}
                     placeholder="sk-..."
                   />
-                </div>
-              </div>
+                </AccordionContent>
+              </AccordionItem>
 
               {/* Anthropic Section */}
-              <div className="space-y-3 p-4 rounded-lg border bg-card">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold">Anthropic</h3>
-                  {settings.provider === "anthropic" && (
-                    <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
-                      Active
-                    </span>
-                  )}
-                </div>
-                <div className="space-y-2">
+              <AccordionItem value="anthropic">
+                <AccordionTrigger>
+                  <div className="flex gap-2">
+                    <h3 className="text-lg font-semibold">Anthropic</h3>
+                    {settings.provider === "anthropic" && (
+                      <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
+                        Active
+                      </span>
+                    )}
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="space-y-2">
                   <Label htmlFor="anthropic-key">API Key</Label>
                   <Input
                     id="anthropic-key"
@@ -202,20 +207,22 @@ export const SettingsDialog = () => {
                     }}
                     placeholder="sk-ant-..."
                   />
-                </div>
-              </div>
+                </AccordionContent>
+              </AccordionItem>
 
               {/* Google AI Section */}
-              <div className="space-y-3 p-4 rounded-lg border bg-card">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold">Google AI</h3>
-                  {settings.provider === "google" && (
-                    <span className="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">
-                      Active
-                    </span>
-                  )}
-                </div>
-                <div className="space-y-2">
+              <AccordionItem value="google">
+                <AccordionTrigger>
+                  <div className="flex gap-4">
+                    <h3 className="text-lg font-semibold">Gemini</h3>
+                    {settings.provider === "google" && (
+                      <Badge className="" variant="secondary">
+                        Active
+                      </Badge>
+                    )}
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="space-y-2">
                   <Label htmlFor="google-key">API Key</Label>
                   <Input
                     id="google-key"
@@ -233,16 +240,14 @@ export const SettingsDialog = () => {
                     }}
                     placeholder="AIza..."
                   />
-                </div>
-              </div>
-
-              <Separator />
+                </AccordionContent>
+              </AccordionItem>
 
               {/* Test Connection */}
               <div className="space-y-3">
                 <Button
                   onClick={handleTestConnection}
-                  disabled={isTesting || Object.values(settings.apiKeys).every(key => !key)}
+                  disabled={isTesting || Object.values(settings.apiKeys).every((key) => !key)}
                   className="w-full">
                   {isTesting ? (
                     <>
@@ -253,18 +258,22 @@ export const SettingsDialog = () => {
                     "Test All Connections"
                   )}
                 </Button>
-                
+
                 {/* Show individual test results */}
                 {Object.keys(testResults).length > 0 && (
                   <div className="space-y-2">
                     {Object.entries(testResults).map(([provider, success]) => (
-                      <div key={provider} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
+                      <div
+                        key={provider}
+                        className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                         <span className="text-sm font-medium capitalize">{provider}</span>
                         <div className="flex items-center gap-2">
                           {success ? (
                             <>
                               <CheckCircle2 className="h-4 w-4 text-green-500" />
-                              <span className="text-xs text-green-600 dark:text-green-400">Connected</span>
+                              <span className="text-xs text-green-600 dark:text-green-400">
+                                Connected
+                              </span>
                             </>
                           ) : (
                             <>
@@ -278,7 +287,7 @@ export const SettingsDialog = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </Accordion>
           </TabsContent>
 
           <TabsContent value="appearance" className="space-y-4">
