@@ -1,10 +1,10 @@
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import type { AIProvider } from '@/lib/types';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import type { AIProvider } from "@/lib/types";
 
-interface ProviderSectionProps {
+export interface Props {
   provider: AIProvider;
   displayName: string;
   isActive: boolean;
@@ -20,7 +20,7 @@ export const ProviderSection = ({
   apiKey,
   placeholder,
   onApiKeyChange,
-}: ProviderSectionProps) => {
+}: Props) => {
   return (
     <AccordionItem value={provider}>
       <AccordionTrigger>

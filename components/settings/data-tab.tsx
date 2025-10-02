@@ -1,17 +1,17 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { TabsContent } from '@/components/ui/tabs';
-import { Download, Upload, Trash2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { TabsContent } from "@/components/ui/tabs";
+import { Download, Upload, Trash2 } from "lucide-react";
 
-interface DataTabProps {
+export interface Props {
   onExport: () => void;
   onImport: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClearAll: () => void;
 }
 
-export const DataTab = ({ onExport, onImport, onClearAll }: DataTabProps) => {
+export const DataTab = ({ onExport, onImport, onClearAll }: Props) => {
   return (
     <TabsContent value="data" className="space-y-4">
       <div className="space-y-4">
