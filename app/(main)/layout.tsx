@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { ProfileSelector } from '@/components/profile-selector';
-import { MainNavigation } from '@/components/layout/main-navigation';
-import { AppHeader } from '@/components/layout/app-header';
-import { AppFooter } from '@/components/layout/app-footer';
-import { Providers } from '@/components/providers';
+import { ProfileSelector } from "@/components/profile-selector";
+import { MainNavigation } from "@/components/layout/main-navigation";
+import { AppHeader } from "@/components/layout/app-header";
+import { AppFooter } from "@/components/layout/app-footer";
+import { Providers } from "@/components/providers";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
