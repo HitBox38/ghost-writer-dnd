@@ -68,6 +68,8 @@ test.describe("Data Management", () => {
     // Wait for import toast
     await expect(page.getByText(/data imported successfully/i)).toBeVisible();
 
+    await page.getByRole("button", { name: /select character/i }).click();
+
     // Verify character was imported
     await expect(page.getByText("Imported Character")).toBeVisible();
   });
