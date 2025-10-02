@@ -1,5 +1,5 @@
-import { SettingsDialogV2 as SettingsDialog } from '@/components/settings-dialog-v2';
-import { Sparkles } from 'lucide-react';
+import { SettingsDialog as SettingsDialog } from "@/components/settings-dialog";
+import { Sparkles } from "lucide-react";
 
 export const AppHeader = () => {
   return (

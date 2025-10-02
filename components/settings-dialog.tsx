@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,15 +8,15 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ApiTab } from './settings/api-tab';
-import { AppearanceTab } from './settings/appearance-tab';
-import { DataTab } from './settings/data-tab';
-import { useSettingsDialog } from './settings/hooks/use-settings-dialog';
-import { Settings } from 'lucide-react';
+} from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ApiTab } from "./settings/api-tab";
+import { AppearanceTab } from "./settings/appearance-tab";
+import { DataTab } from "./settings/data-tab";
+import { useSettingsDialog } from "./settings/hooks/use-settings-dialog";
+import { Settings } from "lucide-react";
 
-export const SettingsDialogV2 = () => {
+export const SettingsDialog = () => {
   const {
     isOpen,
     setIsOpen,
@@ -34,7 +34,7 @@ export const SettingsDialogV2 = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="outline" size="icon" aria-label="Settings">
           <Settings className="h-4 w-4" />
         </Button>
       </DialogTrigger>
@@ -63,11 +63,7 @@ export const SettingsDialogV2 = () => {
 
           <AppearanceTab theme={settings.theme} onThemeChange={setTheme} />
 
-          <DataTab
-            onExport={exportData}
-            onImport={handleImport}
-            onClearAll={handleClearAll}
-          />
+          <DataTab onExport={exportData} onImport={handleImport} onClearAll={handleClearAll} />
         </Tabs>
       </DialogContent>
     </Dialog>

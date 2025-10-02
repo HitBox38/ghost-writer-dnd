@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import path from "path";
 
 test.describe("Data Management", () => {
   test.beforeEach(async ({ page }) => {
@@ -53,8 +52,6 @@ test.describe("Data Management", () => {
 
     // Create temp file
     const dataStr = JSON.stringify(testData);
-    const blob = new Blob([dataStr], { type: "application/json" });
-    const file = new File([blob], "test-backup.json", { type: "application/json" });
 
     // Open settings
     await page.getByRole("button", { name: /settings/i }).click();
