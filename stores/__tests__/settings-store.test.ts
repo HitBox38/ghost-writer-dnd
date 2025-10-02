@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { useSettingsStore } from "../settings-store";
 import { DEFAULT_MODELS } from "@/lib/types";
-import { storage } from "@/lib/storage";
 
 describe("useSettingsStore", () => {
   beforeEach(() => {
