@@ -71,7 +71,8 @@ export default function FavoritesPage() {
               </p>
             </div>
             <Badge variant="secondary" className="text-base px-3 py-1">
-              {filteredFavorites.length} {filterType === "all" ? "total" : filterType}
+              {filteredFavorites.length}{" "}
+              {filterType === "all" ? "total" : filterType === "mockery" ? "Quips" : "Catchphrases"}
             </Badge>
           </div>
 
