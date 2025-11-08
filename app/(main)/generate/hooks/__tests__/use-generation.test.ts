@@ -252,7 +252,7 @@ describe("useGeneration", () => {
 
     expect(mockUpdateSettings).toHaveBeenCalledWith({
       provider: "anthropic",
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-sonnet-4-5",
     });
   });
 
