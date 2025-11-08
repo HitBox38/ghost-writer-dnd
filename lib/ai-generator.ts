@@ -90,9 +90,14 @@ export function buildPrompt(
 
   // Add PDF if available
   if (character.characterSheet) {
+    // Extract base64 data from data URL (removes "data:application/pdf;base64," prefix)
+    const base64Data = character.characterSheet.includes(",")
+      ? character.characterSheet.split(",")[1]
+      : character.characterSheet;
+
     content.push({
       type: "file",
-      data: Buffer.from(character.characterSheet, "base64"),
+      data: Buffer.from(base64Data, "base64"),
       mediaType: "application/pdf",
     });
   }
