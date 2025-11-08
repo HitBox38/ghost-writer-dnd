@@ -49,9 +49,10 @@ export default function FavoritesPage() {
     filterType === "all" ? favorites : favorites.filter((f) => f.type === filterType);
 
   // Then filter by search query
-  const filteredFavorites = searchQuery.trim()
+  const trimmedQuery = searchQuery.trim();
+  const filteredFavorites = trimmedQuery
     ? typeFilteredFavorites.filter((f) => {
-        const query = searchQuery.toLowerCase();
+        const query = trimmedQuery.toLowerCase();
         const textMatch = f.text.toLowerCase().includes(query);
         const contextMatch = f.context?.toLowerCase().includes(query);
         return textMatch || contextMatch;
