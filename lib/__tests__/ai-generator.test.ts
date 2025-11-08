@@ -323,7 +323,7 @@ describe("ai-generator", () => {
       const callArgs = mockGenerateText.mock.calls[0][0];
       expect(callArgs).toHaveProperty("messages");
       expect(callArgs.messages).toBeDefined();
-      expect(callArgs.messages[0].content).toHaveLength(2); // Text + PDF
+      expect(callArgs.messages?.[0]?.content).toHaveLength(2); // Text + PDF
     });
 
     it("should not include PDF when character has no character sheet", async () => {
@@ -357,20 +357,13 @@ describe("ai-generator", () => {
         },
       });
 
-      await generateFlavorText(
-        mockCharacter,
-        "mockery",
-        "google",
-        "gemini-pro",
-        "test-key",
-        0.8
-      );
+      await generateFlavorText(mockCharacter, "mockery", "google", "gemini-pro", "test-key", 0.8);
 
       expect(mockGenerateText).toHaveBeenCalled();
       const callArgs = mockGenerateText.mock.calls[0][0];
       expect(callArgs).toHaveProperty("messages");
       expect(callArgs.messages).toBeDefined();
-      expect(callArgs.messages[0].content).toHaveLength(1); // Text only
+      expect(callArgs.messages?.[0]?.content).toHaveLength(1); // Text only
     });
   });
 
