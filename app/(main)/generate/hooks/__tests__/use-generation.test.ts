@@ -4,7 +4,7 @@ import { useGeneration } from "../use-generation";
 import { useCharacterStore } from "@/stores/character-store";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useResultsStore } from "@/stores/results-store";
-import { generateFlavorText } from "@/lib/ai-generator";
+import { generateFlavorTextAction } from "../../actions";
 import { toast } from "sonner";
 import type { CharacterProfile } from "@/lib/types";
 
@@ -21,9 +21,9 @@ vi.mock("@/stores/results-store", () => ({
   useResultsStore: vi.fn(),
 }));
 
-// Mock AI generator
-vi.mock("@/lib/ai-generator", () => ({
-  generateFlavorText: vi.fn(),
+// Mock Server Action
+vi.mock("../../actions", () => ({
+  generateFlavorTextAction: vi.fn(),
 }));
 
 // Mock sonner
@@ -121,7 +121,7 @@ describe("useGeneration", () => {
       { id: "1", text: "Result 1" },
       { id: "2", text: "Result 2" },
     ];
-    vi.mocked(generateFlavorText).mockResolvedValue(mockResults);
+    vi.mocked(generateFlavorTextAction).mockResolvedValue(mockResults);
 
     const { result } = renderHook(() => useGeneration());
 
@@ -129,7 +129,7 @@ describe("useGeneration", () => {
       await result.current.handleGenerate();
     });
 
-    expect(generateFlavorText).toHaveBeenCalledWith(
+    expect(generateFlavorTextAction).toHaveBeenCalledWith(
       mockCharacter,
       "mockery",
       "openai",
@@ -152,7 +152,7 @@ describe("useGeneration", () => {
       await result.current.handleGenerate();
     });
 
-    expect(generateFlavorText).not.toHaveBeenCalled();
+    expect(generateFlavorTextAction).not.toHaveBeenCalled();
     expect(toast.error).toHaveBeenCalledWith("Please select or create a character first");
   });
 
@@ -176,13 +176,13 @@ describe("useGeneration", () => {
       await result.current.handleGenerate();
     });
 
-    expect(generateFlavorText).not.toHaveBeenCalled();
+    expect(generateFlavorTextAction).not.toHaveBeenCalled();
     expect(toast.error).toHaveBeenCalledWith("Please configure your API key in settings");
   });
 
   it("should handle generation error", async () => {
     mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    vi.mocked(generateFlavorText).mockRejectedValue(new Error("API Error"));
+    vi.mocked(generateFlavorTextAction).mockRejectedValue(new Error("API Error"));
 
     const { result } = renderHook(() => useGeneration());
 
@@ -259,7 +259,7 @@ describe("useGeneration", () => {
   it("should handle Ctrl+Enter keydown", async () => {
     mockGetActiveCharacter.mockReturnValue(mockCharacter);
     const mockResults = [{ id: "1", text: "Result" }];
-    vi.mocked(generateFlavorText).mockResolvedValue(mockResults);
+    vi.mocked(generateFlavorTextAction).mockResolvedValue(mockResults);
 
     const { result } = renderHook(() => useGeneration());
 
@@ -275,14 +275,14 @@ describe("useGeneration", () => {
 
     expect(event.preventDefault).toHaveBeenCalled();
     await waitFor(() => {
-      expect(generateFlavorText).toHaveBeenCalled();
+      expect(generateFlavorTextAction).toHaveBeenCalled();
     });
   });
 
   it("should handle Meta+Enter keydown", async () => {
     mockGetActiveCharacter.mockReturnValue(mockCharacter);
     const mockResults = [{ id: "1", text: "Result" }];
-    vi.mocked(generateFlavorText).mockResolvedValue(mockResults);
+    vi.mocked(generateFlavorTextAction).mockResolvedValue(mockResults);
 
     const { result } = renderHook(() => useGeneration());
 
@@ -298,13 +298,13 @@ describe("useGeneration", () => {
 
     expect(event.preventDefault).toHaveBeenCalled();
     await waitFor(() => {
-      expect(generateFlavorText).toHaveBeenCalled();
+      expect(generateFlavorTextAction).toHaveBeenCalled();
     });
   });
 
   it("should handle non-Error exception in generation", async () => {
     mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    vi.mocked(generateFlavorText).mockRejectedValue("String error");
+    vi.mocked(generateFlavorTextAction).mockRejectedValue("String error");
 
     const { result } = renderHook(() => useGeneration());
 
@@ -320,7 +320,7 @@ describe("useGeneration", () => {
   it("should generate catchphrases success message", async () => {
     mockGetActiveCharacter.mockReturnValue(mockCharacter);
     const mockResults = [{ id: "1", text: "Result" }];
-    vi.mocked(generateFlavorText).mockResolvedValue(mockResults);
+    vi.mocked(generateFlavorTextAction).mockResolvedValue(mockResults);
     vi.mocked(useResultsStore).mockReturnValue({
       results: [],
       generationType: "catchphrase",

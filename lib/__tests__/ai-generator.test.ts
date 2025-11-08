@@ -273,6 +273,100 @@ describe("ai-generator", () => {
     });
   });
 
+  describe("PDF support", () => {
+    it("should include PDF in messages when character has character sheet", async () => {
+      const { generateText } = await import("ai");
+      const mockGenerateText = vi.mocked(generateText);
+      mockGenerateText.mockResolvedValue({
+        text: "- PDF-aware quip 1\n- PDF-aware quip 2",
+        finishReason: "stop",
+        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
+        warnings: [],
+        request: {},
+        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
+        content: [],
+        dynamicToolCalls: [],
+        dynamicToolResults: [],
+        experimental_output: [],
+        files: [],
+        providerMetadata: {},
+        reasoning: [],
+        reasoningText: "",
+        sources: [],
+        staticToolCalls: [],
+        staticToolResults: [],
+        steps: [],
+        toolCalls: [],
+        toolResults: [],
+        totalUsage: {
+          inputTokens: 0,
+          outputTokens: 0,
+          totalTokens: 0,
+        },
+      });
+
+      const characterWithPDF = {
+        ...mockCharacter,
+        characterSheet: "base64encodedpdfstring",
+      };
+
+      await generateFlavorText(
+        characterWithPDF,
+        "mockery",
+        "google",
+        "gemini-pro",
+        "test-key",
+        0.8
+      );
+
+      expect(mockGenerateText).toHaveBeenCalled();
+      const callArgs = mockGenerateText.mock.calls[0][0];
+      expect(callArgs).toHaveProperty("messages");
+      expect(callArgs.messages).toBeDefined();
+      expect(callArgs.messages?.[0]?.content).toHaveLength(2); // Text + PDF
+    });
+
+    it("should not include PDF when character has no character sheet", async () => {
+      const { generateText } = await import("ai");
+      const mockGenerateText = vi.mocked(generateText);
+      mockGenerateText.mockResolvedValue({
+        text: "- Normal quip 1\n- Normal quip 2",
+        finishReason: "stop",
+        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
+        warnings: [],
+        request: {},
+        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
+        content: [],
+        dynamicToolCalls: [],
+        dynamicToolResults: [],
+        experimental_output: [],
+        files: [],
+        providerMetadata: {},
+        reasoning: [],
+        reasoningText: "",
+        sources: [],
+        staticToolCalls: [],
+        staticToolResults: [],
+        steps: [],
+        toolCalls: [],
+        toolResults: [],
+        totalUsage: {
+          inputTokens: 0,
+          outputTokens: 0,
+          totalTokens: 0,
+        },
+      });
+
+      await generateFlavorText(mockCharacter, "mockery", "google", "gemini-pro", "test-key", 0.8);
+
+      expect(mockGenerateText).toHaveBeenCalled();
+      const callArgs = mockGenerateText.mock.calls[0][0];
+      expect(callArgs).toHaveProperty("messages");
+      expect(callArgs.messages).toBeDefined();
+      expect(callArgs.messages?.[0]?.content).toHaveLength(1); // Text only
+    });
+  });
+
   describe("error handling", () => {
     it("should handle unknown provider", async () => {
       await expect(
