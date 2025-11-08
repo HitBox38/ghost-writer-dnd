@@ -61,7 +61,7 @@ export default function FavoritesPage() {
 
   return (
     <Card>
-      <CardContent className="pt-6">
+      <CardContent>
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
