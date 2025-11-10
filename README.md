@@ -26,9 +26,9 @@ A client-side web application for D&D players to generate AI-powered flavor text
 
 ### ⚙️ Settings & API Key Management
 - Support for multiple AI providers:
-  - OpenAI (GPT-4o, GPT-4o Mini, GPT-4 Turbo)
-  - Anthropic (Claude 3.5 Sonnet, Claude 3.5 Haiku, Claude 3 Opus)
-  - Google AI (Gemini 2.5 Pro, Gemini 2.5 Flash, Gemini 2.5 Flash Lite)
+  - OpenAI
+  - Anthropic
+  - Google AI
 - Secure local API key storage (never leaves browser)
 - Model selection per provider
 - Temperature slider (0-1) for creativity control
