@@ -15,7 +15,7 @@ A client-side web application for D&D players to generate AI-powered flavor text
   - **Combat Quips**: Generate insulting combat quips for spell usage (like Vicious Mockery)
   - **Catchphrases**: Generate signature character phrases
 - Optional context input for each generation
-- Generates 3-5 results per request
+- Generates 1-25 results per request
 - Regenerate button for new variations
 
 ### ❤️ Favorites System
@@ -198,10 +198,6 @@ pnpm tsc --noEmit
 - ✅ Proper error handling for API failures
 - ✅ Dark/light mode support
 - ✅ PDF character sheet upload (max 5MB)
-
-## License
-
-MIT
 
 ## Contributing
 
