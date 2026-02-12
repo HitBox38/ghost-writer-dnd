@@ -55,8 +55,9 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
       }
     }
     // Ensure openrouter key exists for settings saved before OpenRouter support
-    if (!('openrouter' in mergedSettings.apiKeys)) {
-      mergedSettings.apiKeys = { ...mergedSettings.apiKeys, openrouter: '' };
+    if (!('openrouter' in (mergedSettings.apiKeys ?? {}))) {
+      const base = mergedSettings.apiKeys ?? DEFAULT_SETTINGS.apiKeys;
+      mergedSettings.apiKeys = { ...base, openrouter: '' };
     }
     set({ settings: mergedSettings });
   },
