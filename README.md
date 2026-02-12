@@ -29,6 +29,7 @@ A client-side web application for D&D players to generate AI-powered flavor text
   - OpenAI
   - Anthropic
   - Google AI
+  - OpenRouter (access to 100+ models via a single API key)
 - Secure local API key storage (never leaves browser)
 - Model selection per provider
 - Temperature slider (0-1) for creativity control
@@ -48,7 +49,7 @@ A client-side web application for D&D players to generate AI-powered flavor text
 
 - **Framework**: Next.js 15 (App Router)
 - **Language**: TypeScript (strict mode)
-- **AI**: Vercel AI SDK v5 (OpenAI, Anthropic, Google providers)
+- **AI**: Vercel AI SDK v5 (OpenAI, Anthropic, Google, OpenRouter providers)
 - **UI**: shadcn/ui components + Tailwind CSS v4
 - **State Management**: Zustand
 - **Storage**: localStorage with JSON export/import
@@ -87,7 +88,7 @@ pnpm dev
 
 1. **Configure API Key**:
    - Click the Settings icon in the top-right corner
-   - Select your preferred AI provider (OpenAI, Anthropic, or Google)
+   - Select your preferred AI provider (OpenAI, Anthropic, Google, or OpenRouter)
    - Enter your API key
    - Optionally test the connection
    - Your API key is stored locally and never leaves your browser
@@ -192,7 +193,7 @@ pnpm tsc --noEmit
 - ✅ Generated text reflects character context accurately
 - ✅ Can favorite and unfavorite generated text
 - ✅ Can export data as JSON and import it back
-- ✅ API key works with OpenAI, Anthropic, and Google AI
+- ✅ API key works with OpenAI, Anthropic, Google AI, and OpenRouter
 - ✅ All data persists on page reload
 - ✅ Mobile responsive with good UX
 - ✅ Proper error handling for API failures

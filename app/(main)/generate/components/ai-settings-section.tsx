@@ -33,6 +33,7 @@ export const AiSettingsSection = ({
             <SelectItem value="openai">OpenAI</SelectItem>
             <SelectItem value="anthropic">Anthropic</SelectItem>
             <SelectItem value="google">Google AI</SelectItem>
+            <SelectItem value="openrouter">OpenRouter</SelectItem>
           </SelectContent>
         </Select>
       </div>

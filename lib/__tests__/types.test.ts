@@ -5,7 +5,7 @@ import type { AIProvider } from "../types";
 describe("types", () => {
   describe("DEFAULT_MODELS", () => {
     it("should have model for each provider", () => {
-      const providers: AIProvider[] = ["openai", "anthropic", "google"];
+      const providers: AIProvider[] = ["openai", "anthropic", "google", "openrouter"];
       providers.forEach((provider) => {
         expect(DEFAULT_MODELS[provider]).toBeDefined();
         expect(typeof DEFAULT_MODELS[provider]).toBe("string");
@@ -16,12 +16,13 @@ describe("types", () => {
       expect(DEFAULT_MODELS.openai).toBe("gpt-5");
       expect(DEFAULT_MODELS.anthropic).toBe("claude-sonnet-4-5");
       expect(DEFAULT_MODELS.google).toBe("gemini-2.5-flash");
+      expect(DEFAULT_MODELS.openrouter).toBe("openai/gpt-4o");
     });
   });
 
   describe("MODEL_OPTIONS", () => {
     it("should have options for each provider", () => {
-      const providers: AIProvider[] = ["openai", "anthropic", "google"];
+      const providers: AIProvider[] = ["openai", "anthropic", "google", "openrouter"];
       providers.forEach((provider) => {
         expect(MODEL_OPTIONS[provider]).toBeDefined();
         expect(Array.isArray(MODEL_OPTIONS[provider])).toBe(true);
@@ -41,7 +42,7 @@ describe("types", () => {
     });
 
     it("should include default model in options", () => {
-      const providers: AIProvider[] = ["openai", "anthropic", "google"];
+      const providers: AIProvider[] = ["openai", "anthropic", "google", "openrouter"];
       providers.forEach((provider) => {
         const defaultModel = DEFAULT_MODELS[provider];
         const hasDefault = MODEL_OPTIONS[provider].some((opt) => opt.value === defaultModel);

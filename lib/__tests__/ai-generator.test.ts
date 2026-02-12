@@ -19,6 +19,10 @@ vi.mock("@ai-sdk/google", () => ({
   createGoogleGenerativeAI: vi.fn(() => vi.fn()),
 }));
 
+vi.mock("@openrouter/ai-sdk-provider", () => ({
+  createOpenRouter: vi.fn(() => vi.fn()),
+}));
+
 describe("ai-generator", () => {
   const mockCharacter: CharacterProfile = {
     id: "1",
@@ -270,6 +274,48 @@ describe("ai-generator", () => {
       );
 
       expect(results).toHaveLength(1);
+    });
+
+    it("should work with OpenRouter provider", async () => {
+      const { generateText } = await import("ai");
+      vi.mocked(generateText).mockResolvedValue({
+        text: "- OpenRouter quip 1\n- OpenRouter quip 2",
+        finishReason: "stop",
+        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
+        warnings: [],
+        request: {},
+        response: { id: "", timestamp: new Date(), modelId: "openai/gpt-4o", messages: [] },
+        content: [],
+        dynamicToolCalls: [],
+        dynamicToolResults: [],
+        experimental_output: [],
+        files: [],
+        providerMetadata: {},
+        reasoning: [],
+        reasoningText: "",
+        sources: [],
+        staticToolCalls: [],
+        staticToolResults: [],
+        steps: [],
+        toolCalls: [],
+        toolResults: [],
+        totalUsage: {
+          inputTokens: 0,
+          outputTokens: 0,
+          totalTokens: 0,
+        },
+      });
+
+      const results = await generateFlavorText(
+        mockCharacter,
+        "mockery",
+        "openrouter",
+        "openai/gpt-4o",
+        "test-key",
+        0.8
+      );
+
+      expect(results).toHaveLength(2);
     });
   });
 

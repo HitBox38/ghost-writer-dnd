@@ -28,6 +28,7 @@ const DEFAULT_SETTINGS: Settings = {
     openai: '',
     anthropic: '',
     google: '',
+    openrouter: '',
   },
   model: DEFAULT_MODELS.openai,
   temperature: 0.8,
@@ -46,11 +47,16 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
         openai: '',
         anthropic: '',
         google: '',
+        openrouter: '',
       };
       // If there's an old apiKey, assign it to the current provider
       if (mergedSettings.apiKey) {
         mergedSettings.apiKeys[mergedSettings.provider] = mergedSettings.apiKey;
       }
+    }
+    // Ensure openrouter key exists for settings saved before OpenRouter support
+    if (!('openrouter' in mergedSettings.apiKeys)) {
+      mergedSettings.apiKeys = { ...mergedSettings.apiKeys, openrouter: '' };
     }
     set({ settings: mergedSettings });
   },

@@ -2,20 +2,28 @@ import { generateText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import type { ModelMessage, TextPart, FilePart } from "ai";
 import type { CharacterProfile, AIProvider, GenerationType, GenerationResult } from "./types";
 
 export function getAIModel(provider: AIProvider, model: string, apiKey: string) {
   switch (provider) {
-    case "openai":
+    case "openai": {
       const openaiProvider = createOpenAI({ apiKey });
       return openaiProvider(model);
-    case "anthropic":
+    }
+    case "anthropic": {
       const anthropicProvider = createAnthropic({ apiKey });
       return anthropicProvider(model);
-    case "google":
+    }
+    case "google": {
       const googleProvider = createGoogleGenerativeAI({ apiKey });
       return googleProvider(model);
+    }
+    case "openrouter": {
+      const openrouterProvider = createOpenRouter({ apiKey });
+      return openrouterProvider(model);
+    }
     default:
       throw new Error(`Unknown provider: ${provider}`);
   }
