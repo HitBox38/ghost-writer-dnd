@@ -14,12 +14,14 @@ import type { GenerationType } from "@/lib/types";
 import { toast } from "sonner";
 import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { RandomButton } from "./components/random-button";
 
 export default function FavoritesPage() {
   const { getActiveCharacter, removeFavorite } = useCharacterStore();
   const activeCharacter = getActiveCharacter();
   const [filterType, setFilterType] = useState<GenerationType | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedFavoriteId, setSelectedFavoriteId] = useState<string | null>(null);
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -44,11 +46,9 @@ export default function FavoritesPage() {
 
   const favorites = activeCharacter.favorites;
 
-  // Filter by type first
   const typeFilteredFavorites =
     filterType === "all" ? favorites : favorites.filter((f) => f.type === filterType);
 
-  // Then filter by search query
   const trimmedQuery = searchQuery.trim();
   const filteredFavorites = trimmedQuery
     ? typeFilteredFavorites.filter((f) => {
@@ -58,6 +58,13 @@ export default function FavoritesPage() {
         return textMatch || contextMatch;
       })
     : typeFilteredFavorites;
+
+  const sortedFavorites = selectedFavoriteId
+    ? [
+        ...filteredFavorites.filter((f) => f.id === selectedFavoriteId),
+        ...filteredFavorites.filter((f) => f.id !== selectedFavoriteId),
+      ]
+    : filteredFavorites;
 
   return (
     <Card>
@@ -109,6 +116,11 @@ export default function FavoritesPage() {
                   </Button>
                 )}
               </div>
+              <RandomButton
+                filteredFavorites={filteredFavorites}
+                setSelectedFavoriteId={setSelectedFavoriteId}
+                handleCopy={handleCopy}
+              />
             </div>
 
             <TabsContent value={filterType} className="mt-4">
@@ -130,7 +142,7 @@ export default function FavoritesPage() {
               ) : (
                 <ScrollArea className="h-[calc(100vh-20rem)] w-full rounded-md">
                   <div className="space-y-2 pr-4">
-                    {filteredFavorites.map((favorite) => (
+                    {sortedFavorites.map((favorite) => (
                       <FavoriteItem
                         key={favorite.id}
                         favorite={favorite}
