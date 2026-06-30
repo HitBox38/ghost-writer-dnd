@@ -9,7 +9,7 @@ describe("useSettingsStore", () => {
       settings: {
         provider: "openai",
         apiKey: "",
-        apiKeys: { openai: "", anthropic: "", google: "" },
+        apiKeys: { openai: "", anthropic: "", google: "", openrouter: "" },
         model: DEFAULT_MODELS.openai,
         temperature: 0.8,
         theme: "system",
@@ -62,7 +62,7 @@ describe("useSettingsStore", () => {
 
     // Set OpenAI key
     updateSettings({
-      apiKeys: { openai: "openai-key", anthropic: "anthropic-key", google: "" },
+      apiKeys: { openai: "openai-key", anthropic: "anthropic-key", google: "", openrouter: "" },
     });
 
     // Switch to Anthropic
@@ -87,7 +87,7 @@ describe("useSettingsStore", () => {
     const mockSettings = {
       provider: "anthropic" as const,
       apiKey: "test-key",
-      apiKeys: { openai: "", anthropic: "test-key", google: "" },
+      apiKeys: { openai: "", anthropic: "test-key", google: "", openrouter: "" },
       model: "claude-3-5-sonnet-20241022",
       temperature: 0.9,
       theme: "dark" as const,
@@ -121,6 +121,7 @@ describe("useSettingsStore", () => {
     expect(state.settings.apiKeys).toHaveProperty("openai");
     expect(state.settings.apiKeys).toHaveProperty("anthropic");
     expect(state.settings.apiKeys).toHaveProperty("google");
+    expect(state.settings.apiKeys).toHaveProperty("openrouter");
     // The migration logic creates apiKeys from old apiKey
     expect(state.settings.apiKey).toBe("old-key");
   });
@@ -201,7 +202,7 @@ describe("useSettingsStore", () => {
       settings: {
         provider: "anthropic" as const,
         apiKey: "imported-key",
-        apiKeys: { openai: "", anthropic: "imported-key", google: "" },
+        apiKeys: { openai: "", anthropic: "imported-key", google: "", openrouter: "" },
         model: "claude-3-5-sonnet-20241022",
         temperature: 0.7,
         theme: "dark" as const,

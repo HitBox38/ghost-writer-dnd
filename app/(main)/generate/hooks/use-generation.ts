@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useCharacterStore } from '@/stores/character-store';
-import { useSettingsStore } from '@/stores/settings-store';
-import { useResultsStore } from '@/stores/results-store';
-import { generateFlavorText } from '@/lib/ai-generator';
-import { toast } from 'sonner';
-import type { AIProvider } from '@/lib/types';
+import { useState } from "react";
+import { useCharacterStore } from "@/stores/character-store";
+import { useSettingsStore } from "@/stores/settings-store";
+import { useResultsStore } from "@/stores/results-store";
+import { generateFlavorTextAction } from "../actions";
+import { toast } from "sonner";
+import type { AIProvider } from "@/lib/types";
 
 export const useGeneration = () => {
   const { getActiveCharacter, addFavorite } = useCharacterStore();
@@ -27,18 +27,18 @@ export const useGeneration = () => {
 
   const handleGenerate = async () => {
     if (!activeCharacter) {
-      toast.error('Please select or create a character first');
+      toast.error("Please select or create a character first");
       return;
     }
 
     if (!settings.apiKey) {
-      toast.error('Please configure your API key in settings');
+      toast.error("Please configure your API key in settings");
       return;
     }
 
     setIsGenerating(true);
     try {
-      const generated = await generateFlavorText(
+      const generated = await generateFlavorTextAction(
         activeCharacter,
         generationType,
         settings.provider,
@@ -52,12 +52,12 @@ export const useGeneration = () => {
       setResults(generated, generationType, context);
       toast.success(
         `Generated ${generated.length} ${
-          generationType === 'mockery' ? 'combat quips' : 'catchphrases'
+          generationType === "mockery" ? "combat quips" : "catchphrases"
         }`
       );
     } catch (error) {
-      console.error('Generation error:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to generate text');
+      console.error("Generation error:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to generate text");
     } finally {
       setIsGenerating(false);
     }
@@ -71,13 +71,13 @@ export const useGeneration = () => {
     } else {
       addFavorite(activeCharacter.id, result.text, generationType, context);
       toggleFavorite(result.id);
-      toast.success('Added to favorites');
+      toast.success("Added to favorites");
     }
   };
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast.success('Copied to clipboard');
+    toast.success("Copied to clipboard");
   };
 
   const handleProviderChange = (provider: AIProvider) => {
@@ -88,7 +88,7 @@ export const useGeneration = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
       e.preventDefault();
       handleGenerate();
     }
@@ -118,4 +118,4 @@ export const useGeneration = () => {
 };
 
 // Re-export for convenience
-import { MODEL_OPTIONS } from '@/lib/types';
+import { MODEL_OPTIONS } from "@/lib/types";

@@ -16,7 +16,7 @@ const renderWithTabs = (props: Props) => {
 describe("ApiTab", () => {
   const mockSettings: Settings = {
     provider: "openai",
-    apiKeys: { openai: "sk-test-key", anthropic: "", google: "" },
+    apiKeys: { openai: "sk-test-key", anthropic: "", google: "", openrouter: "" },
     theme: "system",
     temperature: 0.7,
     apiKey: "",
@@ -41,6 +41,7 @@ describe("ApiTab", () => {
     expect(screen.getByText("OpenAI")).toBeInTheDocument();
     expect(screen.getByText("Anthropic")).toBeInTheDocument();
     expect(screen.getByText("Gemini")).toBeInTheDocument();
+    expect(screen.getByText("OpenRouter")).toBeInTheDocument();
   });
 
   it("should call onTestConnection when test button is clicked", async () => {
@@ -60,7 +61,7 @@ describe("ApiTab", () => {
   it("should disable test button when no API keys are set", () => {
     const settingsWithoutKeys: Settings = {
       ...mockSettings,
-      apiKeys: { openai: "", anthropic: "", google: "" },
+      apiKeys: { openai: "", anthropic: "", google: "", openrouter: "" },
     };
     renderWithTabs({ ...defaultProps, settings: settingsWithoutKeys });
     const testButton = screen.getByRole("button", { name: /Test All Connections/i });

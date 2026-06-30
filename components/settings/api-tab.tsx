@@ -21,6 +21,7 @@ const PROVIDER_CONFIG = [
   { provider: "openai" as const, displayName: "OpenAI", placeholder: "sk-..." },
   { provider: "anthropic" as const, displayName: "Anthropic", placeholder: "sk-ant-..." },
   { provider: "google" as const, displayName: "Gemini", placeholder: "AIza..." },
+  { provider: "openrouter" as const, displayName: "OpenRouter", placeholder: "sk-or-..." },
 ];
 
 export const ApiTab = ({

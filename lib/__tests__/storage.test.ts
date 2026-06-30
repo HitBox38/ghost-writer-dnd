@@ -24,6 +24,7 @@ describe("storage", () => {
       openai: "test-key",
       anthropic: "",
       google: "",
+      openrouter: "",
     },
     model: "gpt-4",
     temperature: 0.7,
@@ -93,7 +94,7 @@ describe("storage", () => {
       const settings: Settings = {
         provider: "openai",
         apiKey: "secret-key",
-        apiKeys: { openai: "secret", anthropic: "", google: "" },
+        apiKeys: { openai: "secret", anthropic: "", google: "", openrouter: "" },
         model: "gpt-4o",
         temperature: 0.8,
         theme: "dark",
@@ -172,7 +173,7 @@ describe("storage", () => {
       const settings: Settings = {
         provider: "openai",
         apiKey: "test-key",
-        apiKeys: { openai: "test", anthropic: "", google: "" },
+        apiKeys: { openai: "test", anthropic: "", google: "", openrouter: "" },
         model: "gpt-4o",
         temperature: 0.8,
         theme: "dark",
@@ -192,7 +193,7 @@ describe("storage", () => {
       const settings: Settings = {
         provider: "openai",
         apiKey: "test-key",
-        apiKeys: { openai: "test", anthropic: "", google: "" },
+        apiKeys: { openai: "test", anthropic: "", google: "", openrouter: "" },
         model: "gpt-4o",
         temperature: 0.8,
         theme: "dark",
@@ -209,7 +210,7 @@ describe("storage", () => {
       const settings: Settings = {
         provider: "openai",
         apiKey: "test",
-        apiKeys: { openai: "", anthropic: "", google: "" },
+        apiKeys: { openai: "", anthropic: "", google: "", openrouter: "" },
         model: "gpt-4o",
         temperature: 0.8,
         theme: "system",
