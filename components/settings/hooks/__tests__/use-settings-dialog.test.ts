@@ -180,7 +180,7 @@ describe("useSettingsDialog", () => {
     await waitFor(() => {
       expect(result.current.isTesting).toBe(false);
       expect(toast.error).toHaveBeenCalledWith(
-        "All connection tests failed. Please check your API keys."
+        "All connection tests failed. Please check your API keys.",
       );
     });
   });

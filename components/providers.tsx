@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useCharacterStore } from '@/stores/character-store';
-import { useSettingsStore } from '@/stores/settings-store';
+import { useEffect } from "react";
+import { useCharacterStore } from "@/stores/character-store";
+import { useSettingsStore } from "@/stores/settings-store";
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const { loadCharacters } = useCharacterStore();

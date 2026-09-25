@@ -9,7 +9,7 @@ const renderWithTabs = (props: Props) => {
   return render(
     <Tabs defaultValue="api">
       <ApiTab {...props} />
-    </Tabs>
+    </Tabs>,
   );
 };
 

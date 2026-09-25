@@ -1,6 +1,6 @@
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import type { GenerationType } from '@/lib/types';
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import type { GenerationType } from "@/lib/types";
 
 interface ContextInputProps {
   value: string;
@@ -9,14 +9,9 @@ interface ContextInputProps {
   onKeyDown: (e: React.KeyboardEvent) => void;
 }
 
-export const ContextInput = ({
-  value,
-  generationType,
-  onChange,
-  onKeyDown,
-}: ContextInputProps) => {
+export const ContextInput = ({ value, generationType, onChange, onKeyDown }: ContextInputProps) => {
   const placeholder =
-    generationType === 'mockery'
+    generationType === "mockery"
       ? "e.g., 'against a pompous noble' or 'targeting their armor'"
       : "e.g., 'when entering combat' or 'when celebrating victory'";
 

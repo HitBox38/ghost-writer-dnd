@@ -1,15 +1,12 @@
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 
 interface GenerationSlidersProps {
   resultCount: number;
   onResultCountChange: (count: number) => void;
 }
 
-export const GenerationSliders = ({
-  resultCount,
-  onResultCountChange,
-}: GenerationSlidersProps) => {
+export const GenerationSliders = ({ resultCount, onResultCountChange }: GenerationSlidersProps) => {
   return (
     <div className="space-y-2">
       <Label htmlFor="resultCount">Number of Results: {resultCount}</Label>

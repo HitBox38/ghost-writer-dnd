@@ -8,7 +8,7 @@ const renderWithTabs = (props: Props) => {
   return render(
     <Tabs defaultValue="appearance">
       <AppearanceTab {...props} />
-    </Tabs>
+    </Tabs>,
   );
 };
 

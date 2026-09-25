@@ -31,7 +31,7 @@ describe("FavoriteItem", () => {
   it("should render correct badge for catchphrase type", () => {
     const catchphraseFavorite = { ...mockFavorite, type: "catchphrase" as const };
     render(
-      <FavoriteItem favorite={catchphraseFavorite} onCopy={mockOnCopy} onRemove={mockOnRemove} />
+      <FavoriteItem favorite={catchphraseFavorite} onCopy={mockOnCopy} onRemove={mockOnRemove} />,
     );
 
     expect(screen.getByText("Catchphrase")).toBeInTheDocument();
@@ -46,7 +46,11 @@ describe("FavoriteItem", () => {
   it("should not render context when not provided", () => {
     const favoriteWithoutContext = { ...mockFavorite, context: undefined };
     render(
-      <FavoriteItem favorite={favoriteWithoutContext} onCopy={mockOnCopy} onRemove={mockOnRemove} />
+      <FavoriteItem
+        favorite={favoriteWithoutContext}
+        onCopy={mockOnCopy}
+        onRemove={mockOnRemove}
+      />,
     );
 
     expect(screen.queryByText(/Context:/)).not.toBeInTheDocument();

@@ -1,12 +1,12 @@
-import { create } from 'zustand';
-import type { GenerationResult, GenerationType } from '@/lib/types';
+import { create } from "zustand";
+import type { GenerationResult, GenerationType } from "@/lib/types";
 
 interface ResultsStore {
   results: GenerationResult[];
   generationType: GenerationType;
   context: string;
   favorites: Set<string>;
-  
+
   setResults: (results: GenerationResult[], type: GenerationType, context: string) => void;
   clearResults: () => void;
   toggleFavorite: (id: string) => void;
@@ -16,8 +16,8 @@ interface ResultsStore {
 
 export const useResultsStore = create<ResultsStore>((set) => ({
   results: [],
-  generationType: 'mockery',
-  context: '',
+  generationType: "mockery",
+  context: "",
   favorites: new Set(),
 
   setResults: (results, type, context) => {

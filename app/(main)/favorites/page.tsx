@@ -17,14 +17,15 @@ import { Button } from "@/components/ui/button";
 import { RandomButton } from "./components/random-button";
 
 export default function FavoritesPage() {
-  const { getActiveCharacter, removeFavorite } = useCharacterStore();
-  const activeCharacter = getActiveCharacter();
+  const { characters, activeCharacterId, removeFavorite } = useCharacterStore();
+  const activeCharacter =
+    characters.find((character) => character.id === activeCharacterId) ?? null;
   const [filterType, setFilterType] = useState<GenerationType | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFavoriteId, setSelectedFavoriteId] = useState<string | null>(null);
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    void navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard");
   };
 
@@ -85,7 +86,8 @@ export default function FavoritesPage() {
 
           <Tabs
             value={filterType}
-            onValueChange={(v) => setFilterType(v as GenerationType | "all")}>
+            onValueChange={(v) => setFilterType(v as GenerationType | "all")}
+          >
             <div className="flex items-center gap-4">
               <TabsList className="grid grid-cols-3 w-auto">
                 <TabsTrigger value="all">All ({favorites.length})</TabsTrigger>
@@ -111,7 +113,8 @@ export default function FavoritesPage() {
                     variant="ghost"
                     size="sm"
                     onClick={handleClearSearch}
-                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 p-0">
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 p-0"
+                  >
                     <X className="h-4 w-4" />
                   </Button>
                 )}

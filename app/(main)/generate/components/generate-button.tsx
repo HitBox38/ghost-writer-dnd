@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Sparkles, Loader2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Sparkles, Loader2 } from "lucide-react";
 
 interface GenerateButtonProps {
   isGenerating: boolean;
@@ -10,12 +10,7 @@ interface GenerateButtonProps {
 export const GenerateButton = ({ isGenerating, hasApiKey, onClick }: GenerateButtonProps) => {
   return (
     <>
-      <Button
-        onClick={onClick}
-        disabled={isGenerating || !hasApiKey}
-        className="w-full"
-        size="lg"
-      >
+      <Button onClick={onClick} disabled={isGenerating || !hasApiKey} className="w-full" size="lg">
         {isGenerating ? (
           <>
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />

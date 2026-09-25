@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { GenerationControls } from './components/generation-controls';
-import { ResultsDisplay } from './components/results-display';
-import { NoCharacterState } from './components/no-character-state';
-import { useGeneration } from './hooks/use-generation';
+import { GenerationControls } from "./components/generation-controls";
+import { ResultsDisplay } from "./components/results-display";
+import { NoCharacterState } from "./components/no-character-state";
+import { useGeneration } from "./hooks/use-generation";
 
 export default function GeneratePage() {
   const {

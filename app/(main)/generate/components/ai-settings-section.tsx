@@ -1,8 +1,14 @@
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { MODEL_OPTIONS } from '@/lib/types';
-import type { AIProvider } from '@/lib/types';
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { MODEL_OPTIONS } from "@/lib/types";
+import type { AIProvider } from "@/lib/types";
 
 interface AiSettingsSectionProps {
   provider: AIProvider;

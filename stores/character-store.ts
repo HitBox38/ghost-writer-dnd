@@ -1,23 +1,30 @@
-import { create } from 'zustand';
-import type { CharacterProfile, FavoriteText } from '@/lib/types';
-import { storage } from '@/lib/storage';
+import { create } from "zustand";
+import type { CharacterProfile, FavoriteText } from "@/lib/types";
+import { storage } from "@/lib/storage";
 
 interface CharacterStore {
   characters: CharacterProfile[];
   activeCharacterId: string | null;
-  
+
   // Character operations
   loadCharacters: () => void;
-  addCharacter: (character: Omit<CharacterProfile, 'id' | 'createdAt' | 'updatedAt' | 'favorites'>) => void;
+  addCharacter: (
+    character: Omit<CharacterProfile, "id" | "createdAt" | "updatedAt" | "favorites">,
+  ) => void;
   updateCharacter: (id: string, updates: Partial<CharacterProfile>) => void;
   deleteCharacter: (id: string) => void;
   setActiveCharacter: (id: string | null) => void;
   getActiveCharacter: () => CharacterProfile | null;
-  
+
   // Favorites operations
-  addFavorite: (characterId: string, text: string, type: FavoriteText['type'], context?: string) => void;
+  addFavorite: (
+    characterId: string,
+    text: string,
+    type: FavoriteText["type"],
+    context?: string,
+  ) => void;
   removeFavorite: (characterId: string, favoriteId: string) => void;
-  
+
   // Import/Export
   importCharacters: (characters: CharacterProfile[]) => void;
 }
@@ -39,7 +46,7 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };
-    
+
     const characters = [...get().characters, newCharacter];
     storage.saveCharacters(characters);
     set({ characters, activeCharacterId: newCharacter.id });
@@ -47,9 +54,7 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
 
   updateCharacter: (id, updates) => {
     const characters = get().characters.map((char) =>
-      char.id === id
-        ? { ...char, ...updates, updatedAt: Date.now() }
-        : char
+      char.id === id ? { ...char, ...updates, updatedAt: Date.now() } : char,
     );
     storage.saveCharacters(characters);
     set({ characters });
@@ -58,11 +63,10 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
   deleteCharacter: (id) => {
     const characters = get().characters.filter((char) => char.id !== id);
     storage.saveCharacters(characters);
-    
-    const activeCharacterId = get().activeCharacterId === id 
-      ? (characters[0]?.id || null)
-      : get().activeCharacterId;
-    
+
+    const activeCharacterId =
+      get().activeCharacterId === id ? characters[0]?.id || null : get().activeCharacterId;
+
     set({ characters, activeCharacterId });
   },
 
@@ -91,7 +95,7 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
             favorites: [...char.favorites, favorite],
             updatedAt: Date.now(),
           }
-        : char
+        : char,
     );
 
     storage.saveCharacters(characters);
@@ -106,7 +110,7 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
             favorites: char.favorites.filter((fav) => fav.id !== favoriteId),
             updatedAt: Date.now(),
           }
-        : char
+        : char,
     );
 
     storage.saveCharacters(characters);
@@ -116,7 +120,7 @@ export const useCharacterStore = create<CharacterStore>((set, get) => ({
   importCharacters: (importedCharacters) => {
     const characters = importedCharacters;
     storage.saveCharacters(characters);
-    set({ 
+    set({
       characters,
       activeCharacterId: characters[0]?.id || null,
     });

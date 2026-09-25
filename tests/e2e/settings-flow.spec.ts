@@ -45,7 +45,7 @@ test.describe("Settings Flow", () => {
     await page.getByRole("button", { name: /settings/i }).click();
     await page.getByRole("button", { name: /OpenAI/i }).click();
     await expect(page.getByRole("region", { name: /OpenAI/i }).getByLabel(/API Key/i)).toHaveValue(
-      "sk-test-key"
+      "sk-test-key",
     );
   });
 

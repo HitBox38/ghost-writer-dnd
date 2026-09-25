@@ -18,7 +18,7 @@ describe("ProviderSection", () => {
     return render(
       <Accordion type="single" collapsible>
         <ProviderSection {...props} />
-      </Accordion>
+      </Accordion>,
     );
   };
 

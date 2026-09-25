@@ -19,21 +19,24 @@ export const AppearanceTab = ({ theme, onThemeChange }: Props) => {
             <Button
               variant={theme === "light" ? "default" : "outline"}
               onClick={() => onThemeChange("light")}
-              className="w-full">
+              className="w-full"
+            >
               <Sun className="h-4 w-4 mr-2" />
               Light
             </Button>
             <Button
               variant={theme === "dark" ? "default" : "outline"}
               onClick={() => onThemeChange("dark")}
-              className="w-full">
+              className="w-full"
+            >
               <Moon className="h-4 w-4 mr-2" />
               Dark
             </Button>
             <Button
               variant={theme === "system" ? "default" : "outline"}
               onClick={() => onThemeChange("system")}
-              className="w-full">
+              className="w-full"
+            >
               <Monitor className="h-4 w-4 mr-2" />
               System
             </Button>

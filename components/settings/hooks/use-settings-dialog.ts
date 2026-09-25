@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { useSettingsStore } from '@/stores/settings-store';
-import { testConnection } from '@/lib/ai-generator';
-import { MODEL_OPTIONS } from '@/lib/types';
-import type { AIProvider } from '@/lib/types';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { useSettingsStore } from "@/stores/settings-store";
+import { testConnection } from "@/lib/ai-generator";
+import { MODEL_OPTIONS } from "@/lib/types";
+import type { AIProvider } from "@/lib/types";
+import { toast } from "sonner";
 
 export const useSettingsDialog = () => {
   const { settings, updateSettings, setProvider, setTheme, exportData, importData, clearAllData } =
@@ -25,11 +25,11 @@ export const useSettingsDialog = () => {
 
   const handleTestConnection = async () => {
     const providersToTest = (Object.entries(settings.apiKeys) as [AIProvider, string][]).filter(
-      ([, key]) => key && key.length > 0
+      ([, key]) => key && key.length > 0,
     );
 
     if (providersToTest.length === 0) {
-      toast.error('Please enter at least one API key');
+      toast.error("Please enter at least one API key");
       return;
     }
 
@@ -60,7 +60,7 @@ export const useSettingsDialog = () => {
     } else if (successCount > 0) {
       toast.warning(`${successCount}/${totalCount} provider(s) connected successfully`);
     } else {
-      toast.error('All connection tests failed. Please check your API keys.');
+      toast.error("All connection tests failed. Please check your API keys.");
     }
   };
 
@@ -70,24 +70,24 @@ export const useSettingsDialog = () => {
 
     try {
       await importData(file);
-      toast.success('Data imported successfully');
+      toast.success("Data imported successfully");
       setIsOpen(false);
     } catch (error) {
-      console.error('Import error:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to import data');
+      console.error("Import error:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to import data");
     }
 
-    e.target.value = '';
+    e.target.value = "";
   };
 
   const handleClearAll = () => {
     if (
       confirm(
-        'Are you sure you want to clear ALL data? This will delete all characters, favorites, and settings. This cannot be undone.'
+        "Are you sure you want to clear ALL data? This will delete all characters, favorites, and settings. This cannot be undone.",
       )
     ) {
       clearAllData();
-      toast.success('All data cleared');
+      toast.success("All data cleared");
       setIsOpen(false);
     }
   };

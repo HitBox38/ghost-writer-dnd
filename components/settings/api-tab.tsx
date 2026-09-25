@@ -60,7 +60,8 @@ export const ApiTab = ({
         <Button
           onClick={onTestConnection}
           disabled={isTesting || Object.values(settings.apiKeys).every((key) => !key)}
-          className="w-full">
+          className="w-full"
+        >
           {isTesting ? (
             <>
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />

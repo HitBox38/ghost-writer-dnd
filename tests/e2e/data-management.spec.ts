@@ -68,10 +68,10 @@ test.describe("Data Management", () => {
     // Wait for import toast
     await expect(page.getByText(/data imported successfully/i)).toBeVisible();
 
-    await page.getByRole("button", { name: /select character/i }).click();
-
     // Verify character was imported
-    await expect(page.getByText("Imported Character")).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Imported Character", exact: true }),
+    ).toBeVisible();
   });
 
   test("should clear all data with confirmation", async ({ page }) => {
@@ -87,7 +87,7 @@ test.describe("Data Management", () => {
     // Setup confirmation dialog
     page.on("dialog", (dialog) => {
       expect(dialog.message()).toContain("clear ALL data");
-      dialog.accept();
+      void dialog.accept();
     });
 
     // Clear data

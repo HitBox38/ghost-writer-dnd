@@ -16,7 +16,7 @@ vi.mock("@ai-sdk/anthropic", () => ({
 }));
 
 vi.mock("@ai-sdk/google", () => ({
-  createGoogleGenerativeAI: vi.fn(() => vi.fn()),
+  createGoogle: vi.fn(() => vi.fn()),
 }));
 
 vi.mock("@openrouter/ai-sdk-provider", () => ({
@@ -45,38 +45,14 @@ describe("ai-generator", () => {
   describe("generateFlavorText", () => {
     it("should throw error when API key is missing", async () => {
       await expect(
-        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "", 0.8)
+        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "", 0.8),
       ).rejects.toThrow("API key is required");
     });
 
     it("should generate mockery text", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockResolvedValue({
+      vi.mocked(generateText, { partial: true }).mockResolvedValue({
         text: "- Mocking quip 1\n- Mocking quip 2\n- Mocking quip 3",
-        finishReason: "stop",
-        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
-        warnings: [],
-        request: {},
-        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
-        content: [],
-        dynamicToolCalls: [],
-        dynamicToolResults: [],
-        experimental_output: [],
-        files: [],
-        providerMetadata: {},
-        reasoning: [],
-        reasoningText: "",
-        sources: [],
-        staticToolCalls: [],
-        staticToolResults: [],
-        steps: [],
-        toolCalls: [],
-        toolResults: [],
-        totalUsage: {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
-        },
       });
 
       const results = await generateFlavorText(
@@ -87,7 +63,7 @@ describe("ai-generator", () => {
         "test-key",
         0.8,
         "against a noble",
-        3
+        3,
       );
 
       expect(results).toHaveLength(3);
@@ -97,32 +73,8 @@ describe("ai-generator", () => {
 
     it("should generate catchphrase text", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockResolvedValue({
+      vi.mocked(generateText, { partial: true }).mockResolvedValue({
         text: "- Catchphrase 1\n- Catchphrase 2",
-        finishReason: "stop",
-        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
-        warnings: [],
-        request: {},
-        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
-        content: [],
-        dynamicToolCalls: [],
-        dynamicToolResults: [],
-        experimental_output: [],
-        files: [],
-        providerMetadata: {},
-        reasoning: [],
-        reasoningText: "",
-        sources: [],
-        staticToolCalls: [],
-        staticToolResults: [],
-        steps: [],
-        toolCalls: [],
-        toolResults: [],
-        totalUsage: {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
-        },
       });
 
       const results = await generateFlavorText(
@@ -131,7 +83,7 @@ describe("ai-generator", () => {
         "anthropic",
         "claude-3-5-sonnet-20241022",
         "test-key",
-        0.7
+        0.7,
       );
 
       expect(results).toHaveLength(2);
@@ -139,10 +91,10 @@ describe("ai-generator", () => {
 
     it("should handle API errors gracefully", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockRejectedValue(new Error("API key invalid"));
+      vi.mocked(generateText, { partial: true }).mockRejectedValue(new Error("API key invalid"));
 
       await expect(
-        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "bad-key", 0.8)
+        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "bad-key", 0.8),
       ).rejects.toThrow("Invalid API key");
     });
   });
@@ -150,32 +102,8 @@ describe("ai-generator", () => {
   describe("testConnection", () => {
     it("should return true for successful connection", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockResolvedValue({
+      vi.mocked(generateText, { partial: true }).mockResolvedValue({
         text: "OK",
-        finishReason: "stop",
-        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
-        warnings: [],
-        request: {},
-        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
-        content: [],
-        dynamicToolCalls: [],
-        dynamicToolResults: [],
-        experimental_output: [],
-        files: [],
-        providerMetadata: {},
-        reasoning: [],
-        reasoningText: "",
-        sources: [],
-        staticToolCalls: [],
-        staticToolResults: [],
-        steps: [],
-        toolCalls: [],
-        toolResults: [],
-        totalUsage: {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
-        },
       });
 
       const result = await testConnection("openai", "gpt-4o", "test-key");
@@ -184,7 +112,7 @@ describe("ai-generator", () => {
 
     it("should return false for failed connection", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockRejectedValue(new Error("Connection failed"));
+      vi.mocked(generateText, { partial: true }).mockRejectedValue(new Error("Connection failed"));
 
       const result = await testConnection("openai", "gpt-4o", "bad-key");
       expect(result).toBe(false);
@@ -194,32 +122,8 @@ describe("ai-generator", () => {
   describe("provider support", () => {
     it("should work with Google provider", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockResolvedValue({
+      vi.mocked(generateText, { partial: true }).mockResolvedValue({
         text: "- Google quip 1\n- Google quip 2",
-        finishReason: "stop",
-        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
-        warnings: [],
-        request: {},
-        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
-        content: [],
-        dynamicToolCalls: [],
-        dynamicToolResults: [],
-        experimental_output: [],
-        files: [],
-        providerMetadata: {},
-        reasoning: [],
-        reasoningText: "",
-        sources: [],
-        staticToolCalls: [],
-        staticToolResults: [],
-        steps: [],
-        toolCalls: [],
-        toolResults: [],
-        totalUsage: {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
-        },
       });
 
       const results = await generateFlavorText(
@@ -228,7 +132,7 @@ describe("ai-generator", () => {
         "google",
         "gemini-pro",
         "test-key",
-        0.8
+        0.8,
       );
 
       expect(results).toHaveLength(2);
@@ -236,32 +140,8 @@ describe("ai-generator", () => {
 
     it("should work with Anthropic provider", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockResolvedValue({
+      vi.mocked(generateText, { partial: true }).mockResolvedValue({
         text: "- Anthropic quip 1",
-        finishReason: "stop",
-        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
-        warnings: [],
-        request: {},
-        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
-        content: [],
-        dynamicToolCalls: [],
-        dynamicToolResults: [],
-        experimental_output: [],
-        files: [],
-        providerMetadata: {},
-        reasoning: [],
-        reasoningText: "",
-        sources: [],
-        staticToolCalls: [],
-        staticToolResults: [],
-        steps: [],
-        toolCalls: [],
-        toolResults: [],
-        totalUsage: {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
-        },
       });
 
       const results = await generateFlavorText(
@@ -270,7 +150,7 @@ describe("ai-generator", () => {
         "anthropic",
         "claude-3-5-sonnet-20241022",
         "test-key",
-        0.8
+        0.8,
       );
 
       expect(results).toHaveLength(1);
@@ -278,32 +158,8 @@ describe("ai-generator", () => {
 
     it("should work with OpenRouter provider", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockResolvedValue({
+      vi.mocked(generateText, { partial: true }).mockResolvedValue({
         text: "- OpenRouter quip 1\n- OpenRouter quip 2",
-        finishReason: "stop",
-        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
-        warnings: [],
-        request: {},
-        response: { id: "", timestamp: new Date(), modelId: "openai/gpt-4o", messages: [] },
-        content: [],
-        dynamicToolCalls: [],
-        dynamicToolResults: [],
-        experimental_output: [],
-        files: [],
-        providerMetadata: {},
-        reasoning: [],
-        reasoningText: "",
-        sources: [],
-        staticToolCalls: [],
-        staticToolResults: [],
-        steps: [],
-        toolCalls: [],
-        toolResults: [],
-        totalUsage: {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
-        },
       });
 
       const results = await generateFlavorText(
@@ -312,7 +168,7 @@ describe("ai-generator", () => {
         "openrouter",
         "openai/gpt-4o",
         "test-key",
-        0.8
+        0.8,
       );
 
       expect(results).toHaveLength(2);
@@ -322,33 +178,9 @@ describe("ai-generator", () => {
   describe("PDF support", () => {
     it("should include PDF in messages when character has character sheet", async () => {
       const { generateText } = await import("ai");
-      const mockGenerateText = vi.mocked(generateText);
+      const mockGenerateText = vi.mocked(generateText, { partial: true });
       mockGenerateText.mockResolvedValue({
         text: "- PDF-aware quip 1\n- PDF-aware quip 2",
-        finishReason: "stop",
-        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
-        warnings: [],
-        request: {},
-        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
-        content: [],
-        dynamicToolCalls: [],
-        dynamicToolResults: [],
-        experimental_output: [],
-        files: [],
-        providerMetadata: {},
-        reasoning: [],
-        reasoningText: "",
-        sources: [],
-        staticToolCalls: [],
-        staticToolResults: [],
-        steps: [],
-        toolCalls: [],
-        toolResults: [],
-        totalUsage: {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
-        },
       });
 
       const characterWithPDF = {
@@ -362,7 +194,7 @@ describe("ai-generator", () => {
         "google",
         "gemini-pro",
         "test-key",
-        0.8
+        0.8,
       );
 
       expect(mockGenerateText).toHaveBeenCalled();
@@ -374,33 +206,9 @@ describe("ai-generator", () => {
 
     it("should not include PDF when character has no character sheet", async () => {
       const { generateText } = await import("ai");
-      const mockGenerateText = vi.mocked(generateText);
+      const mockGenerateText = vi.mocked(generateText, { partial: true });
       mockGenerateText.mockResolvedValue({
         text: "- Normal quip 1\n- Normal quip 2",
-        finishReason: "stop",
-        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
-        warnings: [],
-        request: {},
-        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
-        content: [],
-        dynamicToolCalls: [],
-        dynamicToolResults: [],
-        experimental_output: [],
-        files: [],
-        providerMetadata: {},
-        reasoning: [],
-        reasoningText: "",
-        sources: [],
-        staticToolCalls: [],
-        staticToolResults: [],
-        steps: [],
-        toolCalls: [],
-        toolResults: [],
-        totalUsage: {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
-        },
       });
 
       await generateFlavorText(mockCharacter, "mockery", "google", "gemini-pro", "test-key", 0.8);
@@ -422,70 +230,48 @@ describe("ai-generator", () => {
           "unknown" as AIProvider,
           "model",
           "test-key",
-          0.8
-        )
+          0.8,
+        ),
       ).rejects.toThrow("Unknown provider");
     });
 
     it("should handle rate limit errors", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockRejectedValue(new Error("rate limit exceeded"));
+      vi.mocked(generateText, { partial: true }).mockRejectedValue(
+        new Error("rate limit exceeded"),
+      );
 
       await expect(
-        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "test-key", 0.8)
+        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "test-key", 0.8),
       ).rejects.toThrow("Rate limit reached");
     });
 
     it("should handle empty results", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockResolvedValue({
+      vi.mocked(generateText, { partial: true }).mockResolvedValue({
         text: "No dashes in this response",
-        finishReason: "stop",
-        usage: { totalTokens: 0, inputTokens: 0, outputTokens: 0 },
-        warnings: [],
-        request: {},
-        response: { id: "", timestamp: new Date(), modelId: "gemini-2.5-flash", messages: [] },
-        content: [],
-        dynamicToolCalls: [],
-        dynamicToolResults: [],
-        experimental_output: [],
-        files: [],
-        providerMetadata: {},
-        reasoning: [],
-        reasoningText: "",
-        sources: [],
-        staticToolCalls: [],
-        staticToolResults: [],
-        steps: [],
-        toolCalls: [],
-        toolResults: [],
-        totalUsage: {
-          inputTokens: 0,
-          outputTokens: 0,
-          totalTokens: 0,
-        },
       });
 
       await expect(
-        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "test-key", 0.8)
+        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "test-key", 0.8),
       ).rejects.toThrow("No valid results generated");
     });
 
     it("should handle generic errors", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockRejectedValue(new Error("Some other error"));
+      vi.mocked(generateText, { partial: true }).mockRejectedValue(new Error("Some other error"));
 
       await expect(
-        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "test-key", 0.8)
+        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "test-key", 0.8),
       ).rejects.toThrow("Some other error");
     });
 
     it("should handle non-Error exceptions", async () => {
       const { generateText } = await import("ai");
-      vi.mocked(generateText).mockRejectedValue("string error");
+      vi.mocked(generateText, { partial: true }).mockRejectedValue("string error");
 
       await expect(
-        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "test-key", 0.8)
+        generateFlavorText(mockCharacter, "mockery", "openai", "gpt-4o", "test-key", 0.8),
       ).rejects.toThrow("Failed to generate text");
     });
   });

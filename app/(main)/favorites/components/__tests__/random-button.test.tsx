@@ -51,7 +51,7 @@ describe("RandomButton", () => {
         filteredFavorites={mockFavorites}
         setSelectedFavoriteId={mockSetSelectedFavoriteId}
         handleCopy={mockHandleCopy}
-      />
+      />,
     );
 
     const button = screen.getByRole("button");
@@ -65,7 +65,7 @@ describe("RandomButton", () => {
         filteredFavorites={[]}
         setSelectedFavoriteId={mockSetSelectedFavoriteId}
         handleCopy={mockHandleCopy}
-      />
+      />,
     );
 
     const button = screen.getByRole("button");
@@ -85,7 +85,7 @@ describe("RandomButton", () => {
         filteredFavorites={mockFavorites}
         setSelectedFavoriteId={mockSetSelectedFavoriteId}
         handleCopy={mockHandleCopy}
-      />
+      />,
     );
 
     const button = screen.getByRole("button");
@@ -107,7 +107,7 @@ describe("RandomButton", () => {
         filteredFavorites={mockFavorites}
         setSelectedFavoriteId={mockSetSelectedFavoriteId}
         handleCopy={mockHandleCopy}
-      />
+      />,
     );
 
     const button = screen.getByRole("button");
@@ -129,7 +129,7 @@ describe("RandomButton", () => {
         filteredFavorites={mockFavorites}
         setSelectedFavoriteId={mockSetSelectedFavoriteId}
         handleCopy={mockHandleCopy}
-      />
+      />,
     );
 
     const button = screen.getByRole("button");
@@ -158,7 +158,7 @@ describe("RandomButton", () => {
         filteredFavorites={singleFavorite}
         setSelectedFavoriteId={mockSetSelectedFavoriteId}
         handleCopy={mockHandleCopy}
-      />
+      />,
     );
 
     const button = screen.getByRole("button");
@@ -181,7 +181,7 @@ describe("RandomButton", () => {
         filteredFavorites={mockFavorites}
         setSelectedFavoriteId={trackingSetSelectedFavoriteId}
         handleCopy={trackingHandleCopy}
-      />
+      />,
     );
 
     const button = screen.getByRole("button");

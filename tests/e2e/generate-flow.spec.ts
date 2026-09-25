@@ -61,7 +61,7 @@ test.describe("Generate Flow", () => {
     await page.getByRole("tab", { name: /catchphrases/i }).click();
     await expect(page.getByRole("tab", { name: /catchphrases/i })).toHaveAttribute(
       "data-state",
-      "active"
+      "active",
     );
   });
 

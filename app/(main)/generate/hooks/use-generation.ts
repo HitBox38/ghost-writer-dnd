@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import type { AIProvider } from "@/lib/types";
 
 export const useGeneration = () => {
-  const { getActiveCharacter, addFavorite } = useCharacterStore();
+  const { characters, activeCharacterId, addFavorite } = useCharacterStore();
   const { settings, updateSettings } = useSettingsStore();
   const {
     results,
@@ -23,7 +23,8 @@ export const useGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [resultCount, setResultCount] = useState(5);
 
-  const activeCharacter = getActiveCharacter();
+  const activeCharacter =
+    characters.find((character) => character.id === activeCharacterId) ?? null;
 
   const handleGenerate = async () => {
     if (!activeCharacter) {
@@ -46,14 +47,14 @@ export const useGeneration = () => {
         settings.apiKey,
         settings.temperature,
         context,
-        resultCount
+        resultCount,
       );
 
       setResults(generated, generationType, context);
       toast.success(
         `Generated ${generated.length} ${
           generationType === "mockery" ? "combat quips" : "catchphrases"
-        }`
+        }`,
       );
     } catch (error) {
       console.error("Generation error:", error);
@@ -76,7 +77,7 @@ export const useGeneration = () => {
   };
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
+    void navigator.clipboard.writeText(text);
     toast.success("Copied to clipboard");
   };
 
@@ -90,7 +91,7 @@ export const useGeneration = () => {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
       e.preventDefault();
-      handleGenerate();
+      void handleGenerate();
     }
   };
 

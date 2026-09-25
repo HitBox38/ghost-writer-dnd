@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { useCharacterStore } from '@/stores/character-store';
-import { CharacterForm } from '@/components/character-form';
-import { CharacterDropdown } from './character-dropdown';
-import { CharacterActions } from './character-actions';
-import { Plus } from 'lucide-react';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useCharacterStore } from "@/stores/character-store";
+import { CharacterForm } from "@/components/character-form";
+import { CharacterDropdown } from "./character-dropdown";
+import { CharacterActions } from "./character-actions";
+import { Plus } from "lucide-react";
+import { toast } from "sonner";
 
 export const ProfileSelector = () => {
-  const { characters, setActiveCharacter, deleteCharacter, getActiveCharacter } =
+  const { characters, setActiveCharacter, deleteCharacter, activeCharacterId } =
     useCharacterStore();
-  const activeCharacter = getActiveCharacter();
+  const activeCharacter =
+    characters.find((character) => character.id === activeCharacterId) ?? null;
 
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);

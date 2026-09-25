@@ -69,7 +69,9 @@ describe("useGeneration", () => {
     vi.clearAllMocks();
 
     vi.mocked(useCharacterStore).mockReturnValue({
-      getActiveCharacter: mockGetActiveCharacter,
+      get activeCharacterId() {
+        return mockGetActiveCharacter()?.id ?? null;
+      },
       addFavorite: mockAddFavorite,
       characters: [mockCharacter],
       setActiveCharacter: vi.fn(),
@@ -137,7 +139,7 @@ describe("useGeneration", () => {
       "test-key",
       0.7,
       "",
-      5
+      5,
     );
     expect(mockSetResults).toHaveBeenCalledWith(mockResults, "mockery", "");
     expect(toast.success).toHaveBeenCalled();

@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
-import { Heart, Copy, Trash2 } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Heart, Copy, Trash2 } from "lucide-react";
 
 interface ActionButtonsProps {
   isFavorited?: boolean;
@@ -14,7 +14,7 @@ export const ActionButtons = ({
   onToggleFavorite,
   onCopy,
   onDelete,
-  className = '',
+  className = "",
 }: ActionButtonsProps) => {
   return (
     <div className={`flex gap-1 ${className}`}>
@@ -24,11 +24,9 @@ export const ActionButtons = ({
           variant="ghost"
           className="h-7 w-7 shrink-0"
           onClick={onToggleFavorite}
-          title={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
+          title={isFavorited ? "Remove from favorites" : "Add to favorites"}
         >
-          <Heart
-            className={`h-3.5 w-3.5 ${isFavorited ? 'fill-red-500 text-red-500' : ''}`}
-          />
+          <Heart className={`h-3.5 w-3.5 ${isFavorited ? "fill-red-500 text-red-500" : ""}`} />
         </Button>
       )}
       <Button

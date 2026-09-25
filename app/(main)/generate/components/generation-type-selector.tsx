@@ -1,6 +1,6 @@
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import type { GenerationType } from '@/lib/types';
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { GenerationType } from "@/lib/types";
 
 interface GenerationTypeSelectorProps {
   value: GenerationType;

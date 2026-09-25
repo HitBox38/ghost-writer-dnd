@@ -14,13 +14,13 @@ describe("ContextInput", () => {
         generationType="mockery"
         onChange={mockOnChange}
         onKeyDown={mockOnKeyDown}
-      />
+      />,
     );
 
     const textarea = screen.getByLabelText(/additional context/i);
     expect(textarea).toHaveAttribute(
       "placeholder",
-      "e.g., 'against a pompous noble' or 'targeting their armor'"
+      "e.g., 'against a pompous noble' or 'targeting their armor'",
     );
   });
 
@@ -31,13 +31,13 @@ describe("ContextInput", () => {
         generationType="catchphrase"
         onChange={mockOnChange}
         onKeyDown={mockOnKeyDown}
-      />
+      />,
     );
 
     const textarea = screen.getByLabelText(/additional context/i);
     expect(textarea).toHaveAttribute(
       "placeholder",
-      "e.g., 'when entering combat' or 'when celebrating victory'"
+      "e.g., 'when entering combat' or 'when celebrating victory'",
     );
   });
 
@@ -49,7 +49,7 @@ describe("ContextInput", () => {
         generationType="mockery"
         onChange={mockOnChange}
         onKeyDown={mockOnKeyDown}
-      />
+      />,
     );
 
     const textarea = screen.getByLabelText(/additional context/i);
@@ -66,7 +66,7 @@ describe("ContextInput", () => {
         generationType="mockery"
         onChange={mockOnChange}
         onKeyDown={mockOnKeyDown}
-      />
+      />,
     );
 
     const textarea = screen.getByLabelText(/additional context/i);
@@ -82,7 +82,7 @@ describe("ContextInput", () => {
         generationType="mockery"
         onChange={mockOnChange}
         onKeyDown={mockOnKeyDown}
-      />
+      />,
     );
 
     expect(screen.getByText(/press ctrl\+enter to generate/i)).toBeInTheDocument();
@@ -95,7 +95,7 @@ describe("ContextInput", () => {
         generationType="mockery"
         onChange={mockOnChange}
         onKeyDown={mockOnKeyDown}
-      />
+      />,
     );
 
     expect(screen.getByDisplayValue("existing context")).toBeInTheDocument();

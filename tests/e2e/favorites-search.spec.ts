@@ -65,16 +65,9 @@ test.describe("Favorites Search", () => {
     await page.reload();
     await page.waitForLoadState("networkidle");
 
-    // Select the character if needed (activeCharacterId is not persisted, so we need to reselect)
-    const selectCharacterButton = page.getByRole("button", { name: /select character/i });
-    try {
-      if (await selectCharacterButton.isVisible({ timeout: 1000 })) {
-        await selectCharacterButton.click();
-        await page.getByText("Gandalf").click();
-      }
-    } catch {
-      // Character already selected or not needed
-    }
+    // The active character is not persisted; select it after reloading.
+    await page.getByRole("button", { name: /select character/i }).click();
+    await page.getByRole("menuitem", { name: /gandalf/i }).click();
 
     // Navigate to favorites
     await page.getByRole("link", { name: /favorites/i }).click();
@@ -275,7 +268,7 @@ test.describe("Favorites Search", () => {
     await searchInput.fill("what to do with the time");
 
     await expect(
-      page.getByText("All we have to decide is what to do with the time that is given us")
+      page.getByText("All we have to decide is what to do with the time that is given us"),
     ).toBeVisible();
   });
 
@@ -284,7 +277,7 @@ test.describe("Favorites Search", () => {
     await searchInput.fill("shall not");
 
     // Hover to show action buttons
-    const favoriteItem = page.locator("div", { hasText: "You shall not pass!" }).first();
+    const favoriteItem = page.getByText("You shall not pass!", { exact: true }).locator("..");
     await favoriteItem.hover();
 
     // Click copy button
@@ -300,7 +293,7 @@ test.describe("Favorites Search", () => {
     await searchInput.fill("shall not");
 
     // Hover to show action buttons
-    const favoriteItem = page.locator("div", { hasText: "You shall not pass!" }).first();
+    const favoriteItem = page.getByText("You shall not pass!", { exact: true }).locator("..");
     await favoriteItem.hover();
 
     // Setup dialog handler to confirm deletion

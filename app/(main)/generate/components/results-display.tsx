@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { Card, CardContent } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { ActionButtons } from '@/components/shared/action-buttons';
-import type { GenerationResult } from '@/lib/types';
-import { Sparkles } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ActionButtons } from "@/components/shared/action-buttons";
+import type { GenerationResult } from "@/lib/types";
+import { Sparkles } from "lucide-react";
 
 interface ResultsDisplayProps {
   results: GenerationResult[];
@@ -42,7 +42,7 @@ export const ResultsDisplay = ({
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold">Generated Results</h3>
             <span className="text-sm text-muted-foreground">
-              {results.length} {results.length === 1 ? 'result' : 'results'}
+              {results.length} {results.length === 1 ? "result" : "results"}
             </span>
           </div>
           <ScrollArea className="h-[calc(100vh-20rem)] w-full rounded-md">

@@ -5,10 +5,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { ChevronDown, User, Plus } from 'lucide-react';
-import type { CharacterProfile } from '@/lib/types';
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, User, Plus } from "lucide-react";
+import type { CharacterProfile } from "@/lib/types";
 
 interface CharacterDropdownProps {
   characters: CharacterProfile[];
@@ -30,7 +30,7 @@ export const CharacterDropdown = ({
           <div className="flex items-center gap-2">
             <User className="h-4 w-4" />
             <span className="truncate">
-              {activeCharacter ? activeCharacter.name : 'Select Character'}
+              {activeCharacter ? activeCharacter.name : "Select Character"}
             </span>
           </div>
           <ChevronDown className="h-4 w-4 ml-2" />

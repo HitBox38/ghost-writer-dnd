@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { prepareClipboard } from "./helpers/clipboard";
 
 test.describe("Favorites Flow", () => {
   test.beforeEach(async ({ page }) => {
@@ -168,7 +169,7 @@ test.describe("Favorites Flow", () => {
     await expect(page.getByText("First catchphrase")).toBeVisible();
   });
 
-  test("should select random favorite and reorder list", async ({ page }) => {
+  test("should select random favorite and reorder list", async ({ page, browserName }) => {
     // Create character with multiple favorites
     const testData = {
       version: "1.0.0",
@@ -235,7 +236,7 @@ test.describe("Favorites Flow", () => {
     await page.getByText(/test character/i).click();
 
     // Grant clipboard permissions
-    await page.context().grantPermissions(["clipboard-write", "clipboard-read"]);
+    await prepareClipboard(page, browserName);
 
     // Get all favorite items before clicking random
     const favoriteItems = page.locator(".group.p-4.rounded-lg");
@@ -266,19 +267,18 @@ test.describe("Favorites Flow", () => {
     await page.getByRole("button", { name: /create character/i }).click();
 
     await page.getByRole("link", { name: /favorites/i }).click();
-    await page.getByText(/select character/i).click();
-    await page.getByText(/test character/i).click();
+    await expect(page.getByRole("button", { name: "Test Character", exact: true })).toBeVisible();
 
     // Click random button
     await page.getByLabel(/random/i).click();
 
     // Should show error toast
     await expect(
-      page.locator("[data-title]").filter({ hasText: /no favorites to select from/i })
+      page.locator("[data-title]").filter({ hasText: /no favorites to select from/i }),
     ).toBeVisible();
   });
 
-  test("should copy favorite when clicking copy button", async ({ page }) => {
+  test("should copy favorite when clicking copy button", async ({ page, browserName }) => {
     const testData = {
       version: "1.0.0",
       exportDate: new Date().toISOString(),
@@ -331,10 +331,11 @@ test.describe("Favorites Flow", () => {
     await page.getByText(/select character/i).click();
     await page.getByText(/test character/i).click();
 
-    await page.context().grantPermissions(["clipboard-write", "clipboard-read"]);
+    await prepareClipboard(page, browserName);
 
     // Hover to reveal copy button and click it
-    const favoriteItem = page.getByText(/test quote to copy/i);
+    const favoriteItem = page.getByText(/test quote to copy/i).locator("..");
+    await favoriteItem.hover();
     await favoriteItem.getByTitle(/copy to clipboard/i).click();
 
     // Verify clipboard

@@ -219,7 +219,7 @@ describe("useCharacterForm", () => {
       "1",
       expect.objectContaining({
         name: "Aragorn Updated",
-      })
+      }),
     );
     expect(toast.success).toHaveBeenCalledWith("Character updated successfully");
     expect(mockOnClose).toHaveBeenCalled();

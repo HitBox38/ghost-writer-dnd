@@ -62,7 +62,7 @@ describe("CharacterForm", () => {
     expect(mockAddCharacter).toHaveBeenCalledWith(
       expect.objectContaining({
         name: "Test Character",
-      })
+      }),
     );
   });
 

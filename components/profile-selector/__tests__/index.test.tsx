@@ -49,7 +49,9 @@ describe("ProfileSelector", () => {
       characters: [],
       setActiveCharacter: mockSetActiveCharacter,
       deleteCharacter: mockDeleteCharacter,
-      getActiveCharacter: mockGetActiveCharacter,
+      get activeCharacterId() {
+        return mockGetActiveCharacter()?.id ?? null;
+      },
       addCharacter: vi.fn(),
       updateCharacter: vi.fn(),
       toggleFavorite: vi.fn(),
@@ -66,7 +68,9 @@ describe("ProfileSelector", () => {
       characters: [],
       setActiveCharacter: mockSetActiveCharacter,
       deleteCharacter: mockDeleteCharacter,
-      getActiveCharacter: mockGetActiveCharacter,
+      get activeCharacterId() {
+        return mockGetActiveCharacter()?.id ?? null;
+      },
       addCharacter: vi.fn(),
       updateCharacter: vi.fn(),
       toggleFavorite: vi.fn(),
@@ -86,7 +90,9 @@ describe("ProfileSelector", () => {
       characters: [mockCharacter],
       setActiveCharacter: mockSetActiveCharacter,
       deleteCharacter: mockDeleteCharacter,
-      getActiveCharacter: mockGetActiveCharacter,
+      get activeCharacterId() {
+        return mockGetActiveCharacter()?.id ?? null;
+      },
       addCharacter: vi.fn(),
       updateCharacter: vi.fn(),
       toggleFavorite: vi.fn(),
@@ -103,7 +109,9 @@ describe("ProfileSelector", () => {
       characters: [mockCharacter],
       setActiveCharacter: mockSetActiveCharacter,
       deleteCharacter: mockDeleteCharacter,
-      getActiveCharacter: mockGetActiveCharacter,
+      get activeCharacterId() {
+        return mockGetActiveCharacter()?.id ?? null;
+      },
       addCharacter: vi.fn(),
       updateCharacter: vi.fn(),
       toggleFavorite: vi.fn(),
@@ -122,7 +130,9 @@ describe("ProfileSelector", () => {
       characters: [mockCharacter],
       setActiveCharacter: mockSetActiveCharacter,
       deleteCharacter: mockDeleteCharacter,
-      getActiveCharacter: mockGetActiveCharacter,
+      get activeCharacterId() {
+        return mockGetActiveCharacter()?.id ?? null;
+      },
       addCharacter: vi.fn(),
       updateCharacter: vi.fn(),
       toggleFavorite: vi.fn(),
@@ -144,7 +154,9 @@ describe("ProfileSelector", () => {
       characters: [mockCharacter],
       setActiveCharacter: mockSetActiveCharacter,
       deleteCharacter: mockDeleteCharacter,
-      getActiveCharacter: mockGetActiveCharacter,
+      get activeCharacterId() {
+        return mockGetActiveCharacter()?.id ?? null;
+      },
       addCharacter: vi.fn(),
       updateCharacter: vi.fn(),
       toggleFavorite: vi.fn(),
@@ -155,7 +167,7 @@ describe("ProfileSelector", () => {
     await user.click(screen.getByRole("button", { name: /delete character/i }));
 
     expect(mockConfirm).toHaveBeenCalledWith(
-      "Are you sure you want to delete Aragorn? This cannot be undone."
+      "Are you sure you want to delete Aragorn? This cannot be undone.",
     );
     expect(mockDeleteCharacter).toHaveBeenCalledWith("1");
   });
@@ -168,7 +180,9 @@ describe("ProfileSelector", () => {
       characters: [mockCharacter],
       setActiveCharacter: mockSetActiveCharacter,
       deleteCharacter: mockDeleteCharacter,
-      getActiveCharacter: mockGetActiveCharacter,
+      get activeCharacterId() {
+        return mockGetActiveCharacter()?.id ?? null;
+      },
       addCharacter: vi.fn(),
       updateCharacter: vi.fn(),
       toggleFavorite: vi.fn(),
@@ -188,7 +202,9 @@ describe("ProfileSelector", () => {
       characters: [mockCharacter],
       setActiveCharacter: mockSetActiveCharacter,
       deleteCharacter: mockDeleteCharacter,
-      getActiveCharacter: mockGetActiveCharacter,
+      get activeCharacterId() {
+        return mockGetActiveCharacter()?.id ?? null;
+      },
       addCharacter: vi.fn(),
       updateCharacter: vi.fn(),
       toggleFavorite: vi.fn(),

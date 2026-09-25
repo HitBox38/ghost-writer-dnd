@@ -74,6 +74,7 @@ export const MODEL_OPTIONS: Record<AIProvider, { value: string; label: string }[
     { value: "gemini-2.5-flash-lite", label: "Gemini 2.5 Flash Lite" },
   ],
   openrouter: [
+    { value: "openai/gpt-4o", label: "OpenAI GPT-4o" },
     { value: "amazon/nova-2-lite-v1", label: "Amazon Nova 2 Lite" },
     { value: "openai/gpt-5.2-chat", label: "OpenAI GPT-5.2 Chat" },
     { value: "openai/gpt-5.2-pro", label: "OpenAI GPT-5.2 Pro" },
@@ -93,7 +94,10 @@ export const MODEL_OPTIONS: Record<AIProvider, { value: string; label: string }[
     { value: "anthropic/claude-sonnet-4.5", label: "Claude 4 Sonnet 4.5" },
     { value: "anthropic/claude-opus-4.1", label: "Claude 4 Opus 4.1" },
     { value: "anthropic/claude-3.5-sonnet", label: "Claude 3.5 Sonnet" },
-    { value: "google/gemini-2.5-flash-lite-preview-09-2025", label: "Gemini 2.5 Flash Lite 09-2025" },
+    {
+      value: "google/gemini-2.5-flash-lite-preview-09-2025",
+      label: "Gemini 2.5 Flash Lite 09-2025",
+    },
     { value: "google/gemini-2.5-flash-lite", label: "Gemini 2.5 Flash Lite" },
     { value: "google/gemini-2.5-flash", label: "Gemini 2.5 Flash" },
     { value: "google/gemini-2.5-pro", label: "Gemini 2.5 Pro" },

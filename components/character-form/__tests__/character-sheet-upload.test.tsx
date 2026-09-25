@@ -67,7 +67,7 @@ describe("CharacterSheetUpload", () => {
         {...defaultProps}
         characterSheet="base64data"
         onRemoveSheet={onRemoveSheet}
-      />
+      />,
     );
 
     const removeButton = screen.getByRole("button");

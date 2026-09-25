@@ -1,0 +1,19 @@
+{
+  "printWidth": 100,
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": [
+    ".agents/**",
+    ".cursor/**",
+    ".next/**",
+    "out/**",
+    "build/**",
+    "coverage/**",
+    "playwright-report/**",
+    "test-results/**",
+    "node_modules/**",
+    "next-env.d.ts",
+    "pnpm-lock.yaml"
+  ],
+  "sortPackageJson": false,
+  "sortImports": false
+}

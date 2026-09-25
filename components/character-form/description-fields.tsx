@@ -1,5 +1,5 @@
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 interface DescriptionFieldsProps {
   backstory: string;
@@ -21,7 +21,7 @@ export const DescriptionFields = ({
         <Textarea
           id="backstory"
           value={backstory}
-          onChange={(e) => onInputChange('backstory', e.target.value)}
+          onChange={(e) => onInputChange("backstory", e.target.value)}
           placeholder="Describe your character's history, motivations, and personality..."
           rows={4}
         />
@@ -32,7 +32,7 @@ export const DescriptionFields = ({
         <Textarea
           id="appearance"
           value={appearance}
-          onChange={(e) => onInputChange('appearance', e.target.value)}
+          onChange={(e) => onInputChange("appearance", e.target.value)}
           placeholder="Describe how your character looks..."
           rows={3}
         />
@@ -43,7 +43,7 @@ export const DescriptionFields = ({
         <Textarea
           id="worldSetting"
           value={worldSetting}
-          onChange={(e) => onInputChange('worldSetting', e.target.value)}
+          onChange={(e) => onInputChange("worldSetting", e.target.value)}
           placeholder="Describe the world or campaign setting..."
           rows={3}
         />

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Card, CardContent } from '@/components/ui/card';
-import { GenerationTypeSelector } from './generation-type-selector';
-import { AiSettingsSection } from './ai-settings-section';
-import { GenerationSliders } from './generation-sliders';
-import { ContextInput } from './context-input';
-import { GenerateButton } from './generate-button';
-import type { AIProvider, GenerationType } from '@/lib/types';
+import { Card, CardContent } from "@/components/ui/card";
+import { GenerationTypeSelector } from "./generation-type-selector";
+import { AiSettingsSection } from "./ai-settings-section";
+import { GenerationSliders } from "./generation-sliders";
+import { ContextInput } from "./context-input";
+import { GenerateButton } from "./generate-button";
+import type { AIProvider, GenerationType } from "@/lib/types";
 
 interface GenerationControlsProps {
   generationType: GenerationType;

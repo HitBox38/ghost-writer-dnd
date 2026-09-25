@@ -8,7 +8,7 @@ const renderWithTabs = (props: Props) => {
   return render(
     <Tabs defaultValue="data">
       <DataTab {...props} />
-    </Tabs>
+    </Tabs>,
   );
 };
 
@@ -40,7 +40,7 @@ describe("DataTab", () => {
     expect(screen.getByText("Import Data")).toBeInTheDocument();
     expect(screen.getByLabelText("Import Data")).toBeInTheDocument();
     expect(
-      screen.getByText(/Import characters and favorites from a backup file/i)
+      screen.getByText(/Import characters and favorites from a backup file/i),
     ).toBeInTheDocument();
   });
 
@@ -64,7 +64,7 @@ describe("DataTab", () => {
     renderWithTabs(defaultProps);
     expect(screen.getByRole("button", { name: /Clear All Data/i })).toBeInTheDocument();
     expect(
-      screen.getByText(/Permanently delete all characters, favorites, and settings/i)
+      screen.getByText(/Permanently delete all characters, favorites, and settings/i),
     ).toBeInTheDocument();
   });
 

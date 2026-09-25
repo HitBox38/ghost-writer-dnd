@@ -21,7 +21,7 @@ describe("ResultsDisplay", () => {
         favorites={new Set()}
         onToggleFavorite={mockOnToggleFavorite}
         onCopy={mockOnCopy}
-      />
+      />,
     );
 
     expect(screen.getByText(/no results yet/i)).toBeDefined();
@@ -35,7 +35,7 @@ describe("ResultsDisplay", () => {
         favorites={new Set()}
         onToggleFavorite={mockOnToggleFavorite}
         onCopy={mockOnCopy}
-      />
+      />,
     );
 
     expect(screen.getByText("Test result 1")).toBeDefined();
@@ -50,7 +50,7 @@ describe("ResultsDisplay", () => {
         favorites={new Set()}
         onToggleFavorite={mockOnToggleFavorite}
         onCopy={mockOnCopy}
-      />
+      />,
     );
 
     expect(screen.getByText("3 results")).toBeDefined();
@@ -63,7 +63,7 @@ describe("ResultsDisplay", () => {
         favorites={new Set()}
         onToggleFavorite={mockOnToggleFavorite}
         onCopy={mockOnCopy}
-      />
+      />,
     );
 
     expect(screen.getByText("1 result")).toBeDefined();
@@ -77,7 +77,7 @@ describe("ResultsDisplay", () => {
         favorites={new Set()}
         onToggleFavorite={mockOnToggleFavorite}
         onCopy={mockOnCopy}
-      />
+      />,
     );
 
     const favoriteButtons = screen.getAllByRole("button", { name: /favorite/i });
@@ -94,7 +94,7 @@ describe("ResultsDisplay", () => {
         favorites={new Set()}
         onToggleFavorite={mockOnToggleFavorite}
         onCopy={mockOnCopy}
-      />
+      />,
     );
 
     const copyButtons = screen.getAllByRole("button", { name: /copy/i });
@@ -111,7 +111,7 @@ describe("ResultsDisplay", () => {
         favorites={favorites}
         onToggleFavorite={mockOnToggleFavorite}
         onCopy={mockOnCopy}
-      />
+      />,
     );
 
     const favoriteButtons = screen.getAllByRole("button", { name: /favorite/i });

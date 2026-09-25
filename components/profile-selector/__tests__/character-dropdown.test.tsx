@@ -44,7 +44,7 @@ describe("CharacterDropdown", () => {
         activeCharacter={mockCharacters[0]}
         onSelectCharacter={mockOnSelectCharacter}
         onCreateNew={mockOnCreateNew}
-      />
+      />,
     );
 
     expect(screen.getByText("Aragorn")).toBeDefined();
@@ -57,7 +57,7 @@ describe("CharacterDropdown", () => {
         activeCharacter={null}
         onSelectCharacter={mockOnSelectCharacter}
         onCreateNew={mockOnCreateNew}
-      />
+      />,
     );
 
     expect(screen.getByText("Select Character")).toBeDefined();
@@ -71,7 +71,7 @@ describe("CharacterDropdown", () => {
         activeCharacter={mockCharacters[0]}
         onSelectCharacter={mockOnSelectCharacter}
         onCreateNew={mockOnCreateNew}
-      />
+      />,
     );
 
     await user.click(screen.getByRole("button", { name: /aragorn/i }));
@@ -90,7 +90,7 @@ describe("CharacterDropdown", () => {
         activeCharacter={mockCharacters[0]}
         onSelectCharacter={mockOnSelectCharacter}
         onCreateNew={mockOnCreateNew}
-      />
+      />,
     );
 
     await user.click(screen.getByRole("button", { name: /aragorn/i }));
@@ -107,7 +107,7 @@ describe("CharacterDropdown", () => {
         activeCharacter={mockCharacters[0]}
         onSelectCharacter={mockOnSelectCharacter}
         onCreateNew={mockOnCreateNew}
-      />
+      />,
     );
 
     await user.click(screen.getByRole("button", { name: /aragorn/i }));

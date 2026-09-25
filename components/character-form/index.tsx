@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BasicInfoFields } from './basic-info-fields';
-import { DescriptionFields } from './description-fields';
-import { CharacterSheetUpload } from './character-sheet-upload';
-import { useCharacterForm } from './hooks/use-character-form';
-import { Save } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BasicInfoFields } from "./basic-info-fields";
+import { DescriptionFields } from "./description-fields";
+import { CharacterSheetUpload } from "./character-sheet-upload";
+import { useCharacterForm } from "./hooks/use-character-form";
+import { Save } from "lucide-react";
 
 interface CharacterFormProps {
   characterId?: string;
@@ -27,11 +27,11 @@ export const CharacterForm = ({ characterId, onClose }: CharacterFormProps) => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>{existingCharacter ? 'Edit Character' : 'Create Character'}</CardTitle>
+        <CardTitle>{existingCharacter ? "Edit Character" : "Create Character"}</CardTitle>
         <CardDescription>
           {existingCharacter
-            ? 'Update your character profile'
-            : 'Create a new D&D character profile for flavor text generation'}
+            ? "Update your character profile"
+            : "Create a new D&D character profile for flavor text generation"}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -66,7 +66,7 @@ export const CharacterForm = ({ characterId, onClose }: CharacterFormProps) => {
             )}
             <Button type="submit">
               <Save className="h-4 w-4 mr-2" />
-              {existingCharacter ? 'Update' : 'Create'} Character
+              {existingCharacter ? "Update" : "Create"} Character
             </Button>
           </div>
         </form>

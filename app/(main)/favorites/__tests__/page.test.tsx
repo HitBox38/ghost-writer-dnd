@@ -75,7 +75,7 @@ describe("FavoritesPage - Search Functionality", () => {
     mockConfirm.mockReturnValue(false);
     vi.mocked(useCharacterStore).mockReturnValue({
       characters: [mockCharacter],
-      getActiveCharacter: () => mockCharacter,
+      activeCharacterId: mockCharacter.id,
       removeFavorite: vi.fn(),
       setActiveCharacter: vi.fn(),
       deleteCharacter: vi.fn(),
@@ -237,7 +237,7 @@ describe("FavoritesPage - Search Functionality", () => {
 
       expect(screen.getByText("No results found")).toBeInTheDocument();
       expect(
-        screen.getByText(/No favorites match your search "nonexistent text"/)
+        screen.getByText(/No favorites match your search "nonexistent text"/),
       ).toBeInTheDocument();
     });
 
@@ -270,7 +270,7 @@ describe("FavoritesPage - Search Functionality", () => {
       const emptyCharacter = { ...mockCharacter, favorites: [] };
       vi.mocked(useCharacterStore).mockReturnValue({
         characters: [emptyCharacter],
-        getActiveCharacter: () => emptyCharacter,
+        activeCharacterId: emptyCharacter.id,
         removeFavorite: vi.fn(),
         setActiveCharacter: vi.fn(),
         deleteCharacter: vi.fn(),
@@ -351,7 +351,7 @@ describe("FavoritesPage - Search Functionality", () => {
     it("should show no character state when no active character", () => {
       vi.mocked(useCharacterStore).mockReturnValue({
         characters: [],
-        getActiveCharacter: () => null,
+        activeCharacterId: null,
         removeFavorite: vi.fn(),
         setActiveCharacter: vi.fn(),
         deleteCharacter: vi.fn(),

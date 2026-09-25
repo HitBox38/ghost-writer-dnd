@@ -1,38 +1,38 @@
-import { create } from 'zustand';
-import type { Settings, AIProvider } from '@/lib/types';
-import { storage } from '@/lib/storage';
-import { DEFAULT_MODELS } from '@/lib/types';
+import { create } from "zustand";
+import type { Settings, AIProvider } from "@/lib/types";
+import { storage } from "@/lib/storage";
+import { DEFAULT_MODELS } from "@/lib/types";
 
 interface SettingsStore {
   settings: Settings;
-  
+
   loadSettings: () => void;
   updateSettings: (updates: Partial<Settings>) => void;
   setProvider: (provider: AIProvider) => void;
   setApiKey: (apiKey: string) => void;
   setModel: (model: string) => void;
   setTemperature: (temperature: number) => void;
-  setTheme: (theme: Settings['theme']) => void;
-  
+  setTheme: (theme: Settings["theme"]) => void;
+
   exportData: () => void;
   importData: (file: File) => Promise<void>;
   clearAllData: () => void;
-  
+
   isConfigured: () => boolean;
 }
 
 const DEFAULT_SETTINGS: Settings = {
-  provider: 'openai',
-  apiKey: '',
+  provider: "openai",
+  apiKey: "",
   apiKeys: {
-    openai: '',
-    anthropic: '',
-    google: '',
-    openrouter: '',
+    openai: "",
+    anthropic: "",
+    google: "",
+    openrouter: "",
   },
   model: DEFAULT_MODELS.openai,
   temperature: 0.8,
-  theme: 'system',
+  theme: "system",
 };
 
 export const useSettingsStore = create<SettingsStore>((set, get) => ({
@@ -44,10 +44,10 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     // Ensure apiKeys object exists for backwards compatibility
     if (!mergedSettings.apiKeys) {
       mergedSettings.apiKeys = {
-        openai: '',
-        anthropic: '',
-        google: '',
-        openrouter: '',
+        openai: "",
+        anthropic: "",
+        google: "",
+        openrouter: "",
       };
       // If there's an old apiKey, assign it to the current provider
       if (mergedSettings.apiKey) {
@@ -55,9 +55,9 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
       }
     }
     // Ensure openrouter key exists for settings saved before OpenRouter support
-    if (!('openrouter' in (mergedSettings.apiKeys ?? {}))) {
+    if (!("openrouter" in (mergedSettings.apiKeys ?? {}))) {
       const base = mergedSettings.apiKeys ?? DEFAULT_SETTINGS.apiKeys;
-      mergedSettings.apiKeys = { ...base, openrouter: '' };
+      mergedSettings.apiKeys = { ...base, openrouter: "" };
     }
     set({ settings: mergedSettings });
   },
@@ -74,7 +74,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
       ...currentSettings,
       provider,
       model: DEFAULT_MODELS[provider],
-      apiKey: currentSettings.apiKeys[provider] || '',
+      apiKey: currentSettings.apiKeys[provider] || "",
     };
     storage.saveSettings(settings);
     set({ settings });
@@ -99,14 +99,16 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
 
   setTheme: (theme) => {
     get().updateSettings({ theme });
-    
+
     // Apply theme to document
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const root = window.document.documentElement;
-      root.classList.remove('light', 'dark');
-      
-      if (theme === 'system') {
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.classList.remove("light", "dark");
+
+      if (theme === "system") {
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
         root.classList.add(systemTheme);
       } else {
         root.classList.add(theme);
@@ -116,7 +118,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
 
   exportData: () => {
     const jsonData = storage.exportData();
-    const timestamp = new Date().toISOString().split('T')[0];
+    const timestamp = new Date().toISOString().split("T")[0];
     storage.downloadFile(jsonData, `dnd-flavor-backup-${timestamp}.json`);
   },
 
@@ -124,11 +126,11 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     try {
       const text = await file.text();
       const { characters, settings } = storage.importData(text);
-      
+
       // Import characters (this will be handled by character store)
-      const { useCharacterStore } = await import('./character-store');
+      const { useCharacterStore } = await import("./character-store");
       useCharacterStore.getState().importCharacters(characters);
-      
+
       // Import settings (preserve current API key if not in import)
       const currentSettings = get().settings;
       const mergedSettings = {
@@ -136,11 +138,11 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
         ...settings,
         apiKey: settings.apiKey || currentSettings.apiKey,
       };
-      
+
       storage.saveSettings(mergedSettings);
       set({ settings: mergedSettings });
     } catch (error) {
-      console.error('Import failed:', error);
+      console.error("Import failed:", error);
       throw error;
     }
   },
@@ -148,9 +150,9 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
   clearAllData: async () => {
     storage.clearAll();
     set({ settings: DEFAULT_SETTINGS });
-    
+
     // Clear characters (handled by character store)
-    const { useCharacterStore } = await import('./character-store');
+    const { useCharacterStore } = await import("./character-store");
     useCharacterStore.getState().importCharacters([]);
   },
 

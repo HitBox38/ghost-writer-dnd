@@ -1,5 +1,5 @@
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface BasicInfoFieldsProps {
   name: string;
@@ -23,7 +23,7 @@ export const BasicInfoFields = ({
         <Input
           id="name"
           value={name}
-          onChange={(e) => onInputChange('name', e.target.value)}
+          onChange={(e) => onInputChange("name", e.target.value)}
           placeholder="Gandalf the Grey"
           required
         />
@@ -34,7 +34,7 @@ export const BasicInfoFields = ({
         <Input
           id="race"
           value={race}
-          onChange={(e) => onInputChange('race', e.target.value)}
+          onChange={(e) => onInputChange("race", e.target.value)}
           placeholder="Elf, Dwarf, Human..."
         />
       </div>
@@ -44,7 +44,7 @@ export const BasicInfoFields = ({
         <Input
           id="class"
           value={characterClass}
-          onChange={(e) => onInputChange('class', e.target.value)}
+          onChange={(e) => onInputChange("class", e.target.value)}
           placeholder="Wizard, Rogue, Paladin..."
         />
       </div>
@@ -57,7 +57,7 @@ export const BasicInfoFields = ({
           min="1"
           max="20"
           value={level}
-          onChange={(e) => onInputChange('level', parseInt(e.target.value) || 1)}
+          onChange={(e) => onInputChange("level", parseInt(e.target.value) || 1)}
         />
       </div>
     </div>

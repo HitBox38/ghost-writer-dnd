@@ -1,7 +1,7 @@
 import { generateText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createAnthropic } from "@ai-sdk/anthropic";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createGoogle } from "@ai-sdk/google";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import type { ModelMessage, TextPart, FilePart } from "ai";
 import type { CharacterProfile, AIProvider, GenerationType, GenerationResult } from "./types";
@@ -17,7 +17,7 @@ export function getAIModel(provider: AIProvider, model: string, apiKey: string) 
       return anthropicProvider(model);
     }
     case "google": {
-      const googleProvider = createGoogleGenerativeAI({ apiKey });
+      const googleProvider = createGoogle({ apiKey });
       return googleProvider(model);
     }
     case "openrouter": {
@@ -33,7 +33,7 @@ function buildPromptText(
   character: CharacterProfile,
   type: GenerationType,
   count: number,
-  additionalContext?: string
+  additionalContext?: string,
 ): string {
   const baseContext = `
 Character Profile:
@@ -85,7 +85,7 @@ export function buildPrompt(
   character: CharacterProfile,
   type: GenerationType,
   count: number,
-  additionalContext?: string
+  additionalContext?: string,
 ): ModelMessage[] {
   const textContent = buildPromptText(character, type, count, additionalContext);
 
@@ -141,7 +141,7 @@ export async function generateFlavorText(
   apiKey: string,
   temperature: number,
   additionalContext?: string,
-  count: number = 5
+  count: number = 5,
 ): Promise<GenerationResult[]> {
   if (!apiKey) {
     throw new Error("API key is required. Please configure it in settings.");
@@ -184,7 +184,7 @@ export async function generateFlavorText(
 export async function testConnection(
   provider: AIProvider,
   model: string,
-  apiKey: string
+  apiKey: string,
 ): Promise<boolean> {
   try {
     const aiModel = getAIModel(provider, model, apiKey);

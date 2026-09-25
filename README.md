@@ -5,12 +5,14 @@ A client-side web application for D&D players to generate AI-powered flavor text
 ## Features
 
 ### ✨ Character Profile Management
+
 - Create, edit, and delete character profiles
 - Store character details: name, class, race, level, backstory, appearance, world setting
 - Upload character sheets (PDF, max 5MB, stored as base64)
 - Quick profile switching with dropdown selector
 
 ### 🤖 AI Generation System
+
 - **Two generation modes:**
   - **Combat Quips**: Generate insulting combat quips for spell usage (like Vicious Mockery)
   - **Catchphrases**: Generate signature character phrases
@@ -19,12 +21,14 @@ A client-side web application for D&D players to generate AI-powered flavor text
 - Regenerate button for new variations
 
 ### ❤️ Favorites System
+
 - Save generated text as favorites per character
 - Filter favorites by type (combat quips or catchphrases)
 - Copy to clipboard functionality
 - Remove from favorites option
 
 ### ⚙️ Settings & API Key Management
+
 - Support for multiple AI providers:
   - OpenAI
   - Anthropic
@@ -36,20 +40,22 @@ A client-side web application for D&D players to generate AI-powered flavor text
 - Test connection functionality
 
 ### 🎨 Appearance
+
 - Light, dark, and system theme support
 - Responsive design (mobile-friendly)
 - Modern UI with shadcn/ui components
 
 ### 📦 Data Management
+
 - Export all data as JSON (characters + favorites + settings, API key excluded)
 - Import JSON to restore data
 - Clear all data option with confirmation
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript (strict mode)
-- **AI**: Vercel AI SDK v5 (OpenAI, Anthropic, Google, OpenRouter providers)
+- **AI**: Vercel AI SDK v7 (OpenAI, Anthropic, Google, OpenRouter providers)
 - **UI**: shadcn/ui components + Tailwind CSS v4
 - **State Management**: Zustand
 - **Storage**: localStorage with JSON export/import
@@ -59,23 +65,26 @@ A client-side web application for D&D players to generate AI-powered flavor text
 
 ### Prerequisites
 
-- Node.js 20+ or compatible runtime
-- pnpm (recommended) or npm
+- Node.js 22.18+ (Node.js 24 LTS recommended)
+- pnpm 10.34.5 (pinned in package.json)
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd ghost-writer-dnd
 ```
 
 2. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 3. Run the development server:
+
 ```bash
 pnpm dev
 ```
@@ -203,3 +212,15 @@ pnpm tsc --noEmit
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Development checks
+
+- `pnpm lint` runs Oxlint with the migrated Next.js, React, accessibility, and TypeScript rules, plus type-aware promise checks through `oxlint-tsgolint`.
+- `pnpm lint:fix` applies safe lint fixes.
+- `pnpm format` formats the repository with Oxfmt; `pnpm format:check` verifies formatting in CI.
+- `pnpm typecheck` generates Next.js route types and runs TypeScript 7.
+- `pnpm test:coverage`, `pnpm test:e2e`, and `pnpm build` verify unit coverage, browser flows, and the production build.
+
+The Vitest pipeline uses Vite 8's Oxc/Rolldown toolchain. Next.js uses Turbopack and the stable React Compiler. Generated output and local agent configuration are excluded from linting and formatting.
+
+Oxlint migration preserves 79 supported rules from the former ESLint configuration. Seven rules were omitted by the official migration tool because they are unsupported or experimental, including React's legacy JSX usage checks and Next.js's relative `location.assign` check. TypeScript and the production build remain separate checks.
