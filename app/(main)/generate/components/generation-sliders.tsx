@@ -9,14 +9,15 @@ interface GenerationSlidersProps {
 export const GenerationSliders = ({ resultCount, onResultCountChange }: GenerationSlidersProps) => {
   return (
     <div className="space-y-2">
-      <Label htmlFor="resultCount">Number of Results: {resultCount}</Label>
+      <Label id="result-count-label">Number of Results: {resultCount}</Label>
       <Slider
         id="resultCount"
         min={1}
         max={25}
         step={1}
         value={[resultCount]}
-        onValueChange={([v]) => onResultCountChange(v)}
+        aria-labelledby="result-count-label"
+        onValueChange={([value]) => onResultCountChange(value)}
       />
       <p className="text-xs text-muted-foreground">Generate between 1-25 results</p>
     </div>

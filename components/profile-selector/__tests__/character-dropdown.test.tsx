@@ -94,7 +94,7 @@ describe("CharacterDropdown", () => {
     );
 
     await user.click(screen.getByRole("button", { name: /aragorn/i }));
-    await user.click(screen.getByText("Legolas"));
+    await user.click(await screen.findByRole("menuitem", { name: /Legolas/ }));
 
     expect(mockOnSelectCharacter).toHaveBeenCalledWith("2");
   });
@@ -111,7 +111,7 @@ describe("CharacterDropdown", () => {
     );
 
     await user.click(screen.getByRole("button", { name: /aragorn/i }));
-    await user.click(screen.getByText(/Create New Character/));
+    await user.click(await screen.findByRole("menuitem", { name: /Create New Character/ }));
 
     expect(mockOnCreateNew).toHaveBeenCalled();
   });

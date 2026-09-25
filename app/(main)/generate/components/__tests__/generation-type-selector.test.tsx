@@ -18,14 +18,14 @@ describe("GenerationTypeSelector", () => {
     render(<GenerationTypeSelector value="mockery" onChange={mockOnChange} />);
 
     const mockeryTab = screen.getByRole("tab", { name: /combat quips/i });
-    expect(mockeryTab).toHaveAttribute("data-state", "active");
+    expect(mockeryTab).toHaveAttribute("aria-selected", "true");
   });
 
   it("should highlight catchphrase tab when selected", () => {
     render(<GenerationTypeSelector value="catchphrase" onChange={mockOnChange} />);
 
     const catchphraseTab = screen.getByRole("tab", { name: /catchphrases/i });
-    expect(catchphraseTab).toHaveAttribute("data-state", "active");
+    expect(catchphraseTab).toHaveAttribute("aria-selected", "true");
   });
 
   it("should call onChange when tab is clicked", async () => {

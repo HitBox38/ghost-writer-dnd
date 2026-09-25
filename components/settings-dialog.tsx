@@ -33,10 +33,8 @@ export const SettingsDialog = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="icon" aria-label="Settings">
-          <Settings className="h-4 w-4" />
-        </Button>
+      <DialogTrigger render={<Button variant="outline" size="icon" aria-label="Settings" />}>
+        <Settings className="h-4 w-4" />
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>

@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { MODEL_OPTIONS } from "../../lib/types";
 
 test.describe("Generate Flow", () => {
   test.beforeEach(async ({ page }) => {
@@ -60,9 +61,37 @@ test.describe("Generate Flow", () => {
     // Switch to Catchphrases
     await page.getByRole("tab", { name: /catchphrases/i }).click();
     await expect(page.getByRole("tab", { name: /catchphrases/i })).toHaveAttribute(
-      "data-state",
-      "active",
+      "aria-selected",
+      "true",
     );
+  });
+
+  test("should operate Base UI selects and sliders with the keyboard", async ({ page }) => {
+    await page.getByRole("button", { name: /create first character/i }).click();
+    await page.getByLabel(/character name/i).fill("Keyboard Test");
+    await page.getByRole("button", { name: /create character/i }).click();
+    await expect(page.getByRole("dialog")).toBeHidden();
+
+    const provider = page.getByRole("combobox", { name: "AI Provider" });
+    await expect(provider).toContainText("OpenAI");
+    await provider.focus();
+    await page.keyboard.press("Enter");
+    await page.getByRole("option", { name: "Anthropic", exact: true }).click();
+    await expect(provider).toContainText("Anthropic");
+    const model = page.getByRole("combobox", { name: "Model", exact: true });
+    await expect(model).toContainText(MODEL_OPTIONS.anthropic[0].label);
+    await model.click();
+    await page.getByRole("option", { name: MODEL_OPTIONS.anthropic[1].label, exact: true }).click();
+    await expect(model).toContainText(MODEL_OPTIONS.anthropic[1].label);
+
+    const count = page.getByRole("slider", { name: /Number of Results/ });
+    await count.focus();
+    await page.keyboard.press("End");
+    await expect(count).toHaveAttribute("aria-valuenow", "25");
+    const temperature = page.getByRole("slider", { name: /Temperature/ });
+    await temperature.focus();
+    await page.keyboard.press("Home");
+    await expect(temperature).toHaveAttribute("aria-valuenow", "0");
   });
 
   test("should navigate to favorites page", async ({ page }) => {

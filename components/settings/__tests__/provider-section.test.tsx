@@ -16,7 +16,7 @@ describe("ProviderSection", () => {
 
   const renderWithAccordion = (props = defaultProps) => {
     return render(
-      <Accordion type="single" collapsible>
+      <Accordion multiple={false}>
         <ProviderSection {...props} />
       </Accordion>,
     );

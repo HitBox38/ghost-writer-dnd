@@ -40,7 +40,7 @@ export const ApiTab = ({
         </p>
       </div>
 
-      <Accordion type="single" collapsible className="space-y-6">
+      <Accordion multiple={false} className="space-y-6">
         {PROVIDER_CONFIG.map(({ provider, displayName, placeholder }) => (
           <ProviderSection
             key={provider}

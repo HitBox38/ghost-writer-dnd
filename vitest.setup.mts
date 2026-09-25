@@ -20,6 +20,12 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
 };
 
+// jsdom has no Web Animations API. Base UI inspects running animations
+// when coordinating scroll areas and popup lifecycles.
+if (!Element.prototype.getAnimations) {
+  Element.prototype.getAnimations = () => [];
+}
+
 // Mock hasPointerCapture
 if (typeof Element !== "undefined" && !Element.prototype.hasPointerCapture) {
   Element.prototype.hasPointerCapture = () => false;
