@@ -74,8 +74,9 @@ describe("CharacterDropdown", () => {
       />,
     );
 
-    await user.click(screen.getByRole("button", { name: /aragorn/i }));
+    await user.click(screen.getByRole("button", { name: "Choose character" }));
 
+    await screen.findByRole("menuitem", { name: /Aragorn/ });
     expect(screen.getAllByText(/Aragorn/)).toHaveLength(2); // Button + menu item
     expect(screen.getByText("Legolas")).toBeDefined();
     expect(screen.getByText(/Level 10 Human Ranger/)).toBeDefined();
@@ -93,7 +94,7 @@ describe("CharacterDropdown", () => {
       />,
     );
 
-    await user.click(screen.getByRole("button", { name: /aragorn/i }));
+    await user.click(screen.getByRole("button", { name: "Choose character" }));
     await user.click(await screen.findByRole("menuitem", { name: /Legolas/ }));
 
     expect(mockOnSelectCharacter).toHaveBeenCalledWith("2");
@@ -110,7 +111,7 @@ describe("CharacterDropdown", () => {
       />,
     );
 
-    await user.click(screen.getByRole("button", { name: /aragorn/i }));
+    await user.click(screen.getByRole("button", { name: "Choose character" }));
     await user.click(await screen.findByRole("menuitem", { name: /Create New Character/ }));
 
     expect(mockOnCreateNew).toHaveBeenCalled();

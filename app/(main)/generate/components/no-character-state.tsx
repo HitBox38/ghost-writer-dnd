@@ -1,18 +1,21 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-export const NoCharacterState = () => {
+export function NoCharacterState() {
   return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <Card className="max-w-md">
-        <CardContent className="flex flex-col items-center justify-center py-12">
-          <Sparkles className="h-12 w-12 text-muted-foreground mb-4" />
-          <p className="text-lg font-medium mb-2">No Character Selected</p>
-          <p className="text-sm text-muted-foreground text-center">
-            Create or select a character to start generating flavor text
-          </p>
-        </CardContent>
-      </Card>
-    </div>
+    <section className="onboarding">
+      <h1>Every character has a voice.</h1>
+      <p>
+        Give yours a name, a little history, and a point of view. Then find the words for their next
+        great—or ill-advised—moment.
+      </p>
+      <Link href="/characters/new" className="primary-link">
+        Create your first character <ArrowRight size={18} />
+      </Link>
+      <p className="field-help">
+        Your characters and saved lines stay in this browser. Export a backup from Settings to keep
+        a copy.
+      </p>
+    </section>
   );
-};
+}

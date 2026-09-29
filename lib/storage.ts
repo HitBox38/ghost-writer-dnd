@@ -1,4 +1,5 @@
 import type { CharacterProfile, Settings } from "./types";
+import { backupSchema } from "./backup-schema";
 
 const STORAGE_KEYS = {
   CHARACTERS: "dnd-flavor-characters",
@@ -58,7 +59,7 @@ export const storage = {
 
     // Remove API key from export for security
     // oxlint-disable-next-line no-unused-vars
-    const { apiKey, ...safeSettings } = settings;
+    const { apiKey, apiKeys, ...safeSettings } = settings;
 
     const exportData = {
       version: "1.0.0",
@@ -72,7 +73,7 @@ export const storage = {
 
   importData(jsonString: string): { characters: CharacterProfile[]; settings: Partial<Settings> } {
     try {
-      const data = JSON.parse(jsonString);
+      const data = backupSchema.parse(JSON.parse(jsonString));
 
       if (!data.characters || !Array.isArray(data.characters)) {
         throw new Error("Invalid data format: missing or invalid characters array");
@@ -96,6 +97,7 @@ export const storage = {
       localStorage.removeItem(STORAGE_KEYS.SETTINGS);
     } catch (error) {
       console.error("Error clearing storage:", error);
+      throw new Error("Couldn't clear browser storage.");
     }
   },
 

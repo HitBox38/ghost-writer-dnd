@@ -149,11 +149,17 @@ function Sidebar({
   className,
   children,
   dir,
+  mobileTitle = "Sidebar",
+  mobileDescription = "Displays the mobile sidebar.",
+  mobileContentProps,
   ...props
 }: React.ComponentProps<"div"> & {
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
+  mobileTitle?: string;
+  mobileDescription?: string;
+  mobileContentProps?: React.ComponentProps<typeof SheetContent>;
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
@@ -187,10 +193,11 @@ function Sidebar({
             } as React.CSSProperties
           }
           side={side}
+          {...mobileContentProps}
         >
           <SheetHeader className="sr-only">
-            <SheetTitle>Sidebar</SheetTitle>
-            <SheetDescription>Displays the mobile sidebar.</SheetDescription>
+            <SheetTitle>{mobileTitle}</SheetTitle>
+            <SheetDescription>{mobileDescription}</SheetDescription>
           </SheetHeader>
           <div className="flex h-full w-full flex-col">{children}</div>
         </SheetContent>

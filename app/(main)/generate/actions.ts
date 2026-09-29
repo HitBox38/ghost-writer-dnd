@@ -1,8 +1,15 @@
 "use server";
 
 import { generateText } from "ai";
-import { getAIModel, buildPrompt, parseResults } from "@/lib/ai-generator";
-import type { CharacterProfile, AIProvider, GenerationType, GenerationResult } from "@/lib/types";
+import { getAIModel, buildPrompt, parseResults, getReasoningOptions } from "@/lib/ai-generator";
+import { listProviderModels } from "@/lib/model-catalog";
+import type {
+  CharacterProfile,
+  AIProvider,
+  GenerationType,
+  GenerationResult,
+  ReasoningEffort,
+} from "@/lib/types";
 
 export async function generateFlavorTextAction(
   character: CharacterProfile,
@@ -13,41 +20,27 @@ export async function generateFlavorTextAction(
   temperature: number,
   additionalContext?: string,
   count: number = 5,
+  reasoningEffort: ReasoningEffort = "provider-default",
 ): Promise<GenerationResult[]> {
   if (!apiKey) {
     throw new Error("API key is required. Please configure it in settings.");
   }
 
   try {
+    if (character.characterSheet) {
+      const compatibleModels = await listProviderModels(provider, apiKey, true);
+      if (!compatibleModels.some(({ value }) => value === model))
+        throw new Error("This model can't read the attached PDF. Choose a PDF-compatible model.");
+    }
     const aiModel = getAIModel(provider, model, apiKey);
     const messages = buildPrompt(character, type, count, additionalContext);
 
-    // Try with PDF first
-    let result;
-    try {
-      result = await generateText({
-        model: aiModel,
-        messages,
-        temperature,
-      });
-    } catch (pdfError) {
-      // If PDF fails, try without it
-      if (character.characterSheet && pdfError instanceof Error) {
-        console.warn("PDF inclusion failed, retrying without PDF:", pdfError.message);
-
-        // Create character without PDF for fallback
-        const characterWithoutPDF = { ...character, characterSheet: undefined };
-        const messagesWithoutPDF = buildPrompt(characterWithoutPDF, type, count, additionalContext);
-
-        result = await generateText({
-          model: aiModel,
-          messages: messagesWithoutPDF,
-          temperature,
-        });
-      } else {
-        throw pdfError;
-      }
-    }
+    const result = await generateText({
+      model: aiModel,
+      messages,
+      temperature,
+      ...getReasoningOptions(provider, reasoningEffort),
+    });
 
     const results = parseResults(result.text);
 

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { storage } from "../storage";
-import type { CharacterProfile, Settings } from "../types";
+import { emptyApiKeys, type CharacterProfile, type Settings } from "../types";
 
 describe("storage", () => {
   const mockCharacter: CharacterProfile = {
@@ -21,6 +21,7 @@ describe("storage", () => {
     provider: "openai",
     apiKey: "test-key",
     apiKeys: {
+      ...emptyApiKeys(),
       openai: "test-key",
       anthropic: "",
       google: "",
@@ -94,7 +95,7 @@ describe("storage", () => {
       const settings: Settings = {
         provider: "openai",
         apiKey: "secret-key",
-        apiKeys: { openai: "secret", anthropic: "", google: "", openrouter: "" },
+        apiKeys: { ...emptyApiKeys(), openai: "secret" },
         model: "gpt-4o",
         temperature: 0.8,
         theme: "dark",
@@ -158,7 +159,7 @@ describe("storage", () => {
       });
 
       // Should not throw
-      expect(() => storage.clearAll()).not.toThrow();
+      expect(() => storage.clearAll()).toThrow("Couldn't clear browser storage.");
 
       mockRemoveItem.mockRestore();
     });
@@ -173,7 +174,7 @@ describe("storage", () => {
       const settings: Settings = {
         provider: "openai",
         apiKey: "test-key",
-        apiKeys: { openai: "test", anthropic: "", google: "", openrouter: "" },
+        apiKeys: { ...emptyApiKeys(), openai: "test" },
         model: "gpt-4o",
         temperature: 0.8,
         theme: "dark",
@@ -193,7 +194,7 @@ describe("storage", () => {
       const settings: Settings = {
         provider: "openai",
         apiKey: "test-key",
-        apiKeys: { openai: "test", anthropic: "", google: "", openrouter: "" },
+        apiKeys: { ...emptyApiKeys(), openai: "test" },
         model: "gpt-4o",
         temperature: 0.8,
         theme: "dark",
@@ -210,7 +211,7 @@ describe("storage", () => {
       const settings: Settings = {
         provider: "openai",
         apiKey: "test",
-        apiKeys: { openai: "", anthropic: "", google: "", openrouter: "" },
+        apiKeys: emptyApiKeys(),
         model: "gpt-4o",
         temperature: 0.8,
         theme: "system",

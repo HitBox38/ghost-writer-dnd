@@ -1,4 +1,4 @@
-# D&D Flavor Text Generator
+# Ghost Writer
 
 A client-side web application for D&D players to generate AI-powered flavor text for their characters, specifically combat quips (like Vicious Mockery) and character catchphrases. All data is stored locally with a BYOK (Bring Your Own Key) model for AI providers.
 
@@ -34,8 +34,15 @@ A client-side web application for D&D players to generate AI-powered flavor text
   - Anthropic
   - Google AI
   - OpenRouter (access to 100+ models via a single API key)
-- Secure local API key storage (never leaves browser)
-- Model selection per provider
+  - xAI
+  - Groq
+  - Mistral
+  - DeepSeek
+  - Cohere
+  - Cerebras
+- Provider keys stored locally and sent through the app server to the chosen provider for generation and connection tests
+- Live model selection with search for each provider
+- Model choices are limited to text output; attaching a PDF character sheet narrows them to models compatible with inline PDFs
 - Temperature slider (0-1) for creativity control
 - Test connection functionality
 
@@ -55,7 +62,7 @@ A client-side web application for D&D players to generate AI-powered flavor text
 
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript (strict mode)
-- **AI**: Vercel AI SDK v7 (OpenAI, Anthropic, Google, OpenRouter providers)
+- **AI**: Vercel AI SDK v7 (OpenAI, Anthropic, Google, OpenRouter, xAI, Groq, Mistral, DeepSeek, Cohere, Cerebras)
 - **UI**: shadcn/ui components + Tailwind CSS v4
 - **State Management**: Zustand
 - **Storage**: localStorage with JSON export/import

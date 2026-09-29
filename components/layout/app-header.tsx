@@ -1,18 +1,34 @@
-import { SettingsDialog as SettingsDialog } from "@/components/settings-dialog";
-import { Sparkles } from "lucide-react";
+"use client";
 
-export const AppHeader = () => {
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Settings } from "lucide-react";
+import { ProfileSelector } from "@/components/profile-selector";
+import { MainNavigation } from "./main-navigation";
+
+export function AppHeader() {
+  const pathname = usePathname();
   return (
-    <header className="border-b">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-bold">D&D Flavor Text Generator</h1>
-          </div>
-          <SettingsDialog />
-        </div>
-      </div>
-    </header>
+    <>
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
+      <header className="app-header">
+        <Link href="/generate" className="wordmark">
+          Ghost Writer
+        </Link>
+        {!pathname.startsWith("/characters") && <ProfileSelector />}
+        <MainNavigation />
+        <Link
+          className="settings-link"
+          href="/settings/connections"
+          aria-label="Settings"
+          aria-current={pathname.startsWith("/settings") ? "page" : undefined}
+        >
+          <Settings size={18} />
+          <span>Settings</span>
+        </Link>
+      </header>
+    </>
   );
-};
+}

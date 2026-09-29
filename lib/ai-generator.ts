@@ -2,9 +2,44 @@ import { generateText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogle } from "@ai-sdk/google";
+import { createXai } from "@ai-sdk/xai";
+import { createGroq } from "@ai-sdk/groq";
+import { createMistral } from "@ai-sdk/mistral";
+import { createDeepSeek } from "@ai-sdk/deepseek";
+import { createCohere } from "@ai-sdk/cohere";
+import { createCerebras } from "@ai-sdk/cerebras";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import type { ModelMessage, TextPart, FilePart } from "ai";
-import type { CharacterProfile, AIProvider, GenerationType, GenerationResult } from "./types";
+import {
+  isReasoningEffort,
+  type CharacterProfile,
+  type AIProvider,
+  type GenerationType,
+  type GenerationResult,
+  type ReasoningEffort,
+} from "./types";
+
+type ReasoningOptions = {
+  reasoning?: Exclude<ReasoningEffort, "provider-default">;
+  providerOptions?: Record<
+    string,
+    Record<string, string | { effort: Exclude<ReasoningEffort, "provider-default"> }>
+  >;
+};
+
+export function getReasoningOptions(
+  provider: AIProvider,
+  effort: ReasoningEffort = "provider-default",
+): ReasoningOptions {
+  if (!isReasoningEffort(effort) || effort === "provider-default" || provider === "cohere")
+    return {};
+  if (provider === "mistral") return effort === "high" ? { reasoning: "high" } : {};
+  if (provider === "openrouter")
+    return { providerOptions: { openrouter: { reasoning: { effort } } } };
+  if (provider === "cerebras")
+    return { providerOptions: { cerebras: { reasoningEffort: effort } } };
+  return { reasoning: effort };
+}
 
 export function getAIModel(provider: AIProvider, model: string, apiKey: string) {
   switch (provider) {
@@ -24,6 +59,18 @@ export function getAIModel(provider: AIProvider, model: string, apiKey: string) 
       const openrouterProvider = createOpenRouter({ apiKey });
       return openrouterProvider(model);
     }
+    case "xai":
+      return createXai({ apiKey })(model);
+    case "groq":
+      return createGroq({ apiKey })(model);
+    case "mistral":
+      return createMistral({ apiKey })(model);
+    case "deepseek":
+      return createDeepSeek({ apiKey })(model);
+    case "cohere":
+      return createCohere({ apiKey })(model);
+    case "cerebras":
+      return createCerebras({ apiKey })(model);
     default:
       throw new Error(`Unknown provider: ${provider}`);
   }
@@ -142,6 +189,7 @@ export async function generateFlavorText(
   temperature: number,
   additionalContext?: string,
   count: number = 5,
+  reasoningEffort: ReasoningEffort = "provider-default",
 ): Promise<GenerationResult[]> {
   if (!apiKey) {
     throw new Error("API key is required. Please configure it in settings.");
@@ -155,6 +203,7 @@ export async function generateFlavorText(
       model: aiModel,
       messages,
       temperature,
+      ...getReasoningOptions(provider, reasoningEffort),
     });
 
     const results = parseResults(text);

@@ -3,6 +3,7 @@ import type { CharacterProfile, FavoriteText } from "@/lib/types";
 import { storage } from "@/lib/storage";
 
 interface CharacterStore {
+  initialized: boolean;
   characters: CharacterProfile[];
   activeCharacterId: string | null;
 
@@ -30,12 +31,19 @@ interface CharacterStore {
 }
 
 export const useCharacterStore = create<CharacterStore>((set, get) => ({
+  initialized: false,
   characters: [],
   activeCharacterId: null,
 
   loadCharacters: () => {
     const characters = storage.getCharacters();
-    set({ characters });
+    set({
+      characters,
+      initialized: true,
+      activeCharacterId: characters.some((character) => character.id === get().activeCharacterId)
+        ? get().activeCharacterId
+        : (characters[0]?.id ?? null),
+    });
   },
 
   addCharacter: (character) => {

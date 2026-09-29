@@ -1,6 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { generateFlavorText, testConnection } from "../ai-generator";
+import {
+  generateFlavorText,
+  getAIModel,
+  getReasoningOptions,
+  testConnection,
+} from "../ai-generator";
 import type { AIProvider, CharacterProfile } from "../types";
+import { createXai } from "@ai-sdk/xai";
+import { createGroq } from "@ai-sdk/groq";
+import { createMistral } from "@ai-sdk/mistral";
+import { createDeepSeek } from "@ai-sdk/deepseek";
+import { createCohere } from "@ai-sdk/cohere";
+import { createCerebras } from "@ai-sdk/cerebras";
 
 // Mock AI SDK
 vi.mock("ai", () => ({
@@ -22,6 +33,47 @@ vi.mock("@ai-sdk/google", () => ({
 vi.mock("@openrouter/ai-sdk-provider", () => ({
   createOpenRouter: vi.fn(() => vi.fn()),
 }));
+
+vi.mock("@ai-sdk/xai", () => ({ createXai: vi.fn(() => vi.fn()) }));
+vi.mock("@ai-sdk/groq", () => ({ createGroq: vi.fn(() => vi.fn()) }));
+vi.mock("@ai-sdk/mistral", () => ({ createMistral: vi.fn(() => vi.fn()) }));
+vi.mock("@ai-sdk/deepseek", () => ({ createDeepSeek: vi.fn(() => vi.fn()) }));
+vi.mock("@ai-sdk/cohere", () => ({ createCohere: vi.fn(() => vi.fn()) }));
+vi.mock("@ai-sdk/cerebras", () => ({ createCerebras: vi.fn(() => vi.fn()) }));
+
+it.each(["openai", "anthropic", "google", "xai", "groq", "deepseek"] as const)(
+  "uses portable reasoning for %s",
+  (provider) => expect(getReasoningOptions(provider, "medium")).toEqual({ reasoning: "medium" }),
+);
+it("maps reasoning to OpenRouter and Cerebras provider options", () => {
+  expect(getReasoningOptions("openrouter", "low")).toEqual({
+    providerOptions: { openrouter: { reasoning: { effort: "low" } } },
+  });
+  expect(getReasoningOptions("cerebras", "high")).toEqual({
+    providerOptions: { cerebras: { reasoningEffort: "high" } },
+  });
+});
+it("omits reasoning when it is unset or unavailable", () => {
+  expect(getReasoningOptions("openai")).toEqual({});
+  expect(getReasoningOptions("cohere", "high")).toEqual({});
+  expect(getReasoningOptions("mistral", "medium")).toEqual({});
+  expect(getReasoningOptions("mistral", "high")).toEqual({ reasoning: "high" });
+  expect(getReasoningOptions("openai", "invalid" as never)).toEqual({});
+});
+
+it.each([
+  ["xai", createXai],
+  ["groq", createGroq],
+  ["mistral", createMistral],
+  ["deepseek", createDeepSeek],
+  ["cohere", createCohere],
+  ["cerebras", createCerebras],
+] as const)("creates a %s model with its key and model ID", (provider, createProvider) => {
+  const factory = vi.mocked(createProvider);
+  getAIModel(provider, "current-model", "secret");
+  expect(factory).toHaveBeenCalledWith({ apiKey: "secret" });
+  expect(factory.mock.results[0].value).toHaveBeenCalledWith("current-model");
+});
 
 describe("ai-generator", () => {
   const mockCharacter: CharacterProfile = {

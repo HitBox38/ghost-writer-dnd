@@ -12,7 +12,8 @@
     "test-results/**",
     "node_modules/**",
     "next-env.d.ts",
-    "pnpm-lock.yaml"
+    "pnpm-lock.yaml",
+    ".impeccable/questions/**"
   ],
   "sortPackageJson": false,
   "sortImports": false

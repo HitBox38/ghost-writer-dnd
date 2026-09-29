@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { useSettingsStore } from "../settings-store";
-import { DEFAULT_MODELS } from "@/lib/types";
+import { AI_PROVIDER_IDS, emptyApiKeys } from "@/lib/types";
 
 describe("useSettingsStore", () => {
   beforeEach(() => {
@@ -9,8 +9,8 @@ describe("useSettingsStore", () => {
       settings: {
         provider: "openai",
         apiKey: "",
-        apiKeys: { openai: "", anthropic: "", google: "", openrouter: "" },
-        model: DEFAULT_MODELS.openai,
+        apiKeys: emptyApiKeys(),
+        model: "",
         temperature: 0.8,
         theme: "system",
       },
@@ -39,13 +39,23 @@ describe("useSettingsStore", () => {
     expect(useSettingsStore.getState().settings.temperature).toBe(0.5);
   });
 
-  it("should set provider and update model", () => {
+  it("persists reasoning and defaults older saved settings", () => {
+    useSettingsStore.getState().updateSettings({ reasoningEffort: "medium" });
+    expect(JSON.parse(localStorage.getItem("dnd-flavor-settings")!).reasoningEffort).toBe("medium");
+    useSettingsStore.getState().loadSettings();
+    expect(useSettingsStore.getState().settings.reasoningEffort).toBe("medium");
+    localStorage.setItem("dnd-flavor-settings", JSON.stringify({ provider: "openai" }));
+    useSettingsStore.getState().loadSettings();
+    expect(useSettingsStore.getState().settings.reasoningEffort).toBe("provider-default");
+  });
+
+  it("should clear the model when switching providers", () => {
     const { setProvider } = useSettingsStore.getState();
     setProvider("anthropic");
 
     const state = useSettingsStore.getState();
     expect(state.settings.provider).toBe("anthropic");
-    expect(state.settings.model).toBe(DEFAULT_MODELS.anthropic);
+    expect(state.settings.model).toBe("");
   });
 
   it("should set API key for current provider", () => {
@@ -62,7 +72,7 @@ describe("useSettingsStore", () => {
 
     // Set OpenAI key
     updateSettings({
-      apiKeys: { openai: "openai-key", anthropic: "anthropic-key", google: "", openrouter: "" },
+      apiKeys: { ...emptyApiKeys(), openai: "openai-key", anthropic: "anthropic-key" },
     });
 
     // Switch to Anthropic
@@ -87,7 +97,7 @@ describe("useSettingsStore", () => {
     const mockSettings = {
       provider: "anthropic" as const,
       apiKey: "test-key",
-      apiKeys: { openai: "", anthropic: "test-key", google: "", openrouter: "" },
+      apiKeys: { ...emptyApiKeys(), anthropic: "test-key" },
       model: "claude-3-5-sonnet-20241022",
       temperature: 0.9,
       theme: "dark" as const,
@@ -118,12 +128,31 @@ describe("useSettingsStore", () => {
 
     const state = useSettingsStore.getState();
     expect(state.settings.apiKeys).toBeDefined();
-    expect(state.settings.apiKeys).toHaveProperty("openai");
-    expect(state.settings.apiKeys).toHaveProperty("anthropic");
-    expect(state.settings.apiKeys).toHaveProperty("google");
-    expect(state.settings.apiKeys).toHaveProperty("openrouter");
+    expect(Object.keys(state.settings.apiKeys)).toEqual(AI_PROVIDER_IDS);
     // The migration logic creates apiKeys from old apiKey
     expect(state.settings.apiKey).toBe("old-key");
+  });
+
+  it("adds new provider key slots to previously saved settings", () => {
+    localStorage.setItem(
+      "dnd-flavor-settings",
+      JSON.stringify({
+        provider: "openai",
+        apiKey: "existing-key",
+        apiKeys: { openai: "existing-key", anthropic: "second-key" },
+        model: "existing-model",
+      }),
+    );
+    useSettingsStore.getState().loadSettings();
+    const { settings, setProvider } = useSettingsStore.getState();
+    expect(settings.apiKeys).toEqual({
+      ...emptyApiKeys(),
+      openai: "existing-key",
+      anthropic: "second-key",
+    });
+    setProvider("cohere");
+    expect(useSettingsStore.getState().settings.apiKey).toBe("");
+    expect(useSettingsStore.getState().settings.model).toBe("");
   });
 
   it("should set model", () => {
@@ -202,7 +231,7 @@ describe("useSettingsStore", () => {
       settings: {
         provider: "anthropic" as const,
         apiKey: "imported-key",
-        apiKeys: { openai: "", anthropic: "imported-key", google: "", openrouter: "" },
+        apiKeys: { ...emptyApiKeys(), anthropic: "imported-key" },
         model: "claude-3-5-sonnet-20241022",
         temperature: 0.7,
         theme: "dark" as const,
@@ -220,7 +249,7 @@ describe("useSettingsStore", () => {
 
     const state = useSettingsStore.getState();
     expect(state.settings.provider).toBe("anthropic");
-    expect(state.settings.apiKey).toBe("imported-key");
+    expect(state.settings.apiKey).toBe("");
   });
 
   it("should handle import error", async () => {

@@ -1,7 +1,6 @@
 import { create } from "zustand";
-import type { Settings, AIProvider } from "@/lib/types";
+import { emptyApiKeys, type Settings, type AIProvider } from "@/lib/types";
 import { storage } from "@/lib/storage";
-import { DEFAULT_MODELS } from "@/lib/types";
 
 interface SettingsStore {
   settings: Settings;
@@ -16,7 +15,7 @@ interface SettingsStore {
 
   exportData: () => void;
   importData: (file: File) => Promise<void>;
-  clearAllData: () => void;
+  clearAllData: () => Promise<void>;
 
   isConfigured: () => boolean;
 }
@@ -24,14 +23,10 @@ interface SettingsStore {
 const DEFAULT_SETTINGS: Settings = {
   provider: "openai",
   apiKey: "",
-  apiKeys: {
-    openai: "",
-    anthropic: "",
-    google: "",
-    openrouter: "",
-  },
-  model: DEFAULT_MODELS.openai,
+  apiKeys: emptyApiKeys(),
+  model: "",
   temperature: 0.8,
+  reasoningEffort: "provider-default",
   theme: "system",
 };
 
@@ -40,30 +35,28 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
 
   loadSettings: () => {
     const savedSettings = storage.getSettings();
-    const mergedSettings = { ...DEFAULT_SETTINGS, ...savedSettings };
+    const mergedSettings = {
+      ...DEFAULT_SETTINGS,
+      ...savedSettings,
+      apiKeys: { ...DEFAULT_SETTINGS.apiKeys, ...savedSettings.apiKeys },
+    };
     // Ensure apiKeys object exists for backwards compatibility
-    if (!mergedSettings.apiKeys) {
-      mergedSettings.apiKeys = {
-        openai: "",
-        anthropic: "",
-        google: "",
-        openrouter: "",
-      };
+    if (!savedSettings.apiKeys) {
+      mergedSettings.apiKeys = emptyApiKeys();
       // If there's an old apiKey, assign it to the current provider
       if (mergedSettings.apiKey) {
         mergedSettings.apiKeys[mergedSettings.provider] = mergedSettings.apiKey;
       }
-    }
-    // Ensure openrouter key exists for settings saved before OpenRouter support
-    if (!("openrouter" in (mergedSettings.apiKeys ?? {}))) {
-      const base = mergedSettings.apiKeys ?? DEFAULT_SETTINGS.apiKeys;
-      mergedSettings.apiKeys = { ...base, openrouter: "" };
     }
     set({ settings: mergedSettings });
   },
 
   updateSettings: (updates) => {
     const settings = { ...get().settings, ...updates };
+    if (updates.apiKey !== undefined)
+      settings.apiKeys = { ...settings.apiKeys, [settings.provider]: updates.apiKey };
+    else if (updates.provider || updates.apiKeys)
+      settings.apiKey = settings.apiKeys[settings.provider] || "";
     storage.saveSettings(settings);
     set({ settings });
   },
@@ -73,7 +66,7 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
     const settings = {
       ...currentSettings,
       provider,
-      model: DEFAULT_MODELS[provider],
+      model: provider === currentSettings.provider ? currentSettings.model : "",
       apiKey: currentSettings.apiKeys[provider] || "",
     };
     storage.saveSettings(settings);
@@ -129,18 +122,29 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
 
       // Import characters (this will be handled by character store)
       const { useCharacterStore } = await import("./character-store");
-      useCharacterStore.getState().importCharacters(characters);
 
       // Import settings (preserve current API key if not in import)
       const currentSettings = get().settings;
       const mergedSettings = {
         ...currentSettings,
         ...settings,
-        apiKey: settings.apiKey || currentSettings.apiKey,
+        apiKeys: currentSettings.apiKeys,
+        apiKey: currentSettings.apiKeys[settings.provider ?? currentSettings.provider] || "",
       };
 
-      storage.saveSettings(mergedSettings);
+      const previousCharacters = storage.getCharacters();
+      try {
+        storage.saveCharacters(characters);
+        storage.saveSettings(mergedSettings);
+      } catch (error) {
+        storage.saveCharacters(previousCharacters);
+        storage.saveSettings(currentSettings);
+        throw error;
+      }
+      useCharacterStore.setState({ characters, activeCharacterId: characters[0]?.id ?? null });
       set({ settings: mergedSettings });
+      const { useCharacterDraftStore } = await import("./character-draft-store");
+      useCharacterDraftStore.getState().reset();
     } catch (error) {
       console.error("Import failed:", error);
       throw error;
@@ -153,7 +157,9 @@ export const useSettingsStore = create<SettingsStore>((set, get) => ({
 
     // Clear characters (handled by character store)
     const { useCharacterStore } = await import("./character-store");
-    useCharacterStore.getState().importCharacters([]);
+    useCharacterStore.setState({ characters: [], activeCharacterId: null });
+    const { useCharacterDraftStore } = await import("./character-draft-store");
+    useCharacterDraftStore.getState().reset();
   },
 
   isConfigured: () => {

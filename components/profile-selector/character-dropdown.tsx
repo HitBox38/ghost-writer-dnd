@@ -8,7 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, User, Plus } from "lucide-react";
+import { ChevronDown, Plus } from "lucide-react";
+import Image from "next/image";
 import type { CharacterProfile } from "@/lib/types";
 
 interface CharacterDropdownProps {
@@ -27,10 +28,21 @@ export const CharacterDropdown = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="outline" className="justify-between min-w-[200px]" />}
+        render={
+          <Button variant="ghost" className="character-picker" aria-label="Choose character" />
+        }
       >
         <div className="flex items-center gap-2">
-          <User className="h-4 w-4" />
+          {activeCharacter?.portrait && (
+            <Image
+              src={activeCharacter.portrait}
+              alt=""
+              width={28}
+              height={28}
+              unoptimized
+              className="character-avatar"
+            />
+          )}
           <span className="truncate">
             {activeCharacter ? activeCharacter.name : "Select Character"}
           </span>
