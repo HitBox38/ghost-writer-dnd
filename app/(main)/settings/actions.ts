@@ -2,13 +2,14 @@
 
 import { listProviderModels } from "@/lib/model-catalog";
 import { isAIProvider, type AIProvider } from "@/lib/types";
-
-export async function testProviderAction(provider: AIProvider, apiKey: string) {
+export const testProviderAction = async (provider: AIProvider, apiKey: string) => {
   if (!apiKey.trim() || !isAIProvider(provider)) return false;
   try {
     if (provider === "openrouter") {
       const keyResponse = await fetch("https://openrouter.ai/api/v1/key", {
-        headers: { Authorization: `Bearer ${apiKey}` },
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+        },
         cache: "no-store",
         signal: AbortSignal.timeout(15000),
       });
@@ -19,4 +20,4 @@ export async function testProviderAction(provider: AIProvider, apiKey: string) {
   } catch {
     return false;
   }
-}
+};

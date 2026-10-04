@@ -1,7 +1,7 @@
 import { useCharacterStore } from "@/stores/character-store";
 import { useSettingsStore } from "@/stores/settings-store";
 import { EMPTY_SESSION, useWorkspaceStore, type WritingSession } from "@/stores/workspace-store";
-import { generateFlavorTextAction } from "../actions";
+import { generateFlavorTextAction } from "@/app/(main)/generate/actions";
 import { toast } from "sonner";
 import { copyLine } from "@/lib/clipboard";
 import type {
@@ -11,8 +11,7 @@ import type {
   CharacterProfile,
   Settings,
 } from "@/lib/types";
-
-export function useGeneration() {
+export const useGeneration = () => {
   const { characters, activeCharacterId, addFavorite, removeFavorite } = useCharacterStore();
   const { settings, updateSettings, setProvider } = useSettingsStore();
   const { sessions, updateSession } = useWorkspaceStore();
@@ -32,9 +31,8 @@ export function useGeneration() {
   const favorites = new Set(
     session.results.filter((result) => findFavorite(result)).map((result) => result.id),
   );
-
   const handleGenerate = () => runGeneration(activeCharacter, session, settings);
-  function handleToggleFavorite(result: GenerationResult) {
+  const handleToggleFavorite = (result: GenerationResult) => {
     if (!activeCharacter) return;
     try {
       const favorite = findFavorite(result);
@@ -43,7 +41,7 @@ export function useGeneration() {
     } catch {
       toast.error("Couldn't update saved lines. Your browser storage may be full.");
     }
-  }
+  };
   return {
     ...session,
     favorites,
@@ -59,18 +57,26 @@ export function useGeneration() {
         void handleGenerate();
       }
     },
-    setGenerationType: (generationType: GenerationType) => patch({ generationType }),
-    setContext: (context: string) => patch({ context }),
-    setResultCount: (resultCount: number) => patch({ resultCount }),
+    setGenerationType: (generationType: GenerationType) =>
+      patch({
+        generationType,
+      }),
+    setContext: (context: string) =>
+      patch({
+        context,
+      }),
+    setResultCount: (resultCount: number) =>
+      patch({
+        resultCount,
+      }),
     updateSettings,
   };
-}
-
-async function runGeneration(
+};
+const runGeneration = async (
   activeCharacter: CharacterProfile | null,
   session: WritingSession,
   settings: Settings,
-) {
+) => {
   const { updateSession } = useWorkspaceStore.getState();
   if (
     !activeCharacter ||
@@ -89,7 +95,11 @@ async function runGeneration(
   const isCurrent = () =>
     useWorkspaceStore.getState().sessions[id]?.requestId === requestId &&
     useCharacterStore.getState().characters.some((character) => character.id === id);
-  updateSession(id, { isGenerating: true, error: null, requestId });
+  updateSession(id, {
+    isGenerating: true,
+    error: null,
+    requestId,
+  });
   try {
     const results = await generateFlavorTextAction(
       activeCharacter,
@@ -104,17 +114,27 @@ async function runGeneration(
     );
     // Resetting or replacing local data invalidates pending provider responses.
     if (isCurrent()) {
-      updateSession(id, { results, resultType: generationType, resultContext: context });
+      updateSession(id, {
+        results,
+        resultType: generationType,
+        resultContext: context,
+      });
       toast.success(`Generated ${results.length} lines for ${activeCharacter.name}`);
     }
   } catch (error) {
     if (isCurrent()) {
       const message =
         error instanceof Error ? error.message : "Couldn't generate lines. Please try again.";
-      updateSession(id, { error: message });
+      updateSession(id, {
+        error: message,
+      });
       toast.error(message);
     }
   } finally {
-    if (isCurrent()) updateSession(id, { isGenerating: false, requestId: null });
+    if (isCurrent())
+      updateSession(id, {
+        isGenerating: false,
+        requestId: null,
+      });
   }
-}
+};

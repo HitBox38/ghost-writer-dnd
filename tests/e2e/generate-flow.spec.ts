@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { seed, mockGeneration, generate, quipFixtures, localCharacters } from "./helpers";
+import { seed, mockGeneration, generate, quipFixtures, localCharacters } from "@/tests/e2e/helpers";
 
 test("first run leads to character creation", async ({ page }) => {
   await page.goto("/");

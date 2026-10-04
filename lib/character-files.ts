@@ -1,6 +1,6 @@
-import { storage } from "./storage";
+import { storage } from "@/lib/storage";
 
-export async function readPortrait(file: File): Promise<string> {
+export const readPortrait = async (file: File): Promise<string> => {
   if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
     throw new Error("Choose a JPG, PNG, or WebP image.");
   if (file.size > 5 * 1024 * 1024) throw new Error("Choose an image smaller than 5 MB.");
@@ -21,10 +21,10 @@ export async function readPortrait(file: File): Promise<string> {
   } finally {
     bitmap.close();
   }
-}
+};
 
-export async function readCharacterSheet(file: File) {
+export const readCharacterSheet = async (file: File) => {
   if (file.type !== "application/pdf") throw new Error("Choose a PDF character sheet.");
   if (file.size > 5 * 1024 * 1024) throw new Error("Choose a PDF smaller than 5 MB.");
   return storage.fileToBase64(file);
-}
+};

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { seed, localCharacters } from "./helpers";
+import { seed, localCharacters } from "@/tests/e2e/helpers";
 
 test("creates a character with only a name and restores it after reload", async ({ page }) => {
   await page.goto("/characters/new");

@@ -1,5 +1,5 @@
 /** Small two-page PDF with a real cross-reference table for viewer browser tests. */
-export function characterSheetPdf(name = "Merrin Ashvale") {
+export const characterSheetPdf = (name = "Merrin Ashvale") => {
   const stream = (page: number) =>
     `BT /F1 24 Tf 48 740 Td (${name}) Tj /F1 14 Tf 0 -36 Td (Character sheet - page ${page}) Tj 0 -40 Td (Half-elf Bard - Level 7) Tj 0 -32 Td (Strength 12 - Dexterity 16 - Charisma 18) Tj ET`;
   const objects = [
@@ -25,4 +25,4 @@ export function characterSheetPdf(name = "Merrin Ashvale") {
     .join("");
   pdf += `trailer\n<< /Size ${offsets.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF\n`;
   return Buffer.from(pdf);
-}
+};

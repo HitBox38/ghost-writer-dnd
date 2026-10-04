@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
-import { readPortrait, readCharacterSheet } from "../character-files";
-import { copyLine } from "../clipboard";
+import { readPortrait, readCharacterSheet } from "@/lib/character-files";
+import { copyLine } from "@/lib/clipboard";
 import { toast } from "sonner";
 
 vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));

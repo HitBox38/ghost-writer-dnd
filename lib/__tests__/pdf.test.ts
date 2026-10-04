@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { characterSheetBlob, characterSheetSize } from "../pdf";
+import { characterSheetBlob, characterSheetSize } from "@/lib/pdf";
 
 it.each(["JVBERg==", "data:application/pdf;base64,JVBERg=="])(
   "reads a stored PDF (%s)",

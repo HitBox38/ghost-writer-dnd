@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
-import { seed, mockGeneration, generate, localCharacters } from "./helpers";
+import { seed, mockGeneration, generate, localCharacters } from "@/tests/e2e/helpers";
 
 test("browser comment corrections at the reported viewport and mobile", async ({ page }) => {
   test.setTimeout(90000);

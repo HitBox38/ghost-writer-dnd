@@ -1,9 +1,9 @@
 import { test, expect, type Page } from "@playwright/test";
-import { seed, localCharacters } from "./helpers";
-import { characterSheetPdf } from "../fixtures/pdf";
+import { seed, localCharacters } from "@/tests/e2e/helpers";
+import { characterSheetPdf } from "@/tests/fixtures/pdf";
 
 const pdf = characterSheetPdf();
-async function seedPdf(page: Page) {
+const seedPdf = async (page: Page) => {
   await seed(page);
   await page.addInitScript(
     ({ sheet, size }) => {
@@ -26,7 +26,7 @@ async function seedPdf(page: Page) {
       body: '0:{"a":"$@1","f":"","b":"test"}\n1:[{"value":"gpt-5","label":"GPT-5"}]\n',
     });
   });
-}
+};
 
 test("workspace PDF chip previews pages, zooms, and closes without navigation", async ({
   page,
@@ -49,6 +49,22 @@ test("workspace PDF chip previews pages, zooms, and closes without navigation", 
   await expect(dialog.getByRole("button", { name: "Next page" })).toBeDisabled();
   await dialog.getByRole("button", { name: "Zoom in" }).click();
   await expect(dialog.getByRole("button", { name: "Fit page to width" })).toHaveText("125%");
+  const initialBounds = await dialog.boundingBox();
+  await expect(
+    dialog.locator(".pdf-toolbar").getByRole("link", { name: "Download PDF" }),
+  ).toBeVisible();
+  await dialog.getByRole("button", { name: "Full screen", exact: true }).click();
+  const fullBounds = await dialog.boundingBox();
+  expect(fullBounds!.x).toBe(0);
+  expect(fullBounds!.y).toBe(0);
+  expect(fullBounds!.width).toBe(await page.evaluate(() => document.documentElement.clientWidth));
+  expect(fullBounds!.height).toBe(page.viewportSize()!.height);
+  await expect(dialog.getByText("Page 2 of 2", { exact: true })).toBeVisible();
+  await expect(dialog.getByRole("button", { name: "Fit page to width" })).toHaveText("125%");
+  await page.keyboard.press("Escape");
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("button", { name: "Full screen", exact: true })).toBeVisible();
+  expect((await dialog.boundingBox())!.width).toBe(initialBounds!.width);
   await dialog.getByRole("button", { name: "Fit page to width" }).click();
   await dialog.getByRole("button", { name: "Previous page" }).click();
   await expect(dialog.locator(".react-pdf__Page__textContent")).toContainText(
@@ -113,13 +129,11 @@ for (const path of ["/characters/new", "/characters/merrin/edit"]) {
 test("unreadable PDFs keep a download option and a working close button", async ({ page }) => {
   await seed(page);
   await page.goto("/characters/new");
-  await page
-    .locator("#character-sheet")
-    .setInputFiles({
-      name: "Broken.pdf",
-      mimeType: "application/pdf",
-      buffer: Buffer.from("not a PDF"),
-    });
+  await page.locator("#character-sheet").setInputFiles({
+    name: "Broken.pdf",
+    mimeType: "application/pdf",
+    buffer: Buffer.from("not a PDF"),
+  });
   await page.getByRole("button", { name: "View PDF", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Broken.pdf" });
   await expect(dialog.getByRole("alert")).toContainText("This PDF couldn't be previewed");

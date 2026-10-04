@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 
-export async function prepareClipboard(page: Page, browserName: string) {
+export const prepareClipboard = async (page: Page, browserName: string) => {
   if (browserName === "chromium") {
     await page.context().grantPermissions(["clipboard-write", "clipboard-read"]);
     return;
@@ -20,4 +20,4 @@ export async function prepareClipboard(page: Page, browserName: string) {
       },
     });
   });
-}
+};

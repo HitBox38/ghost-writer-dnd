@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, expect, it, vi } from "vitest";
-import { storage } from "../storage";
+import { storage } from "@/lib/storage";
 import { characterFixture } from "@/tests/fixtures/characters";
 import { useSettingsStore } from "@/stores/settings-store";
 import { useCharacterStore } from "@/stores/character-store";

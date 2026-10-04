@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
-export default function SettingsPage() {
+const SettingsPage = () => {
   redirect("/settings/connections");
-}
+};
+export default SettingsPage;

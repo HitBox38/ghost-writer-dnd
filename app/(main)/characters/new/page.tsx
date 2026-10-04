@@ -1,4 +1,5 @@
 import { CharacterEditor } from "@/components/character-editor";
-export default function NewCharacterPage() {
+const NewCharacterPage = () => {
   return <CharacterEditor />;
-}
+};
+export default NewCharacterPage;

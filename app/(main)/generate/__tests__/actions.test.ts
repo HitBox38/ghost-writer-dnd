@@ -1,22 +1,32 @@
 import { beforeEach, expect, it, vi } from "vitest";
 import { generateText } from "ai";
-import { generateFlavorTextAction } from "../actions";
+import { generateFlavorTextAction } from "@/app/(main)/generate/actions";
 import { characterFixture, quipFixtures } from "@/tests/fixtures/characters";
 import { getAIModel, buildPrompt, parseResults, getReasoningOptions } from "@/lib/ai-generator";
 import { listProviderModels } from "@/lib/model-catalog";
-
-vi.mock("ai", () => ({ generateText: vi.fn() }));
+vi.mock("ai", () => ({
+  generateText: vi.fn(),
+}));
 vi.mock("@/lib/ai-generator", () => ({
   getAIModel: vi.fn(() => "model"),
   buildPrompt: vi.fn(() => []),
   parseResults: vi.fn(),
   getReasoningOptions: vi.fn(() => ({})),
 }));
-vi.mock("@/lib/model-catalog", () => ({ listProviderModels: vi.fn() }));
+vi.mock("@/lib/model-catalog", () => ({
+  listProviderModels: vi.fn(),
+}));
 beforeEach(() => {
   vi.clearAllMocks();
-  vi.mocked(listProviderModels).mockResolvedValue([{ value: "gpt-5", label: "gpt-5" }]);
-  vi.mocked(generateText).mockResolvedValue({ text: "lines" } as never);
+  vi.mocked(listProviderModels).mockResolvedValue([
+    {
+      value: "gpt-5",
+      label: "gpt-5",
+    },
+  ]);
+  vi.mocked(generateText).mockResolvedValue({
+    text: "lines",
+  } as never);
   vi.mocked(parseResults).mockReturnValue(quipFixtures);
 });
 const call = (character = characterFixture, key = "test-key") =>
@@ -27,7 +37,9 @@ it("passes the character, model, scene and count to generation", async () => {
   expect(buildPrompt).toHaveBeenCalledWith(characterFixture, "mockery", 12, "A duel");
 });
 it("passes the selected reasoning effort to the model request", async () => {
-  vi.mocked(getReasoningOptions).mockReturnValueOnce({ reasoning: "high" });
+  vi.mocked(getReasoningOptions).mockReturnValueOnce({
+    reasoning: "high",
+  });
   await generateFlavorTextAction(
     characterFixture,
     "mockery",
@@ -40,7 +52,11 @@ it("passes the selected reasoning effort to the model request", async () => {
     "high",
   );
   expect(getReasoningOptions).toHaveBeenCalledWith("openai", "high");
-  expect(generateText).toHaveBeenCalledWith(expect.objectContaining({ reasoning: "high" }));
+  expect(generateText).toHaveBeenCalledWith(
+    expect.objectContaining({
+      reasoning: "high",
+    }),
+  );
 });
 it("rejects missing credentials and empty output", async () => {
   await expect(call(characterFixture, "")).rejects.toThrow("API key is required");
@@ -50,7 +66,10 @@ it("rejects missing credentials and empty output", async () => {
 it("reports a PDF failure without silently ignoring the attachment", async () => {
   vi.mocked(generateText).mockRejectedValueOnce(new Error("PDF not supported"));
   await expect(
-    call({ ...characterFixture, characterSheet: "data:application/pdf;base64,AAAA" }),
+    call({
+      ...characterFixture,
+      characterSheet: "data:application/pdf;base64,AAAA",
+    }),
   ).rejects.toThrow("PDF not supported");
   expect(generateText).toHaveBeenCalledTimes(1);
   expect(listProviderModels).toHaveBeenCalledWith("openai", "test-key", true);
@@ -58,7 +77,10 @@ it("reports a PDF failure without silently ignoring the attachment", async () =>
 it("rejects a stale model selection when a PDF is attached", async () => {
   vi.mocked(listProviderModels).mockResolvedValueOnce([]);
   await expect(
-    call({ ...characterFixture, characterSheet: "data:application/pdf;base64,AAAA" }),
+    call({
+      ...characterFixture,
+      characterSheet: "data:application/pdf;base64,AAAA",
+    }),
   ).rejects.toThrow("Choose a PDF-compatible model");
   expect(generateText).not.toHaveBeenCalled();
 });

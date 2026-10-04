@@ -15,9 +15,9 @@ export type AIProvider = (typeof AI_PROVIDER_IDS)[number];
 export const REASONING_EFFORTS = ["provider-default", "low", "medium", "high"] as const;
 export type ReasoningEffort = (typeof REASONING_EFFORTS)[number];
 
-export function isReasoningEffort(value: unknown): value is ReasoningEffort {
+export const isReasoningEffort = (value: unknown): value is ReasoningEffort => {
   return typeof value === "string" && REASONING_EFFORTS.some((effort) => effort === value);
-}
+};
 
 export const AI_PROVIDERS: { id: AIProvider; name: string; url: string }[] = [
   { id: "openai", name: "OpenAI", url: "https://platform.openai.com/api-keys" },
@@ -32,16 +32,16 @@ export const AI_PROVIDERS: { id: AIProvider; name: string; url: string }[] = [
   { id: "cerebras", name: "Cerebras", url: "https://cloud.cerebras.ai/" },
 ];
 
-export function isAIProvider(value: unknown): value is AIProvider {
+export const isAIProvider = (value: unknown): value is AIProvider => {
   return typeof value === "string" && AI_PROVIDER_IDS.some((provider) => provider === value);
-}
+};
 
-export function emptyApiKeys(): Record<AIProvider, string> {
+export const emptyApiKeys = (): Record<AIProvider, string> => {
   return Object.fromEntries(AI_PROVIDER_IDS.map((provider) => [provider, ""])) as Record<
     AIProvider,
     string
   >;
-}
+};
 
 export type GenerationType = "mockery" | "catchphrase";
 

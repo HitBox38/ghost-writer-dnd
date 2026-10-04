@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
-import { storage } from "../storage";
-import { emptyApiKeys, type CharacterProfile, type Settings } from "../types";
+import { storage } from "@/lib/storage";
+import { emptyApiKeys, type CharacterProfile, type Settings } from "@/lib/types";
 
 describe("storage", () => {
   const mockCharacter: CharacterProfile = {

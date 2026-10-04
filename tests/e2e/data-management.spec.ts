@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { seed, characterFixture, localCharacters } from "./helpers";
+import { seed, characterFixture, localCharacters } from "@/tests/e2e/helpers";
 
 test.beforeEach(async ({ page }) => {
   await seed(page, true);

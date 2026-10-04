@@ -4,9 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { useCharacterStore } from "@/stores/character-store";
-import { CharacterDropdown } from "./character-dropdown";
-
-export function ProfileSelector() {
+import { CharacterDropdown } from "@/components/profile-selector/character-dropdown";
+export const ProfileSelector = () => {
   const router = useRouter();
   const { characters, activeCharacterId, setActiveCharacter, initialized } = useCharacterStore();
   const character = characters.find((item) => item.id === activeCharacterId) ?? null;
@@ -53,4 +52,4 @@ export function ProfileSelector() {
       )}
     </div>
   );
-}
+};

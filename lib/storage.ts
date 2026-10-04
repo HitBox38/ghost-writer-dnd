@@ -1,5 +1,5 @@
-import type { CharacterProfile, Settings } from "./types";
-import { backupSchema } from "./backup-schema";
+import type { CharacterProfile, Settings } from "@/lib/types";
+import { backupSchema } from "@/lib/backup-schema";
 
 const STORAGE_KEYS = {
   CHARACTERS: "dnd-flavor-characters",
@@ -9,7 +9,7 @@ const STORAGE_KEYS = {
 
 export const storage = {
   // Character operations
-  getCharacters(): CharacterProfile[] {
+  getCharacters: (): CharacterProfile[] => {
     if (typeof window === "undefined") return [];
     try {
       const data = localStorage.getItem(STORAGE_KEYS.CHARACTERS);
@@ -20,7 +20,7 @@ export const storage = {
     }
   },
 
-  saveCharacters(characters: CharacterProfile[]): void {
+  saveCharacters: (characters: CharacterProfile[]): void => {
     if (typeof window === "undefined") return;
     try {
       localStorage.setItem(STORAGE_KEYS.CHARACTERS, JSON.stringify(characters));
@@ -31,7 +31,7 @@ export const storage = {
   },
 
   // Settings operations
-  getSettings(): Partial<Settings> {
+  getSettings: (): Partial<Settings> => {
     if (typeof window === "undefined") return {};
     try {
       const data = localStorage.getItem(STORAGE_KEYS.SETTINGS);
@@ -42,7 +42,7 @@ export const storage = {
     }
   },
 
-  saveSettings(settings: Settings): void {
+  saveSettings: (settings: Settings): void => {
     if (typeof window === "undefined") return;
     try {
       localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(settings));
@@ -53,13 +53,12 @@ export const storage = {
   },
 
   // Export/Import operations
-  exportData(): string {
-    const characters = this.getCharacters();
-    const settings = this.getSettings();
+  exportData: (): string => {
+    const characters = storage.getCharacters();
+    const settings = storage.getSettings();
 
     // Remove API key from export for security
-    // oxlint-disable-next-line no-unused-vars
-    const { apiKey, apiKeys, ...safeSettings } = settings;
+    const { apiKey: _apiKey, apiKeys: _apiKeys, ...safeSettings } = settings;
 
     const exportData = {
       version: "1.0.0",
@@ -71,7 +70,9 @@ export const storage = {
     return JSON.stringify(exportData, null, 2);
   },
 
-  importData(jsonString: string): { characters: CharacterProfile[]; settings: Partial<Settings> } {
+  importData: (
+    jsonString: string,
+  ): { characters: CharacterProfile[]; settings: Partial<Settings> } => {
     try {
       const data = backupSchema.parse(JSON.parse(jsonString));
 
@@ -90,7 +91,7 @@ export const storage = {
   },
 
   // Clear all data
-  clearAll(): void {
+  clearAll: (): void => {
     if (typeof window === "undefined") return;
     try {
       localStorage.removeItem(STORAGE_KEYS.CHARACTERS);
@@ -102,7 +103,7 @@ export const storage = {
   },
 
   // File operations
-  async fileToBase64(file: File): Promise<string> {
+  fileToBase64: async (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -111,7 +112,7 @@ export const storage = {
     });
   },
 
-  downloadFile(content: string, filename: string): void {
+  downloadFile: (content: string, filename: string): void => {
     const blob = new Blob([content], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");

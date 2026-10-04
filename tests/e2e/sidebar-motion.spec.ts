@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { seed } from "./helpers";
+import { seed } from "@/tests/e2e/helpers";
 
 test("sidebar animates, reverses and preserves the toggle position", async ({ page }) => {
   await page.setViewportSize({ width: 1085, height: 800 });

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { seed, mockGeneration, generate } from "./helpers";
+import { seed, mockGeneration, generate } from "@/tests/e2e/helpers";
 
 test.beforeEach(async ({ page }) => {
   await seed(page);

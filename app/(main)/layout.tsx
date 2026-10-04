@@ -1,7 +1,6 @@
 import { AppHeader } from "@/components/layout/app-header";
 import { Providers } from "@/components/providers";
-
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Providers>
       <AppHeader />
@@ -10,4 +9,5 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </main>
     </Providers>
   );
-}
+};
+export default MainLayout;

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { seed } from "./helpers";
+import { seed } from "@/tests/e2e/helpers";
 test.beforeEach(async ({ page }) => {
   await seed(page, true);
   await page.goto("/favorites");

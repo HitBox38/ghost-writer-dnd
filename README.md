@@ -165,22 +165,39 @@ pnpm dev
 │   └── globals.css         # Global styles with theme variables
 ├── components/
 │   ├── ui/                 # shadcn/ui components
-│   ├── character-profile-form.tsx
-│   ├── generation-panel.tsx
-│   ├── favorites-list.tsx
-│   ├── settings-dialog.tsx
-│   ├── profile-selector.tsx
-│   └── providers.tsx       # Client-side initialization
+│   ├── character-editor/   # Form sections, draft state, leave protection, tests
+│   ├── pdf-viewer/         # Preview dialog and tests
+│   ├── pdf-document/       # PDF rendering, toolbar, page/zoom state
+│   ├── settings/           # Connections, appearance, backups
+│   ├── profile-selector/   # Character selection
+│   └── providers/          # Client-side initialization
 ├── stores/
-│   ├── character-store.ts  # Character state management
-│   └── settings-store.ts   # Settings state management
+│   ├── character-store/   # Operations, types, and tests
+│   ├── settings-store/    # Preferences, defaults, and tests
+│   ├── character-draft-store/
+│   └── workspace-store/
 ├── lib/
-│   ├── ai-generator.ts     # AI SDK integration
+│   ├── ai-generator/      # Provider API, prompts, result parsing, and tests
+│   ├── model-catalog/     # Catalog API, capability helpers, types, and tests
 │   ├── storage.ts          # localStorage utilities
 │   ├── types.ts            # TypeScript interfaces
 │   └── utils.ts            # Utility functions
 └── package.json
 ```
+
+Each component has a folder with `index.tsx` as its public entry. Add `components/`
+for view sections, `hooks/` for state and effects, `__tests__/` for colocated tests,
+`helpers.ts` for transformations, `api.ts` for external requests, `types.ts` for
+shared contracts, and `constants.ts` for defaults. Create supporting files when
+they have a responsibility; small components can consist of just `index.tsx`.
+Route files retain Next.js names such as `page.tsx` and `layout.tsx`.
+
+Keep component files at 100 lines or fewer and use arrow functions. Compose
+sections around a shared state object rather than duplicating state or passing
+long lists of individual fields. Standalone hooks, domain utilities, and tests
+can be longer when keeping related behavior together makes them easier to read.
+`pnpm check:architecture` checks the component limit and function style;
+`pnpm lint` includes this check.
 
 ## Development
 

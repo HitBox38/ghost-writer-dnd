@@ -4,11 +4,11 @@ const dateFormatter = new Intl.DateTimeFormat(undefined, {
   timeStyle: "short",
 });
 
-export function formatAttachmentSize(bytes: number) {
+export const formatAttachmentSize = (bytes: number) => {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${sizeFormatter.format(bytes / 1024)} KB`;
   return `${sizeFormatter.format(bytes / (1024 * 1024))} MB`;
-}
-export function formatAttachmentDate(timestamp: number) {
+};
+export const formatAttachmentDate = (timestamp: number) => {
   return dateFormatter.format(timestamp);
-}
+};

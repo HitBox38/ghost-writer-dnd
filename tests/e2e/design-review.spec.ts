@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
-import { seed, mockGeneration, generate } from "./helpers";
+import { seed, mockGeneration, generate } from "@/tests/e2e/helpers";
 
 test("capture approved direction across desktop and mobile surfaces", async ({ page }) => {
   test.setTimeout(90000);

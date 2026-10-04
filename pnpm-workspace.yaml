@@ -1,3 +1,6 @@
+minimumReleaseAge: 10080
+trustPolicy: no-downgrade
+
 onlyBuiltDependencies:
   - "@tailwindcss/oxide"
   - esbuild

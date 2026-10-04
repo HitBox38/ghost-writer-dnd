@@ -1,7 +1,7 @@
 import { expect, type Page } from "@playwright/test";
-import { characterFixture, quipFixtures } from "../fixtures/characters";
+import { characterFixture, quipFixtures } from "@/tests/fixtures/characters";
 export { characterFixture, quipFixtures };
-export async function seed(page: Page, withFavorites = false) {
+export const seed = async (page: Page, withFavorites = false) => {
   await page.addInitScript(
     ({ character, lines, withFavorites }) => {
       if (sessionStorage.getItem("redesign-fixture")) return;
@@ -41,8 +41,8 @@ export async function seed(page: Page, withFavorites = false) {
     },
     { character: characterFixture, lines: quipFixtures, withFavorites },
   );
-}
-export async function mockGeneration(page: Page, lines = quipFixtures) {
+};
+export const mockGeneration = async (page: Page, lines = quipFixtures) => {
   await page.route("**/generate", async (route) => {
     if (route.request().method() !== "POST") return route.continue();
     await route.fulfill({
@@ -51,11 +51,11 @@ export async function mockGeneration(page: Page, lines = quipFixtures) {
       body: `0:{"a":"$@1","f":"","b":"test"}\n1:${JSON.stringify(lines)}\n`,
     });
   });
-}
-export async function generate(page: Page) {
+};
+export const generate = async (page: Page) => {
   await page.getByRole("button", { name: "Generate lines", exact: true }).click();
   await expect(page.getByRole("article").first()).toBeVisible();
-}
-export async function localCharacters(page: Page) {
+};
+export const localCharacters = async (page: Page) => {
   return page.evaluate(() => JSON.parse(localStorage.getItem("dnd-flavor-characters") || "[]"));
-}
+};

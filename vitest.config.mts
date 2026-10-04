@@ -25,7 +25,7 @@ export default defineConfig({
         "app/**/page.tsx",
         "app/**/layout.tsx",
         "app/globals.css",
-        "components/providers.tsx",
+        "components/providers/index.tsx",
         "**/__tests__/**",
       ],
       thresholds: {
