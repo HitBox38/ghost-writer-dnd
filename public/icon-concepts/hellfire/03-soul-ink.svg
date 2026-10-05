@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Writer — Soul ink</title>
+  <desc id="desc">A ghost rising from an inkwell. More supernatural scribe than superhero. Transparent adaptive SVG.</desc>
+  <style>svg{--ink:#242326;--fire:#762f3a}@media(prefers-color-scheme:dark){svg{--ink:#fff9f2;--fire:#e86b49}}</style>
+  <path fill="var(--fire)" fill-rule="evenodd" d="M51 70C27 59 22 43 37 25c-2 14 8 14 13 10C66 24 73 19 69 8c20 11 26 24 19 39 8-3 12-9 13-16 13 22 2 38-22 43ZM52 52v9h8v-9Zm16 0v9h8v-9Z"/>
+      <path fill="var(--ink)" fill-rule="evenodd" d="M64 34c13 0 22 9 22 22v19l-10-6-12 7-12-7-10 6V56c0-13 9-22 22-22Zm-12 18v9h8v-9Zm16 0v9h8v-9Z"/>
+      <path fill="var(--ink)" fill-rule="evenodd" d="M42 83h44l12 14v15H30V97Zm10 14v6h24v-6Z"/>
+      <path fill="var(--fire)" d="M45 77h38v7H45Z"/>
+</svg>

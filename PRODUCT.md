@@ -36,6 +36,8 @@ The user approved implementing the Dense Folio replacement: neutral paper, charc
 
 Identity comes from literary typography, compact layout and restrained color. Decorative illustrations, generated portraits and scenic artwork are excluded. An optional portrait is supplied by user upload, and the interface looks complete without one. Literata and Source Sans 3 are implemented.
 
+The user selected the Revenant nib app icon: a flaming skull tapering into a fountain pen nib, based on the Ghost Writer / Ghost Rider wordplay. It is a hand-authored SVG with light and dark palettes; the browser icon follows the browser color preference. This approval is specific to the app icon and does not change the interface's literary wordmark or restrained visual direction.
+
 ## Evidence on Hand
 
 Current application source, existing tests and review captures under `.impeccable/review/`. Generated images under `.impeccable/mocks/decision/` contain synthetic examples and serve as critique references. They are not runtime evidence or a comp approval record. Verification outcomes belong in the implementation's verification report, not inferred from this document. No customer, adoption or performance claims have been supplied.

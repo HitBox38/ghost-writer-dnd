@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Writer — Revenant nib</title>
+  <desc id="desc">A flaming skull forged into a fountain pen. The clearest Ghost Rider / Ghost Writer connection. Transparent dark SVG.</desc>
+  <style>svg{--ink:#fff9f2;--fire:#e86b49}</style>
+  <path fill="var(--fire)" fill-rule="evenodd" d="M64 7c1 21 24 27 18 42 9-5 13-13 12-22 22 24 25 47 11 65-5 7-12 11-20 14H43C26 101 16 86 18 69c1-15 11-20 11-35 7 6 11 13 11 22 4-14 2-23 14-31 6-4 9-10 10-18Zm-21 58 16-3-3 11c-8 3-13-1-13-8Zm42 0-16-3 3 11c8 3 13-1 13-8ZM64 81l-5 9h3v17l2 3 2-3V90h3Z"/>
+      <path fill="var(--ink)" fill-rule="evenodd" d="M64 40c18 0 30 12 30 29 0 10-6 17-14 20l-1 9-15 20-15-20-1-9c-8-3-14-10-14-20 0-17 12-29 30-29Zm-21 25 16-3-3 11c-8 3-13-1-13-8Zm42 0-16-3 3 11c8 3 13-1 13-8ZM64 81l-5 9h3v17l2 3 2-3V90h3Z"/>
+</svg>

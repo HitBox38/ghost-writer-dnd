@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Writer — Burning words</title>
+  <desc id="desc">Two quotation marks in a shared flame. Combative dialogue, reduced to a symbol. Transparent dark SVG.</desc>
+  <style>svg{--ink:#fff9f2;--fire:#e86b49}</style>
+  <path fill="var(--fire)" d="M27 88C9 75 14 53 30 37c-2 11 2 17 8 18 5-12 15-20 18-32 8 8 8 17 7 22 16-7 21-24 18-36 20 18 25 34 18 50 8-4 13-10 15-17 10 24-1 42-19 48Z"/>
+      <path fill="var(--ink)" d="M27 61h30v28l-20 23H20l18-24H27Zm47 0h30v28l-20 23H67l18-24H74Z"/>
+</svg>

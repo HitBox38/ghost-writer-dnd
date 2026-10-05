@@ -156,6 +156,10 @@ Frontmatter records shipped color values. The sidecar's eight-step tonal ramps a
 
 **The Red State Rule.** Use deep red fills and off-white labels in dark mode; do not replace them with pink text.
 
+### App icon
+
+The user selected **Revenant nib**: a flaming skull tapering into a fountain pen nib. `app/icon.svg` is the browser icon and adapts to the browser's light/dark color preference. The transparent mark uses charcoal and oxblood in light mode, bone and ember in dark mode. The ember color is specific to the icon; existing interface color tokens stay as documented. Explicit light and dark assets live in `public/brand/` for surfaces controlled by the app's theme. The header retains its literary wordmark. The approved app icon is an exception to the restriction on ornamental logos below.
+
 ## Typography
 
 **Display and dialogue font:** Literata, with Georgia and serif fallbacks. **Interface font:** Source Sans 3, with sans-serif fallback. Both are loaded in the root layout.

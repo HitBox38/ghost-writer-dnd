@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Writer — Infernal G</title>
+  <desc id="desc">A compact lettermark with a flame for a crossbar. The most restrained option. Transparent light SVG.</desc>
+  <style>svg{--ink:#242326;--fire:#762f3a}</style>
+  <path fill="var(--ink)" d="M102 33 89 44C82 33 72 27 60 27c-20 0-34 15-34 35 0 21 15 36 36 36 10 0 19-4 25-10V74H61V58h44v38c-11 13-25 19-44 19-30 0-51-22-51-53S32 10 61 10c17 0 31 8 41 23Z"/>
+      <path fill="var(--fire)" d="M50 75c-8-8-7-16 1-23 0 6 4 7 7 4 6-5 9-12 7-20 12 8 16 17 12 25 13 2 27-4 36-18-1 21-17 37-36 38H52l8-10Z"/>
+      <path fill="var(--fire)" d="m22 101 12-12 12 12-12 12Z"/>
+</svg>

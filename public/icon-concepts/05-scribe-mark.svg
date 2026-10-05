@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Writer — Scribe mark</title>
+  <desc id="desc">A custom literary G with a fountain pen nib forming its crossbar.</desc>
+  <rect width="64" height="64" rx="14" fill="#762f3a"/>
+  <path d="M48 14v15h-5c-1-8-5-12-11-12-8 0-12 6-12 15 0 10 5 16 13 16 3 0 6-1 8-3v-8H30v-5h20v14c-4 5-10 8-18 8-14 0-23-9-23-22 0-13 10-22 23-22 5 0 9 1 13 4Z" fill="#fff9f2"/>
+  <path d="m29 32-8 5 8 5 7-5Z" fill="#fff9f2"/>
+  <circle cx="29" cy="37" r="1.6" fill="#762f3a"/>
+  <path d="M22 37h6" stroke="#762f3a" stroke-width="1.7"/>
+</svg>

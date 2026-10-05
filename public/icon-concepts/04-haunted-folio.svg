@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Writer — Haunted folio</title>
+  <desc id="desc">A paper-white journal with an oxblood ghost stamped into its cover.</desc>
+  <rect width="64" height="64" rx="14" fill="#242326"/>
+  <path d="M19 11h29v36H20a4 4 0 0 0 0 8h28v-4H20a1 1 0 0 1 0-2h30V11Z" fill="#fff9f2"/>
+  <path d="M19 11v36a4 4 0 0 0-4 4V16a5 5 0 0 1 4-5Z" fill="#fff9f2"/>
+  <path d="M21 11v33" stroke="#242326" stroke-width="2.5"/>
+  <path d="M27 37v-9a9 9 0 0 1 18 0v9l-4-3-5 4-5-4Z" fill="#762f3a"/>
+  <g fill="#fff9f2">
+    <rect x="31" y="26" width="3" height="4" rx="1.5"/>
+    <rect x="38" y="26" width="3" height="4" rx="1.5"/>
+  </g>
+</svg>
