@@ -18,14 +18,6 @@ const seedPdf = async (page: Page) => {
     },
     { sheet: `data:application/pdf;base64,${pdf.toString("base64")}`, size: pdf.length },
   );
-  await page.route("**/generate", async (route) => {
-    if (route.request().method() !== "POST") return route.continue();
-    await route.fulfill({
-      status: 200,
-      contentType: "text/x-component",
-      body: '0:{"a":"$@1","f":"","b":"test"}\n1:[{"value":"gpt-5","label":"GPT-5"}]\n',
-    });
-  });
 };
 
 test("workspace PDF chip previews pages, zooms, and closes without navigation", async ({
@@ -54,17 +46,20 @@ test("workspace PDF chip previews pages, zooms, and closes without navigation", 
     dialog.locator(".pdf-toolbar").getByRole("link", { name: "Download PDF" }),
   ).toBeVisible();
   await dialog.getByRole("button", { name: "Full screen", exact: true }).click();
-  const fullBounds = await dialog.boundingBox();
-  expect(fullBounds!.x).toBe(0);
-  expect(fullBounds!.y).toBe(0);
-  expect(fullBounds!.width).toBe(await page.evaluate(() => document.documentElement.clientWidth));
-  expect(fullBounds!.height).toBe(page.viewportSize()!.height);
+  await expect
+    .poll(() => dialog.boundingBox())
+    .toEqual({
+      x: 0,
+      y: 0,
+      width: await page.evaluate(() => document.documentElement.clientWidth),
+      height: page.viewportSize()!.height,
+    });
   await expect(dialog.getByText("Page 2 of 2", { exact: true })).toBeVisible();
   await expect(dialog.getByRole("button", { name: "Fit page to width" })).toHaveText("125%");
   await page.keyboard.press("Escape");
   await expect(dialog).toBeVisible();
   await expect(dialog.getByRole("button", { name: "Full screen", exact: true })).toBeVisible();
-  expect((await dialog.boundingBox())!.width).toBe(initialBounds!.width);
+  await expect.poll(async () => (await dialog.boundingBox())?.width).toBe(initialBounds!.width);
   await dialog.getByRole("button", { name: "Fit page to width" }).click();
   await dialog.getByRole("button", { name: "Previous page" }).click();
   await expect(dialog.locator(".react-pdf__Page__textContent")).toContainText(

@@ -48,7 +48,9 @@ test("browser comment corrections at the reported viewport and mobile", async ({
   await page.getByRole("combobox", { name: "Provider", exact: true }).click();
   await page.getByRole("option", { name: "Anthropic", exact: true }).click();
   await expect(page.getByRole("listbox")).toBeHidden();
-  await expect(page.getByRole("combobox", { name: "Model", exact: true })).toContainText("Claude");
+  const model = page.getByRole("combobox", { name: "Model", exact: true });
+  await expect(model).toBeDisabled();
+  await expect(model).toHaveAttribute("placeholder", "Connect a provider first");
   await sort.focus();
   await page.keyboard.press("ArrowDown");
   await expect(page.getByRole("listbox")).toBeVisible();

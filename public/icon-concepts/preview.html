@@ -1,80 +1,260 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ghost Writer — Five icon concepts</title>
-  <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; background: #f3f1eb; color: #242326; font-family: system-ui, sans-serif; }
-    main { max-width: 1320px; margin: auto; padding: 52px 36px; }
-    h1 { margin: 0 0 12px; font: 400 38px/1.2 Georgia, serif; letter-spacing: -.03em; }
-    .intro { margin: 0; color: #656166; line-height: 1.6; }
-    .grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; margin-top: 48px; }
-    article { min-width: 0; }
-    .hero { display: flex; align-items: center; justify-content: center; min-height: 208px; background: #e9e6df; border-radius: 12px; }
-    .hero img { width: 128px; height: 128px; }
-    h2 { margin: 22px 0 8px; font: 400 22px/1.25 Georgia, serif; }
-    p { margin: 0; font-size: 14px; line-height: 1.55; }
-    .note { min-height: 66px; color: #656166; }
-    .sizes { display: flex; align-items: center; gap: 22px; height: 62px; margin-top: 16px; border-top: 1px solid #d4cfc7; }
-    .sizes img { display: block; }
-    .dark { display: flex; align-items: center; gap: 22px; height: 62px; padding: 0 14px; background: #232225; border-radius: 6px; }
-    a { display: inline-block; margin-top: 20px; color: #762f3a; text-underline-offset: 4px; font-size: 14px; }
-    a:focus-visible { outline: 2px solid #762f3a; outline-offset: 5px; }
-    footer { margin-top: 38px; color: #656166; font-size: 13px; }
-    @media(max-width: 1000px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    @media(max-width: 650px) { main { padding: 32px 20px; } .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; } .hero { min-height: 170px; } h1 { font-size: 32px; } h2 { font-size: 20px; } }
-    @media(max-width: 360px) { .grid { grid-template-columns: 1fr; } }
-  </style>
-</head>
-<body>
-  <main>
-    <h1>Ghost Writer</h1>
-    <p class="intro">Five icon directions. Hand-drawn SVG geometry in paper, charcoal, and oxblood.</p>
-    <div class="grid">
-      <article>
-        <div class="hero"><img src="01-ghost-nib.svg" alt="Ghost nib icon"></div>
-        <h2>1. Ghost nib</h2>
-        <p class="note">The name in one silhouette: a ghost becoming a fountain pen.</p>
-        <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels"><img src="01-ghost-nib.svg" width="16" height="16" alt=""><img src="01-ghost-nib.svg" width="24" height="24" alt=""><img src="01-ghost-nib.svg" width="32" height="32" alt=""></div>
-        <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels"><img src="01-ghost-nib.svg" width="16" height="16" alt=""><img src="01-ghost-nib.svg" width="24" height="24" alt=""><img src="01-ghost-nib.svg" width="32" height="32" alt=""></div>
-        <a href="01-ghost-nib.svg" download>Download SVG</a>
-      </article>
-      <article>
-        <div class="hero"><img src="02-midnight-quill.svg" alt="Midnight quill icon"></div>
-        <h2>2. Midnight quill</h2>
-        <p class="note">A quiet literary mark. One bold feather, cut by a red shaft.</p>
-        <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels"><img src="02-midnight-quill.svg" width="16" height="16" alt=""><img src="02-midnight-quill.svg" width="24" height="24" alt=""><img src="02-midnight-quill.svg" width="32" height="32" alt=""></div>
-        <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels"><img src="02-midnight-quill.svg" width="16" height="16" alt=""><img src="02-midnight-quill.svg" width="24" height="24" alt=""><img src="02-midnight-quill.svg" width="32" height="32" alt=""></div>
-        <a href="02-midnight-quill.svg" download>Download SVG</a>
-      </article>
-      <article>
-        <div class="hero"><img src="03-dialogue-die.svg" alt="Dialogue die icon"></div>
-        <h2>3. Dialogue die</h2>
-        <p class="note">D&amp;D first: a d20 with dialogue carved into its center.</p>
-        <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels"><img src="03-dialogue-die.svg" width="16" height="16" alt=""><img src="03-dialogue-die.svg" width="24" height="24" alt=""><img src="03-dialogue-die.svg" width="32" height="32" alt=""></div>
-        <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels"><img src="03-dialogue-die.svg" width="16" height="16" alt=""><img src="03-dialogue-die.svg" width="24" height="24" alt=""><img src="03-dialogue-die.svg" width="32" height="32" alt=""></div>
-        <a href="03-dialogue-die.svg" download>Download SVG</a>
-      </article>
-      <article>
-        <div class="hero"><img src="04-haunted-folio.svg" alt="Haunted folio icon"></div>
-        <h2>4. Haunted folio</h2>
-        <p class="note">A character journal with a small ghost stamped into the cover.</p>
-        <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels"><img src="04-haunted-folio.svg" width="16" height="16" alt=""><img src="04-haunted-folio.svg" width="24" height="24" alt=""><img src="04-haunted-folio.svg" width="32" height="32" alt=""></div>
-        <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels"><img src="04-haunted-folio.svg" width="16" height="16" alt=""><img src="04-haunted-folio.svg" width="24" height="24" alt=""><img src="04-haunted-folio.svg" width="32" height="32" alt=""></div>
-        <a href="04-haunted-folio.svg" download>Download SVG</a>
-      </article>
-      <article>
-        <div class="hero"><img src="05-scribe-mark.svg" alt="Scribe mark icon"></div>
-        <h2>5. Scribe mark</h2>
-        <p class="note">A custom literary G whose crossbar becomes a pen nib.</p>
-        <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels"><img src="05-scribe-mark.svg" width="16" height="16" alt=""><img src="05-scribe-mark.svg" width="24" height="24" alt=""><img src="05-scribe-mark.svg" width="32" height="32" alt=""></div>
-        <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels"><img src="05-scribe-mark.svg" width="16" height="16" alt=""><img src="05-scribe-mark.svg" width="24" height="24" alt=""><img src="05-scribe-mark.svg" width="32" height="32" alt=""></div>
-        <a href="05-scribe-mark.svg" download>Download SVG</a>
-      </article>
-    </div>
-    <footer>Size samples: 16 / 24 / 32 px on light and dark backgrounds. All icons use a 64 × 64 viewBox with no fonts or external dependencies.</footer>
-  </main>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ghost Writer — Five icon concepts</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f3f1eb;
+        color: #242326;
+        font-family: system-ui, sans-serif;
+      }
+      main {
+        max-width: 1320px;
+        margin: auto;
+        padding: 52px 36px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font:
+          400 38px/1.2 Georgia,
+          serif;
+        letter-spacing: -0.03em;
+      }
+      .intro {
+        margin: 0;
+        color: #656166;
+        line-height: 1.6;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 28px;
+        margin-top: 48px;
+      }
+      article {
+        min-width: 0;
+      }
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 208px;
+        background: #e9e6df;
+        border-radius: 12px;
+      }
+      .hero img {
+        width: 128px;
+        height: 128px;
+      }
+      h2 {
+        margin: 22px 0 8px;
+        font:
+          400 22px/1.25 Georgia,
+          serif;
+      }
+      p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.55;
+      }
+      .note {
+        min-height: 66px;
+        color: #656166;
+      }
+      .sizes {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        height: 62px;
+        margin-top: 16px;
+        border-top: 1px solid #d4cfc7;
+      }
+      .sizes img {
+        display: block;
+      }
+      .dark {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        height: 62px;
+        padding: 0 14px;
+        background: #232225;
+        border-radius: 6px;
+      }
+      a {
+        display: inline-block;
+        margin-top: 20px;
+        color: #762f3a;
+        text-underline-offset: 4px;
+        font-size: 14px;
+      }
+      a:focus-visible {
+        outline: 2px solid #762f3a;
+        outline-offset: 5px;
+      }
+      footer {
+        margin-top: 38px;
+        color: #656166;
+        font-size: 13px;
+      }
+      @media (max-width: 1000px) {
+        .grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 650px) {
+        main {
+          padding: 32px 20px;
+        }
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 24px 16px;
+        }
+        .hero {
+          min-height: 170px;
+        }
+        h1 {
+          font-size: 32px;
+        }
+        h2 {
+          font-size: 20px;
+        }
+      }
+      @media (max-width: 360px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Ghost Writer</h1>
+      <p class="intro">
+        Five icon directions. Hand-drawn SVG geometry in paper, charcoal, and oxblood.
+      </p>
+      <div class="grid">
+        <article>
+          <div class="hero"><img src="01-ghost-nib.svg" alt="Ghost nib icon" /></div>
+          <h2>1. Ghost nib</h2>
+          <p class="note">The name in one silhouette: a ghost becoming a fountain pen.</p>
+          <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels">
+            <img src="01-ghost-nib.svg" width="16" height="16" alt="" /><img
+              src="01-ghost-nib.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="01-ghost-nib.svg" width="32" height="32" alt="" />
+          </div>
+          <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels">
+            <img src="01-ghost-nib.svg" width="16" height="16" alt="" /><img
+              src="01-ghost-nib.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="01-ghost-nib.svg" width="32" height="32" alt="" />
+          </div>
+          <a href="01-ghost-nib.svg" download>Download SVG</a>
+        </article>
+        <article>
+          <div class="hero"><img src="02-midnight-quill.svg" alt="Midnight quill icon" /></div>
+          <h2>2. Midnight quill</h2>
+          <p class="note">A quiet literary mark. One bold feather, cut by a red shaft.</p>
+          <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels">
+            <img src="02-midnight-quill.svg" width="16" height="16" alt="" /><img
+              src="02-midnight-quill.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="02-midnight-quill.svg" width="32" height="32" alt="" />
+          </div>
+          <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels">
+            <img src="02-midnight-quill.svg" width="16" height="16" alt="" /><img
+              src="02-midnight-quill.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="02-midnight-quill.svg" width="32" height="32" alt="" />
+          </div>
+          <a href="02-midnight-quill.svg" download>Download SVG</a>
+        </article>
+        <article>
+          <div class="hero"><img src="03-dialogue-die.svg" alt="Dialogue die icon" /></div>
+          <h2>3. Dialogue die</h2>
+          <p class="note">D&amp;D first: a d20 with dialogue carved into its center.</p>
+          <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels">
+            <img src="03-dialogue-die.svg" width="16" height="16" alt="" /><img
+              src="03-dialogue-die.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="03-dialogue-die.svg" width="32" height="32" alt="" />
+          </div>
+          <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels">
+            <img src="03-dialogue-die.svg" width="16" height="16" alt="" /><img
+              src="03-dialogue-die.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="03-dialogue-die.svg" width="32" height="32" alt="" />
+          </div>
+          <a href="03-dialogue-die.svg" download>Download SVG</a>
+        </article>
+        <article>
+          <div class="hero"><img src="04-haunted-folio.svg" alt="Haunted folio icon" /></div>
+          <h2>4. Haunted folio</h2>
+          <p class="note">A character journal with a small ghost stamped into the cover.</p>
+          <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels">
+            <img src="04-haunted-folio.svg" width="16" height="16" alt="" /><img
+              src="04-haunted-folio.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="04-haunted-folio.svg" width="32" height="32" alt="" />
+          </div>
+          <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels">
+            <img src="04-haunted-folio.svg" width="16" height="16" alt="" /><img
+              src="04-haunted-folio.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="04-haunted-folio.svg" width="32" height="32" alt="" />
+          </div>
+          <a href="04-haunted-folio.svg" download>Download SVG</a>
+        </article>
+        <article>
+          <div class="hero"><img src="05-scribe-mark.svg" alt="Scribe mark icon" /></div>
+          <h2>5. Scribe mark</h2>
+          <p class="note">A custom literary G whose crossbar becomes a pen nib.</p>
+          <div class="sizes" aria-label="Light background, 16, 24, and 32 pixels">
+            <img src="05-scribe-mark.svg" width="16" height="16" alt="" /><img
+              src="05-scribe-mark.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="05-scribe-mark.svg" width="32" height="32" alt="" />
+          </div>
+          <div class="dark" aria-label="Dark background, 16, 24, and 32 pixels">
+            <img src="05-scribe-mark.svg" width="16" height="16" alt="" /><img
+              src="05-scribe-mark.svg"
+              width="24"
+              height="24"
+              alt=""
+            /><img src="05-scribe-mark.svg" width="32" height="32" alt="" />
+          </div>
+          <a href="05-scribe-mark.svg" download>Download SVG</a>
+        </article>
+      </div>
+      <footer>
+        Size samples: 16 / 24 / 32 px on light and dark backgrounds. All icons use a 64 × 64 viewBox
+        with no fonts or external dependencies.
+      </footer>
+    </main>
+  </body>
 </html>

@@ -3,6 +3,8 @@ import { Literata, Source_Sans_3 } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Analytics } from "@vercel/analytics/next";
+import "./globals.css";
+import "./folio.css";
 const interfaceFont = Source_Sans_3({
   variable: "--font-interface",
   subsets: ["latin"],
