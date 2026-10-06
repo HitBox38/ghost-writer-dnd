@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-
-export default function Home() {
+const Home = () => {
   redirect("/generate");
-}
+};
+export default Home;

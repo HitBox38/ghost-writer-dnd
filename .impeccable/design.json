@@ -1,0 +1,540 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-26T17:05:32.626Z",
+  "title": "Design System: Dense Folio",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0083 91.48)",
+          "oklch(26% 0.0083 91.48)",
+          "oklch(38% 0.0083 91.48)",
+          "oklch(49% 0.0083 91.48)",
+          "oklch(61% 0.0083 91.48)",
+          "oklch(72% 0.0083 91.48)",
+          "oklch(84% 0.0083 91.48)",
+          "oklch(95% 0.0083 91.48)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0057 301.14)",
+          "oklch(26% 0.0057 301.14)",
+          "oklch(38% 0.0057 301.14)",
+          "oklch(49% 0.0057 301.14)",
+          "oklch(61% 0.0057 301.14)",
+          "oklch(72% 0.0057 301.14)",
+          "oklch(84% 0.0057 301.14)",
+          "oklch(95% 0.0057 301.14)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0054 95.10)",
+          "oklch(26% 0.0054 95.10)",
+          "oklch(38% 0.0054 95.10)",
+          "oklch(49% 0.0054 95.10)",
+          "oklch(61% 0.0054 95.10)",
+          "oklch(72% 0.0054 95.10)",
+          "oklch(84% 0.0054 95.10)",
+          "oklch(95% 0.0054 95.10)"
+        ]
+      },
+      "popover": {
+        "role": "neutral",
+        "displayName": "Popover",
+        "tonalRamp": [
+          "oklch(15% 0.0054 95.10)",
+          "oklch(26% 0.0054 95.10)",
+          "oklch(38% 0.0054 95.10)",
+          "oklch(49% 0.0054 95.10)",
+          "oklch(61% 0.0054 95.10)",
+          "oklch(72% 0.0054 95.10)",
+          "oklch(84% 0.0054 95.10)",
+          "oklch(95% 0.0054 95.10)"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Primary",
+        "tonalRamp": [
+          "oklch(15% 0.1000 13.16)",
+          "oklch(26% 0.1000 13.16)",
+          "oklch(38% 0.1000 13.16)",
+          "oklch(49% 0.1000 13.16)",
+          "oklch(61% 0.1000 13.16)",
+          "oklch(72% 0.1000 13.16)",
+          "oklch(84% 0.1000 13.16)",
+          "oklch(95% 0.1000 13.16)"
+        ]
+      },
+      "primary-label": {
+        "role": "neutral",
+        "displayName": "Primary Label",
+        "tonalRamp": [
+          "oklch(15% 0.0113 71.90)",
+          "oklch(26% 0.0113 71.90)",
+          "oklch(38% 0.0113 71.90)",
+          "oklch(49% 0.0113 71.90)",
+          "oklch(61% 0.0113 71.90)",
+          "oklch(72% 0.0113 71.90)",
+          "oklch(84% 0.0113 71.90)",
+          "oklch(95% 0.0113 71.90)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.0099 87.47)",
+          "oklch(26% 0.0099 87.47)",
+          "oklch(38% 0.0099 87.47)",
+          "oklch(49% 0.0099 87.47)",
+          "oklch(61% 0.0099 87.47)",
+          "oklch(72% 0.0099 87.47)",
+          "oklch(84% 0.0099 87.47)",
+          "oklch(95% 0.0099 87.47)"
+        ]
+      },
+      "muted-text": {
+        "role": "neutral",
+        "displayName": "Muted Text",
+        "tonalRamp": [
+          "oklch(15% 0.0093 319.45)",
+          "oklch(26% 0.0093 319.45)",
+          "oklch(38% 0.0093 319.45)",
+          "oklch(49% 0.0093 319.45)",
+          "oklch(61% 0.0093 319.45)",
+          "oklch(72% 0.0093 319.45)",
+          "oklch(84% 0.0093 319.45)",
+          "oklch(95% 0.0093 319.45)"
+        ]
+      },
+      "hover": {
+        "role": "neutral",
+        "displayName": "Hover",
+        "tonalRamp": [
+          "oklch(15% 0.0116 84.58)",
+          "oklch(26% 0.0116 84.58)",
+          "oklch(38% 0.0116 84.58)",
+          "oklch(49% 0.0116 84.58)",
+          "oklch(61% 0.0116 84.58)",
+          "oklch(72% 0.0116 84.58)",
+          "oklch(84% 0.0116 84.58)",
+          "oklch(95% 0.0116 84.58)"
+        ]
+      },
+      "destructive": {
+        "role": "primary",
+        "displayName": "Destructive",
+        "tonalRamp": [
+          "oklch(15% 0.1372 24.04)",
+          "oklch(26% 0.1372 24.04)",
+          "oklch(38% 0.1372 24.04)",
+          "oklch(49% 0.1372 24.04)",
+          "oklch(61% 0.1372 24.04)",
+          "oklch(72% 0.1372 24.04)",
+          "oklch(84% 0.1372 24.04)",
+          "oklch(95% 0.1372 24.04)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Border",
+        "tonalRamp": [
+          "oklch(15% 0.0123 79.78)",
+          "oklch(26% 0.0123 79.78)",
+          "oklch(38% 0.0123 79.78)",
+          "oklch(49% 0.0123 79.78)",
+          "oklch(61% 0.0123 79.78)",
+          "oklch(72% 0.0123 79.78)",
+          "oklch(84% 0.0123 79.78)",
+          "oklch(95% 0.0123 79.78)"
+        ]
+      },
+      "input-border": {
+        "role": "neutral",
+        "displayName": "Input Border",
+        "tonalRamp": [
+          "oklch(15% 0.0077 39.44)",
+          "oklch(26% 0.0077 39.44)",
+          "oklch(38% 0.0077 39.44)",
+          "oklch(49% 0.0077 39.44)",
+          "oklch(61% 0.0077 39.44)",
+          "oklch(72% 0.0077 39.44)",
+          "oklch(84% 0.0077 39.44)",
+          "oklch(95% 0.0077 39.44)"
+        ]
+      },
+      "control": {
+        "role": "neutral",
+        "displayName": "Control",
+        "tonalRamp": [
+          "oklch(15% 0.0041 91.45)",
+          "oklch(26% 0.0041 91.45)",
+          "oklch(38% 0.0041 91.45)",
+          "oklch(49% 0.0041 91.45)",
+          "oklch(61% 0.0041 91.45)",
+          "oklch(72% 0.0041 91.45)",
+          "oklch(84% 0.0041 91.45)",
+          "oklch(95% 0.0041 91.45)"
+        ]
+      },
+      "dark-paper": {
+        "role": "neutral",
+        "displayName": "Dark Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0057 301.13)",
+          "oklch(26% 0.0057 301.13)",
+          "oklch(38% 0.0057 301.13)",
+          "oklch(49% 0.0057 301.13)",
+          "oklch(61% 0.0057 301.13)",
+          "oklch(72% 0.0057 301.13)",
+          "oklch(84% 0.0057 301.13)",
+          "oklch(95% 0.0057 301.13)"
+        ]
+      },
+      "dark-ink": {
+        "role": "neutral",
+        "displayName": "Dark Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0099 87.47)",
+          "oklch(26% 0.0099 87.47)",
+          "oklch(38% 0.0099 87.47)",
+          "oklch(49% 0.0099 87.47)",
+          "oklch(61% 0.0099 87.47)",
+          "oklch(72% 0.0099 87.47)",
+          "oklch(84% 0.0099 87.47)",
+          "oklch(95% 0.0099 87.47)"
+        ]
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "Dark Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0061 314.73)",
+          "oklch(26% 0.0061 314.73)",
+          "oklch(38% 0.0061 314.73)",
+          "oklch(49% 0.0061 314.73)",
+          "oklch(61% 0.0061 314.73)",
+          "oklch(72% 0.0061 314.73)",
+          "oklch(84% 0.0061 314.73)",
+          "oklch(95% 0.0061 314.73)"
+        ]
+      },
+      "dark-popover": {
+        "role": "neutral",
+        "displayName": "Dark Popover",
+        "tonalRamp": [
+          "oklch(15% 0.0076 308.18)",
+          "oklch(26% 0.0076 308.18)",
+          "oklch(38% 0.0076 308.18)",
+          "oklch(49% 0.0076 308.18)",
+          "oklch(61% 0.0076 308.18)",
+          "oklch(72% 0.0076 308.18)",
+          "oklch(84% 0.0076 308.18)",
+          "oklch(95% 0.0076 308.18)"
+        ]
+      },
+      "dark-primary": {
+        "role": "primary",
+        "displayName": "Dark Primary",
+        "tonalRamp": [
+          "oklch(15% 0.1388 26.49)",
+          "oklch(26% 0.1388 26.49)",
+          "oklch(38% 0.1388 26.49)",
+          "oklch(49% 0.1388 26.49)",
+          "oklch(61% 0.1388 26.49)",
+          "oklch(72% 0.1388 26.49)",
+          "oklch(84% 0.1388 26.49)",
+          "oklch(95% 0.1388 26.49)"
+        ]
+      },
+      "dark-muted": {
+        "role": "neutral",
+        "displayName": "Dark Muted",
+        "tonalRamp": [
+          "oklch(15% 0.0092 303.94)",
+          "oklch(26% 0.0092 303.94)",
+          "oklch(38% 0.0092 303.94)",
+          "oklch(49% 0.0092 303.94)",
+          "oklch(61% 0.0092 303.94)",
+          "oklch(72% 0.0092 303.94)",
+          "oklch(84% 0.0092 303.94)",
+          "oklch(95% 0.0092 303.94)"
+        ]
+      },
+      "dark-muted-text": {
+        "role": "neutral",
+        "displayName": "Dark Muted Text",
+        "tonalRamp": [
+          "oklch(15% 0.0073 354.86)",
+          "oklch(26% 0.0073 354.86)",
+          "oklch(38% 0.0073 354.86)",
+          "oklch(49% 0.0073 354.86)",
+          "oklch(61% 0.0073 354.86)",
+          "oklch(72% 0.0073 354.86)",
+          "oklch(84% 0.0073 354.86)",
+          "oklch(95% 0.0073 354.86)"
+        ]
+      },
+      "dark-hover": {
+        "role": "neutral",
+        "displayName": "Dark Hover",
+        "tonalRamp": [
+          "oklch(15% 0.0116 314.67)",
+          "oklch(26% 0.0116 314.67)",
+          "oklch(38% 0.0116 314.67)",
+          "oklch(49% 0.0116 314.67)",
+          "oklch(61% 0.0116 314.67)",
+          "oklch(72% 0.0116 314.67)",
+          "oklch(84% 0.0116 314.67)",
+          "oklch(95% 0.0116 314.67)"
+        ]
+      },
+      "dark-border": {
+        "role": "neutral",
+        "displayName": "Dark Border",
+        "tonalRamp": [
+          "oklch(15% 0.0127 310.99)",
+          "oklch(26% 0.0127 310.99)",
+          "oklch(38% 0.0127 310.99)",
+          "oklch(49% 0.0127 310.99)",
+          "oklch(61% 0.0127 310.99)",
+          "oklch(72% 0.0127 310.99)",
+          "oklch(84% 0.0127 310.99)",
+          "oklch(95% 0.0127 310.99)"
+        ]
+      },
+      "dark-input-border": {
+        "role": "neutral",
+        "displayName": "Dark Input Border",
+        "tonalRamp": [
+          "oklch(15% 0.0152 314.70)",
+          "oklch(26% 0.0152 314.70)",
+          "oklch(38% 0.0152 314.70)",
+          "oklch(49% 0.0152 314.70)",
+          "oklch(61% 0.0152 314.70)",
+          "oklch(72% 0.0152 314.70)",
+          "oklch(84% 0.0152 314.70)",
+          "oklch(95% 0.0152 314.70)"
+        ]
+      },
+      "dark-ring": {
+        "role": "neutral",
+        "displayName": "Dark Ring",
+        "tonalRamp": [
+          "oklch(15% 0.0219 46.96)",
+          "oklch(26% 0.0219 46.96)",
+          "oklch(38% 0.0219 46.96)",
+          "oklch(49% 0.0219 46.96)",
+          "oklch(61% 0.0219 46.96)",
+          "oklch(72% 0.0219 46.96)",
+          "oklch(84% 0.0219 46.96)",
+          "oklch(95% 0.0219 46.96)"
+        ]
+      },
+      "dark-active-marker": {
+        "role": "primary",
+        "displayName": "Dark Active Marker",
+        "tonalRamp": [
+          "oklch(15% 0.1610 28.65)",
+          "oklch(26% 0.1610 28.65)",
+          "oklch(38% 0.1610 28.65)",
+          "oklch(49% 0.1610 28.65)",
+          "oklch(61% 0.1610 28.65)",
+          "oklch(72% 0.1610 28.65)",
+          "oklch(84% 0.1610 28.65)",
+          "oklch(95% 0.1610 28.65)"
+        ]
+      },
+      "dark-primary-border": {
+        "role": "primary",
+        "displayName": "Dark Primary Border",
+        "tonalRamp": [
+          "oklch(15% 0.0792 26.59)",
+          "oklch(26% 0.0792 26.59)",
+          "oklch(38% 0.0792 26.59)",
+          "oklch(49% 0.0792 26.59)",
+          "oklch(61% 0.0792 26.59)",
+          "oklch(72% 0.0792 26.59)",
+          "oklch(84% 0.0792 26.59)",
+          "oklch(95% 0.0792 26.59)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Page heading",
+        "purpose": "Dedicated Settings and character page headings."
+      },
+      "title": {
+        "displayName": "Section heading",
+        "purpose": "Scene and results hierarchy."
+      },
+      "dialogue": {
+        "displayName": "Spoken line",
+        "purpose": "Generated and saved dialogue; remains 19px on phones."
+      },
+      "body": {
+        "displayName": "Interface body",
+        "purpose": "Prose and 16px form fields."
+      },
+      "label": {
+        "displayName": "Field label",
+        "purpose": "Persistent field labels."
+      },
+      "supporting": {
+        "displayName": "Supporting copy",
+        "purpose": "Field guidance and status context."
+      }
+    },
+    "shadows": [
+      {
+        "name": "outline-button",
+        "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        "purpose": "Existing shared outline-button utility shadow; not a dialogue-card treatment."
+      }
+    ],
+    "motion": [
+      {
+        "name": "overlay",
+        "value": "100ms",
+        "purpose": "Shared dialog entry and exit feedback."
+      },
+      {
+        "name": "generation-spinner",
+        "value": "rotate-loading 1s linear infinite",
+        "purpose": "Active generation indicator."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms; animation-iteration-count: 1; scroll-behavior: auto",
+        "purpose": "Reduced-motion override in app/folio.css."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1200px"
+      },
+      {
+        "name": "single-reading-column",
+        "value": "980px"
+      },
+      {
+        "name": "mobile-workspace",
+        "value": "700px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary save or generation action.",
+      "html": "<button class=\"ds-button ds-primary ds-focus\">Generate lines</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:9px 13px;border-radius:6px;border:1px solid transparent;font-family:var(--font-interface,'Source Sans 3'),sans-serif;font-size:15px;font-weight:500;cursor:pointer}.ds-button:active{transform:translateY(1px)}.ds-focus:focus-visible{outline:2px solid var(--ring,#762f3a);outline-offset:3px}.ds-primary{background:var(--primary,#762f3a);color:var(--primary-foreground,#fff9f2)}.ds-primary:hover{background:color-mix(in oklab,var(--primary,#762f3a) 80%,transparent)}.ds-primary:disabled{background:var(--muted,#e9e6df);color:var(--muted-foreground,#656166);border-color:var(--border,#d4cfc7);cursor:not-allowed}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "description": "Visible secondary passage action.",
+      "html": "<button class=\"ds-button ds-ghost ds-focus\">Copy</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:9px 13px;border-radius:6px;border:1px solid transparent;font-family:var(--font-interface,'Source Sans 3'),sans-serif;font-size:15px;font-weight:500;cursor:pointer}.ds-button:active{transform:translateY(1px)}.ds-focus:focus-visible{outline:2px solid var(--ring,#762f3a);outline-offset:3px}.ds-ghost{background:transparent;color:var(--muted-foreground,#656166);font-size:14px}.ds-ghost:hover{background:var(--muted,#e9e6df);color:var(--foreground,#242326)}"
+    },
+    {
+      "name": "Saved Button",
+      "kind": "button",
+      "refersTo": "button-saved",
+      "description": "Saved state uses a red fill and an off-white label.",
+      "html": "<button class=\"ds-button ds-saved ds-focus\" aria-pressed=\"true\">Saved</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:9px 13px;border-radius:6px;border:1px solid transparent;font-family:var(--font-interface,'Source Sans 3'),sans-serif;font-size:15px;font-weight:500;cursor:pointer}.ds-button:active{transform:translateY(1px)}.ds-focus:focus-visible{outline:2px solid var(--ring,#762f3a);outline-offset:3px}.ds-saved{background:var(--saved,#762f3a);color:var(--primary-foreground,#fff9f2);font-size:14px}.ds-saved:hover{background:var(--saved,#762f3a);color:var(--primary-foreground,#fff9f2)}"
+    },
+    {
+      "name": "Labeled Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Persistent label with a neutral input surface.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-character\">Name</label><input class=\"ds-input ds-focus\" id=\"ds-character\" placeholder=\"What do they call you?\"></div>",
+      "css": ".ds-focus:focus-visible{outline:2px solid var(--ring,#762f3a);outline-offset:3px}.ds-field{display:grid;gap:7px;font-family:var(--font-interface,'Source Sans 3'),sans-serif;color:var(--foreground,#242326)}.ds-field label{font-size:15px;font-weight:600}.ds-input{background:var(--control-surface,#fbfaf7);color:var(--foreground,#242326);border:1px solid var(--input,#9c9694);border-radius:5px;min-height:44px;padding:9px 11px;font-family:inherit;font-size:16px}.ds-input::placeholder{color:var(--muted-foreground,#656166);opacity:1}"
+    },
+    {
+      "name": "Workspace Navigation",
+      "kind": "nav",
+      "description": "Equal Write and Saved lines destinations with an active underline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace\"><a class=\"ds-focus\" aria-current=\"page\" href=\"#write\">Write</a><a class=\"ds-focus\" href=\"#saved\">Saved lines</a></nav>",
+      "css": ".ds-focus:focus-visible{outline:2px solid var(--ring,#762f3a);outline-offset:3px}.ds-nav{display:flex;gap:20px;font-family:var(--font-interface,'Source Sans 3'),sans-serif}.ds-nav a{display:flex;align-items:center;justify-content:center;min-height:48px;border-bottom:2px solid transparent;color:var(--foreground,#242326);font-size:16px;font-weight:500;text-decoration:none}.ds-nav a[aria-current]{border-bottom-color:var(--active-marker,#762f3a)}"
+    },
+    {
+      "name": "Segmented Choices",
+      "kind": "custom",
+      "refersTo": "toolbar-segment-selected",
+      "description": "Results-toolbar Grid/List with a 44px outer shell, 42px inner choices and a neutral inverted selected state; other segmented controls retain their inset styling.",
+      "html": "<div class=\"ds-segments\" aria-label=\"Results layout\"><button class=\"ds-focus\" aria-pressed=\"true\">Grid</button><button class=\"ds-focus\" aria-pressed=\"false\">List</button></div>",
+      "css": ".ds-focus:focus-visible{outline:2px solid var(--ring,#762f3a);outline-offset:3px}.ds-segments{display:inline-flex;border:1px solid var(--input,#9c9694);border-radius:6px;height:44px;box-sizing:border-box;padding:0;gap:0;background:var(--control-surface,#fbfaf7)}.ds-segments button{height:42px;min-height:42px;box-sizing:border-box;flex:1;display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;font-family:var(--font-interface,'Source Sans 3'),sans-serif;font-size:14px;border:0;border-radius:4px;background:transparent;color:var(--foreground,#242326);cursor:pointer}.ds-segments button[aria-pressed=true]{background:var(--foreground,#242326);color:var(--background,#f3f1eb)}.ds-segments button:not([aria-pressed=true]):hover{background:var(--accent,#e5e1d9)}"
+    },
+    {
+      "name": "Dialogue Passage",
+      "kind": "card",
+      "refersTo": "dialogue-entry",
+      "description": "Open reading surface with a separator and visible actions; not a raised card.",
+      "html": "<article class=\"ds-passage\"><p class=\"ds-dialogue\">Your threats need more rehearsal.</p><div class=\"ds-actions\"><button class=\"ds-button ds-ghost ds-focus\">Save</button><button class=\"ds-button ds-ghost ds-focus\">Copy</button></div></article>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:9px 13px;border-radius:6px;border:1px solid transparent;font-family:var(--font-interface,'Source Sans 3'),sans-serif;font-size:15px;font-weight:500;cursor:pointer}.ds-button:active{transform:translateY(1px)}.ds-focus:focus-visible{outline:2px solid var(--ring,#762f3a);outline-offset:3px}.ds-passage{padding:23px 0 13px;border-bottom:1px solid var(--border,#d4cfc7);color:var(--foreground,#242326)}.ds-dialogue{font-family:var(--font-literary, Literata),Georgia,serif;font-size:19px;line-height:1.65;letter-spacing:-.012em;overflow-wrap:anywhere;white-space:pre-wrap;max-width:75ch;margin:0}.ds-actions{display:flex;gap:4px;padding-top:13px}.ds-ghost{background:transparent;color:var(--muted-foreground,#656166);font-size:14px}.ds-ghost:hover{background:var(--muted,#e9e6df);color:var(--foreground,#242326)}"
+    },
+    {
+      "name": "Folio Select Trigger",
+      "kind": "custom",
+      "refersTo": "select-trigger",
+      "description": "Static closed-state specimen of the shared shadcn/Base UI Select trigger. Runtime keyboard selection and popup behavior come from components/folio-select.tsx.",
+      "html": "<button class=\"ds-select\" type=\"button\" aria-label=\"Sort lines\" aria-haspopup=\"listbox\" aria-expanded=\"false\"><span class=\"ds-select-value\">Original order</span><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m6 9 6 6 6-6\"/></svg></button>",
+      "css": ".ds-select{display:flex;align-items:center;justify-content:space-between;gap:6px;height:44px;min-height:44px;box-sizing:border-box;width:148px;padding:8px 11px;border:1px solid var(--input,#9c9694);border-radius:6px;background:var(--control-surface,#fbfaf7);color:var(--foreground,#242326);font-family:var(--font-interface,'Source Sans 3'),sans-serif;font-size:14px;box-shadow:none}.ds-select-value{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}.ds-select svg{flex-shrink:0;color:var(--muted-foreground,#656166)}.ds-select:focus-visible{outline:2px solid var(--ring,#762f3a);outline-offset:3px;border-color:var(--ring,#762f3a);box-shadow:0 0 0 3px color-mix(in oklab,var(--ring,#762f3a) 50%,transparent)}.ds-select:disabled{cursor:not-allowed;opacity:.5}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Dense Folio",
+    "overview": "Ghost Writer uses a character's working folio: literary dialogue on neutral paper or charcoal, with restrained oxblood and red actions. Preparation and live retrieval have equal importance. The interface earns its identity through readable passages, compact controls and useful character context. Dense Folio names the visual direction; Ghost Writer is the user-confirmed product name.\n\nThis records the implemented replacement system, extracted from `app/folio.css`, `app/layout.tsx` and the current workspace, settings and character components. The user selected Folio and subsequently pinned its density and palette; the decision images are critique references, not pixel specifications. [The direction contract](docs/design/direction-contract.md) records that authority and missing process artifacts without claiming retrospective approval.",
+    "keyCharacteristics": [
+      "Literary passages with compact sans-serif controls.",
+      "Flat neutral surfaces and restrained red states.",
+      "Content-sized entries with visible Save and Copy actions.",
+      "Optional uploaded portraits; a complete interface without artwork."
+    ],
+    "rules": [
+      {
+        "name": "The Red State Rule",
+        "body": "Use deep red fills and off-white labels in dark mode; do not replace them with pink text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Dialogue First Rule",
+        "body": "Reduce surrounding chrome before reducing the size or clipping the content of a spoken line.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Passage Rule",
+        "body": "Dialogue sits directly on the page with a bottom separator; reserved or nested card shells must not replace that reading surface.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** keep preparation and live retrieval equally accessible.",
+      "**Do** preserve content-sized dialogue and visible Save/Copy actions.",
+      "**Do** use labeled controls, visible focus, readable mobile inputs and safe-area padding.",
+      "**Do** use optional uploaded portraits only; the page must be complete without one."
+    ],
+    "donts": [
+      "**Don't** substitute pink labels for dark-mode red fills and off-white text.",
+      "**Don't** add decorative art, faux parchment, gradients, ornamental logos or nested dialogue cards.",
+      "**Don't** animate column widths or result reordering.",
+      "**Don't** treat generated reference images as approved CSS measurements or proof of runtime verification."
+    ]
+  }
+}

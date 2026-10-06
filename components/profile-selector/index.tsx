@@ -1,90 +1,55 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { useCharacterStore } from '@/stores/character-store';
-import { CharacterForm } from '@/components/character-form';
-import { CharacterDropdown } from './character-dropdown';
-import { CharacterActions } from './character-actions';
-import { Plus } from 'lucide-react';
-import { toast } from 'sonner';
-
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Plus } from "lucide-react";
+import { useCharacterStore } from "@/stores/character-store";
+import { CharacterDropdown } from "@/components/profile-selector/character-dropdown";
 export const ProfileSelector = () => {
-  const { characters, setActiveCharacter, deleteCharacter, getActiveCharacter } =
-    useCharacterStore();
-  const activeCharacter = getActiveCharacter();
-
-  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-
-  const handleDeleteCharacter = (id: string, name: string) => {
-    if (confirm(`Are you sure you want to delete ${name}? This cannot be undone.`)) {
-      deleteCharacter(id);
-      toast.success(`${name} deleted`);
-    }
-  };
-
-  if (characters.length === 0) {
+  const router = useRouter();
+  const { characters, activeCharacterId, setActiveCharacter, initialized } = useCharacterStore();
+  const character = characters.find((item) => item.id === activeCharacterId) ?? null;
+  if (!initialized)
     return (
-      <>
-        <Button onClick={() => setIsCreateDialogOpen(true)} className="w-full md:w-auto">
-          <Plus className="h-4 w-4 mr-2" />
-          Create First Character
-        </Button>
-
-        <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Create Character</DialogTitle>
-            </DialogHeader>
-            <CharacterForm onClose={() => setIsCreateDialogOpen(false)} />
-          </DialogContent>
-        </Dialog>
-      </>
-    );
-  }
-
-  return (
-    <>
-      <div className="flex items-center gap-2">
-        <CharacterDropdown
-          characters={characters}
-          activeCharacter={activeCharacter}
-          onSelectCharacter={setActiveCharacter}
-          onCreateNew={() => setIsCreateDialogOpen(true)}
-        />
-
-        {activeCharacter && (
-          <CharacterActions
-            onEdit={() => setIsEditDialogOpen(true)}
-            onDelete={() => handleDeleteCharacter(activeCharacter.id, activeCharacter.name)}
-          />
-        )}
+      <div className="profile-selector">
+        <span className="text-action" role="status">
+          Loading characters…
+        </span>
       </div>
-
-      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Create Character</DialogTitle>
-          </DialogHeader>
-          <CharacterForm onClose={() => setIsCreateDialogOpen(false)} />
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Edit Character</DialogTitle>
-          </DialogHeader>
-          {activeCharacter && (
-            <CharacterForm
-              characterId={activeCharacter.id}
-              onClose={() => setIsEditDialogOpen(false)}
-            />
-          )}
-        </DialogContent>
-      </Dialog>
-    </>
+    );
+  if (!characters.length)
+    return (
+      <div className="profile-selector">
+        <Link href="/characters/new" className="text-action">
+          <Plus size={16} />
+          Create character
+        </Link>
+      </div>
+    );
+  return (
+    <div className="profile-selector">
+      <CharacterDropdown
+        characters={characters}
+        activeCharacter={character}
+        onSelectCharacter={setActiveCharacter}
+        onCreateNew={() => router.push("/characters/new")}
+      />
+      {character && (
+        <>
+          <span className="character-detail">
+            {[character.race, character.class, `Level ${character.level}`]
+              .filter(Boolean)
+              .join(" · ")}
+          </span>
+          <Link
+            href={`/characters/${character.id}/edit`}
+            className="text-action"
+            aria-label={`Edit ${character.name}`}
+          >
+            Edit
+          </Link>
+        </>
+      )}
+    </div>
   );
 };

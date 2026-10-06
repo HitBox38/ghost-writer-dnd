@@ -1,356 +1,228 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { renderHook, act, waitFor } from "@testing-library/react";
-import { useGeneration } from "../use-generation";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { act, renderHook } from "@testing-library/react";
+import { useGeneration } from "@/app/(main)/generate/hooks/use-generation";
 import { useCharacterStore } from "@/stores/character-store";
 import { useSettingsStore } from "@/stores/settings-store";
-import { useResultsStore } from "@/stores/results-store";
-import { generateFlavorTextAction } from "../../actions";
+import { useWorkspaceStore } from "@/stores/workspace-store";
+import { generateFlavorTextAction } from "@/app/(main)/generate/actions";
+import { characterFixture, quipFixtures } from "@/tests/fixtures/characters";
 import { toast } from "sonner";
-import type { CharacterProfile } from "@/lib/types";
-
-// Mock stores
-vi.mock("@/stores/character-store", () => ({
-  useCharacterStore: vi.fn(),
-}));
-
-vi.mock("@/stores/settings-store", () => ({
-  useSettingsStore: vi.fn(),
-}));
-
-vi.mock("@/stores/results-store", () => ({
-  useResultsStore: vi.fn(),
-}));
-
-// Mock Server Action
-vi.mock("../../actions", () => ({
+import { emptyApiKeys } from "@/lib/types";
+vi.mock("@/app/(main)/generate/actions", () => ({
   generateFlavorTextAction: vi.fn(),
 }));
-
-// Mock sonner
 vi.mock("sonner", () => ({
   toast: {
     success: vi.fn(),
     error: vi.fn(),
   },
 }));
-
-// Mock clipboard
-Object.assign(navigator, {
-  clipboard: {
-    writeText: vi.fn(),
-  },
-});
-
-describe("useGeneration", () => {
-  const mockCharacter: CharacterProfile = {
-    id: "1",
-    name: "Aragorn",
-    race: "Human",
-    class: "Ranger",
-    level: 10,
-    backstory: "A ranger from the north",
-    appearance: "Tall and rugged",
-    worldSetting: "Middle Earth",
-    characterSheet: "base64string",
-    favorites: [],
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
-  };
-
-  const mockGetActiveCharacter = vi.fn();
-  const mockAddFavorite = vi.fn();
-  const mockUpdateSettings = vi.fn();
-  const mockSetResults = vi.fn();
-  const mockToggleFavorite = vi.fn();
-  const mockSetGenerationType = vi.fn();
-  const mockSetContext = vi.fn();
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-
-    vi.mocked(useCharacterStore).mockReturnValue({
-      getActiveCharacter: mockGetActiveCharacter,
-      addFavorite: mockAddFavorite,
-      characters: [mockCharacter],
-      setActiveCharacter: vi.fn(),
-      addCharacter: vi.fn(),
-      updateCharacter: vi.fn(),
-      deleteCharacter: vi.fn(),
-      toggleFavorite: vi.fn(),
-    });
-
-    vi.mocked(useSettingsStore).mockReturnValue({
-      settings: {
-        provider: "openai",
-        model: "gpt-4",
-        apiKey: "test-key",
-        temperature: 0.7,
+beforeEach(() => {
+  vi.clearAllMocks();
+  useCharacterStore.setState({
+    initialized: true,
+    characters: [
+      {
+        ...characterFixture,
+        favorites: [],
       },
-      updateSettings: mockUpdateSettings,
-      setApiKey: vi.fn(),
-      testConnection: vi.fn(),
-    });
-
-    vi.mocked(useResultsStore).mockReturnValue({
-      results: [],
-      generationType: "mockery",
-      context: "",
-      favorites: new Set(),
-      setResults: mockSetResults,
-      toggleFavorite: mockToggleFavorite,
-      setGenerationType: mockSetGenerationType,
-      setContext: mockSetContext,
-    });
+    ],
+    activeCharacterId: characterFixture.id,
   });
-
-  it("should initialize with correct default values", () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-
-    const { result } = renderHook(() => useGeneration());
-
-    expect(result.current.results).toEqual([]);
-    expect(result.current.generationType).toBe("mockery");
-    expect(result.current.context).toBe("");
-    expect(result.current.isGenerating).toBe(false);
-    expect(result.current.resultCount).toBe(5);
+  useWorkspaceStore.getState().reset();
+  useSettingsStore.setState({
+    settings: {
+      provider: "openai",
+      apiKey: "test-key",
+      apiKeys: {
+        ...emptyApiKeys(),
+        openai: "test-key",
+        anthropic: "second-key",
+      },
+      model: "gpt-5",
+      temperature: 0.8,
+      theme: "light",
+    },
   });
-
-  it("should handle generation successfully", async () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    const mockResults = [
-      { id: "1", text: "Result 1" },
-      { id: "2", text: "Result 2" },
-    ];
-    vi.mocked(generateFlavorTextAction).mockResolvedValue(mockResults);
-
-    const { result } = renderHook(() => useGeneration());
-
+  vi.mocked(generateFlavorTextAction).mockResolvedValue(quipFixtures);
+});
+describe("writing sessions", () => {
+  it.each(["success", "failure"])(
+    "ignores a late %s after replacing workspace data",
+    async (outcome) => {
+      let resolve!: (value: typeof quipFixtures) => void;
+      let reject!: (error: Error) => void;
+      vi.mocked(generateFlavorTextAction).mockImplementationOnce(
+        () =>
+          new Promise((done, fail) => {
+            resolve = done;
+            reject = fail;
+          }),
+      );
+      const { result } = renderHook(useGeneration);
+      let request!: Promise<void>;
+      act(() => {
+        request = result.current.handleGenerate();
+      });
+      act(() => {
+        useWorkspaceStore.getState().reset();
+        useCharacterStore.setState({
+          characters: [
+            {
+              ...characterFixture,
+              name: "Restored character",
+            },
+          ],
+        });
+        result.current.setContext("Restored session");
+      });
+      await act(async () => {
+        if (outcome === "success") resolve(quipFixtures);
+        else reject(new Error("Old request failed"));
+        await request;
+      });
+      expect(result.current.context).toBe("Restored session");
+      expect(result.current.results).toEqual([]);
+      expect(result.current.error).toBeNull();
+      expect(result.current.isGenerating).toBe(false);
+      if (outcome === "failure") expect(toast.error).not.toHaveBeenCalled();
+    },
+  );
+  it("starts only one request when generation is triggered twice before rendering", async () => {
+    const { result } = renderHook(useGeneration);
+    await act(async () => {
+      await Promise.all([result.current.handleGenerate(), result.current.handleGenerate()]);
+    });
+    expect(generateFlavorTextAction).toHaveBeenCalledTimes(1);
+  });
+  it("generates with the scene and count, then saves and genuinely unsaves a line", async () => {
+    const { result } = renderHook(useGeneration);
+    act(() => {
+      result.current.setContext("At the tavern");
+      result.current.setResultCount(12);
+    });
     await act(async () => {
       await result.current.handleGenerate();
     });
-
     expect(generateFlavorTextAction).toHaveBeenCalledWith(
-      mockCharacter,
+      expect.objectContaining({
+        id: "merrin",
+      }),
       "mockery",
       "openai",
-      "gpt-4",
+      "gpt-5",
       "test-key",
-      0.7,
-      "",
-      5
+      0.8,
+      "At the tavern",
+      12,
+      "provider-default",
     );
-    expect(mockSetResults).toHaveBeenCalledWith(mockResults, "mockery", "");
-    expect(toast.success).toHaveBeenCalled();
+    expect(result.current.results).toHaveLength(12);
+    act(() => result.current.handleToggleFavorite(quipFixtures[0]));
+    expect(useCharacterStore.getState().characters[0].favorites).toHaveLength(1);
+    expect(result.current.favorites.has(quipFixtures[0].id)).toBe(true);
+    act(() => result.current.handleToggleFavorite(quipFixtures[0]));
+    expect(useCharacterStore.getState().characters[0].favorites).toHaveLength(0);
+    expect(JSON.parse(localStorage.getItem("dnd-flavor-characters")!)[0].favorites).toHaveLength(0);
   });
-
-  it("should show error when no active character", async () => {
-    mockGetActiveCharacter.mockReturnValue(null);
-
-    const { result } = renderHook(() => useGeneration());
-
+  it("keeps generated metadata when the next draft changes", async () => {
+    const { result } = renderHook(useGeneration);
+    act(() => result.current.setContext("Original scene"));
     await act(async () => {
       await result.current.handleGenerate();
     });
-
+    act(() => {
+      result.current.setContext("New scene");
+      result.current.setGenerationType("catchphrase");
+    });
+    act(() => result.current.handleToggleFavorite(quipFixtures[0]));
+    expect(useCharacterStore.getState().characters[0].favorites[0]).toMatchObject({
+      type: "mockery",
+      context: "Original scene",
+    });
+  });
+  it("preserves drafts across navigation and keeps characters separate", () => {
+    const first = renderHook(useGeneration);
+    act(() => first.result.current.setContext("Merrin's scene"));
+    first.unmount();
+    const second = renderHook(useGeneration);
+    expect(second.result.current.context).toBe("Merrin's scene");
+    act(() =>
+      useCharacterStore.getState().addCharacter({
+        ...characterFixture,
+        name: "Another character",
+      }),
+    );
+    expect(second.result.current.context).toBe("");
+    act(() => second.result.current.setContext("Other scene"));
+    act(() => useCharacterStore.getState().setActiveCharacter(characterFixture.id));
+    expect(second.result.current.context).toBe("Merrin's scene");
+  });
+  it("routes a pending response to the original character after switching", async () => {
+    let resolve!: (value: typeof quipFixtures) => void;
+    vi.mocked(generateFlavorTextAction).mockImplementation(
+      () =>
+        new Promise((done) => {
+          resolve = done;
+        }),
+    );
+    const { result } = renderHook(useGeneration);
+    let request!: Promise<void>;
+    act(() => {
+      request = result.current.handleGenerate();
+    });
+    act(() =>
+      useCharacterStore.getState().addCharacter({
+        ...characterFixture,
+        name: "Other",
+      }),
+    );
+    await act(async () => {
+      resolve(quipFixtures);
+      await request;
+    });
+    expect(result.current.results).toHaveLength(0);
+    act(() => useCharacterStore.getState().setActiveCharacter(characterFixture.id));
+    expect(result.current.results).toHaveLength(12);
+    expect(result.current.isGenerating).toBe(false);
+  });
+  it("retains old results and draft on provider failure", async () => {
+    const { result } = renderHook(useGeneration);
+    await act(async () => {
+      await result.current.handleGenerate();
+    });
+    vi.mocked(generateFlavorTextAction).mockRejectedValueOnce(new Error("Rate limit reached"));
+    act(() => result.current.setContext("Keep this scene"));
+    await act(async () => {
+      await result.current.handleGenerate();
+    });
+    expect(result.current.error).toBe("Rate limit reached");
+    expect(toast.error).toHaveBeenCalledWith("Rate limit reached");
+    expect(result.current.context).toBe("Keep this scene");
+    expect(result.current.results).toHaveLength(12);
+    expect(result.current.isGenerating).toBe(false);
+  });
+  it("switches the active key with its provider", () => {
+    const { result } = renderHook(useGeneration);
+    act(() => result.current.handleProviderChange("anthropic"));
+    expect(result.current.settings.apiKey).toBe("second-key");
+    expect(result.current.settings.model).toBe("");
+  });
+  it("does not call the provider with invalid counts or missing keys", async () => {
+    const { result } = renderHook(useGeneration);
+    for (const count of [0, 26, NaN, 1.5]) {
+      act(() => result.current.setResultCount(count));
+      await act(async () => {
+        await result.current.handleGenerate();
+      });
+    }
+    act(() => {
+      result.current.setResultCount(5);
+      useSettingsStore.getState().setApiKey("");
+    });
+    await act(async () => {
+      await result.current.handleGenerate();
+    });
     expect(generateFlavorTextAction).not.toHaveBeenCalled();
-    expect(toast.error).toHaveBeenCalledWith("Please select or create a character first");
-  });
-
-  it("should show error when no API key", async () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    vi.mocked(useSettingsStore).mockReturnValue({
-      settings: {
-        provider: "openai",
-        model: "gpt-4",
-        apiKey: "",
-        temperature: 0.7,
-      },
-      updateSettings: mockUpdateSettings,
-      setApiKey: vi.fn(),
-      testConnection: vi.fn(),
-    });
-
-    const { result } = renderHook(() => useGeneration());
-
-    await act(async () => {
-      await result.current.handleGenerate();
-    });
-
-    expect(generateFlavorTextAction).not.toHaveBeenCalled();
-    expect(toast.error).toHaveBeenCalledWith("Please configure your API key in settings");
-  });
-
-  it("should handle generation error", async () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    vi.mocked(generateFlavorTextAction).mockRejectedValue(new Error("API Error"));
-
-    const { result } = renderHook(() => useGeneration());
-
-    await act(async () => {
-      await result.current.handleGenerate();
-    });
-
-    await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith("API Error");
-    });
-  });
-
-  it("should toggle favorite when not favorited", () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-
-    const { result } = renderHook(() => useGeneration());
-
-    act(() => {
-      result.current.handleToggleFavorite({ id: "1", text: "Test" });
-    });
-
-    expect(mockAddFavorite).toHaveBeenCalledWith("1", "Test", "mockery", "");
-    expect(mockToggleFavorite).toHaveBeenCalledWith("1");
-    expect(toast.success).toHaveBeenCalledWith("Added to favorites");
-  });
-
-  it("should toggle favorite when already favorited", () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    vi.mocked(useResultsStore).mockReturnValue({
-      results: [],
-      generationType: "mockery",
-      context: "",
-      favorites: new Set(["1"]),
-      setResults: mockSetResults,
-      toggleFavorite: mockToggleFavorite,
-      setGenerationType: mockSetGenerationType,
-      setContext: mockSetContext,
-    });
-
-    const { result } = renderHook(() => useGeneration());
-
-    act(() => {
-      result.current.handleToggleFavorite({ id: "1", text: "Test" });
-    });
-
-    expect(mockAddFavorite).not.toHaveBeenCalled();
-    expect(mockToggleFavorite).toHaveBeenCalledWith("1");
-  });
-
-  it("should handle copy to clipboard", () => {
-    const { result } = renderHook(() => useGeneration());
-
-    act(() => {
-      result.current.handleCopy("Test text");
-    });
-
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith("Test text");
-    expect(toast.success).toHaveBeenCalledWith("Copied to clipboard");
-  });
-
-  it("should handle provider change", () => {
-    const { result } = renderHook(() => useGeneration());
-
-    act(() => {
-      result.current.handleProviderChange("anthropic");
-    });
-
-    expect(mockUpdateSettings).toHaveBeenCalledWith({
-      provider: "anthropic",
-      model: "claude-sonnet-4-5",
-    });
-  });
-
-  it("should handle Ctrl+Enter keydown", async () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    const mockResults = [{ id: "1", text: "Result" }];
-    vi.mocked(generateFlavorTextAction).mockResolvedValue(mockResults);
-
-    const { result } = renderHook(() => useGeneration());
-
-    const event = {
-      ctrlKey: true,
-      key: "Enter",
-      preventDefault: vi.fn(),
-    } as unknown as React.KeyboardEvent;
-
-    await act(async () => {
-      result.current.handleKeyDown(event);
-    });
-
-    expect(event.preventDefault).toHaveBeenCalled();
-    await waitFor(() => {
-      expect(generateFlavorTextAction).toHaveBeenCalled();
-    });
-  });
-
-  it("should handle Meta+Enter keydown", async () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    const mockResults = [{ id: "1", text: "Result" }];
-    vi.mocked(generateFlavorTextAction).mockResolvedValue(mockResults);
-
-    const { result } = renderHook(() => useGeneration());
-
-    const event = {
-      metaKey: true,
-      key: "Enter",
-      preventDefault: vi.fn(),
-    } as unknown as React.KeyboardEvent;
-
-    await act(async () => {
-      result.current.handleKeyDown(event);
-    });
-
-    expect(event.preventDefault).toHaveBeenCalled();
-    await waitFor(() => {
-      expect(generateFlavorTextAction).toHaveBeenCalled();
-    });
-  });
-
-  it("should handle non-Error exception in generation", async () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    vi.mocked(generateFlavorTextAction).mockRejectedValue("String error");
-
-    const { result } = renderHook(() => useGeneration());
-
-    await act(async () => {
-      await result.current.handleGenerate();
-    });
-
-    await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith("Failed to generate text");
-    });
-  });
-
-  it("should generate catchphrases success message", async () => {
-    mockGetActiveCharacter.mockReturnValue(mockCharacter);
-    const mockResults = [{ id: "1", text: "Result" }];
-    vi.mocked(generateFlavorTextAction).mockResolvedValue(mockResults);
-    vi.mocked(useResultsStore).mockReturnValue({
-      results: [],
-      generationType: "catchphrase",
-      context: "",
-      favorites: new Set(),
-      setResults: mockSetResults,
-      toggleFavorite: mockToggleFavorite,
-      setGenerationType: mockSetGenerationType,
-      setContext: mockSetContext,
-    });
-
-    const { result } = renderHook(() => useGeneration());
-
-    await act(async () => {
-      await result.current.handleGenerate();
-    });
-
-    expect(toast.success).toHaveBeenCalledWith("Generated 1 catchphrases");
-  });
-
-  it("should not toggle favorite when no active character", () => {
-    mockGetActiveCharacter.mockReturnValue(null);
-
-    const { result } = renderHook(() => useGeneration());
-
-    act(() => {
-      result.current.handleToggleFavorite({ id: "1", text: "Test" });
-    });
-
-    expect(mockAddFavorite).not.toHaveBeenCalled();
-    expect(mockToggleFavorite).not.toHaveBeenCalled();
   });
 });

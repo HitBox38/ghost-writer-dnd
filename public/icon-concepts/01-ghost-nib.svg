@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Writer — Ghost nib</title>
+  <desc id="desc">A paper-white ghost whose body tapers into a fountain pen nib on an oxblood tile.</desc>
+  <rect width="64" height="64" rx="14" fill="#762f3a"/>
+  <path d="M16 43V28a16 16 0 0 1 32 0v15l-7-4-9 15-9-15Z" fill="#fff9f2"/>
+  <g fill="#762f3a">
+    <rect x="23" y="25" width="5" height="7" rx="2.5"/>
+    <rect x="36" y="25" width="5" height="7" rx="2.5"/>
+    <circle cx="32" cy="39" r="2.5"/>
+  </g>
+  <path d="M32 41v8" stroke="#762f3a" stroke-width="2.5"/>
+</svg>

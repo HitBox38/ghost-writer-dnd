@@ -1,16 +1,18 @@
-# D&D Flavor Text Generator
+# Ghost Writer
 
 A client-side web application for D&D players to generate AI-powered flavor text for their characters, specifically combat quips (like Vicious Mockery) and character catchphrases. All data is stored locally with a BYOK (Bring Your Own Key) model for AI providers.
 
 ## Features
 
 ### ✨ Character Profile Management
+
 - Create, edit, and delete character profiles
 - Store character details: name, class, race, level, backstory, appearance, world setting
 - Upload character sheets (PDF, max 5MB, stored as base64)
 - Quick profile switching with dropdown selector
 
 ### 🤖 AI Generation System
+
 - **Two generation modes:**
   - **Combat Quips**: Generate insulting combat quips for spell usage (like Vicious Mockery)
   - **Catchphrases**: Generate signature character phrases
@@ -19,37 +21,48 @@ A client-side web application for D&D players to generate AI-powered flavor text
 - Regenerate button for new variations
 
 ### ❤️ Favorites System
+
 - Save generated text as favorites per character
 - Filter favorites by type (combat quips or catchphrases)
 - Copy to clipboard functionality
 - Remove from favorites option
 
 ### ⚙️ Settings & API Key Management
+
 - Support for multiple AI providers:
   - OpenAI
   - Anthropic
   - Google AI
   - OpenRouter (access to 100+ models via a single API key)
-- Secure local API key storage (never leaves browser)
-- Model selection per provider
+  - xAI
+  - Groq
+  - Mistral
+  - DeepSeek
+  - Cohere
+  - Cerebras
+- Provider keys stored locally and sent through the app server to the chosen provider for generation and connection tests
+- Live model selection with search for each provider
+- Model choices are limited to text output; attaching a PDF character sheet narrows them to models compatible with inline PDFs
 - Temperature slider (0-1) for creativity control
 - Test connection functionality
 
 ### 🎨 Appearance
+
 - Light, dark, and system theme support
 - Responsive design (mobile-friendly)
 - Modern UI with shadcn/ui components
 
 ### 📦 Data Management
+
 - Export all data as JSON (characters + favorites + settings, API key excluded)
 - Import JSON to restore data
 - Clear all data option with confirmation
 
 ## Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript (strict mode)
-- **AI**: Vercel AI SDK v5 (OpenAI, Anthropic, Google, OpenRouter providers)
+- **AI**: Vercel AI SDK v7 (OpenAI, Anthropic, Google, OpenRouter, xAI, Groq, Mistral, DeepSeek, Cohere, Cerebras)
 - **UI**: shadcn/ui components + Tailwind CSS v4
 - **State Management**: Zustand
 - **Storage**: localStorage with JSON export/import
@@ -59,23 +72,26 @@ A client-side web application for D&D players to generate AI-powered flavor text
 
 ### Prerequisites
 
-- Node.js 20+ or compatible runtime
-- pnpm (recommended) or npm
+- Node.js 22.18+ (Node.js 24 LTS recommended)
+- pnpm 10.34.5 (pinned in package.json)
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd ghost-writer-dnd
 ```
 
 2. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 3. Run the development server:
+
 ```bash
 pnpm dev
 ```
@@ -149,22 +165,39 @@ pnpm dev
 │   └── globals.css         # Global styles with theme variables
 ├── components/
 │   ├── ui/                 # shadcn/ui components
-│   ├── character-profile-form.tsx
-│   ├── generation-panel.tsx
-│   ├── favorites-list.tsx
-│   ├── settings-dialog.tsx
-│   ├── profile-selector.tsx
-│   └── providers.tsx       # Client-side initialization
+│   ├── character-editor/   # Form sections, draft state, leave protection, tests
+│   ├── pdf-viewer/         # Preview dialog and tests
+│   ├── pdf-document/       # PDF rendering, toolbar, page/zoom state
+│   ├── settings/           # Connections, appearance, backups
+│   ├── profile-selector/   # Character selection
+│   └── providers/          # Client-side initialization
 ├── stores/
-│   ├── character-store.ts  # Character state management
-│   └── settings-store.ts   # Settings state management
+│   ├── character-store/   # Operations, types, and tests
+│   ├── settings-store/    # Preferences, defaults, and tests
+│   ├── character-draft-store/
+│   └── workspace-store/
 ├── lib/
-│   ├── ai-generator.ts     # AI SDK integration
+│   ├── ai-generator/      # Provider API, prompts, result parsing, and tests
+│   ├── model-catalog/     # Catalog API, capability helpers, types, and tests
 │   ├── storage.ts          # localStorage utilities
 │   ├── types.ts            # TypeScript interfaces
 │   └── utils.ts            # Utility functions
 └── package.json
 ```
+
+Each component has a folder with `index.tsx` as its public entry. Add `components/`
+for view sections, `hooks/` for state and effects, `__tests__/` for colocated tests,
+`helpers.ts` for transformations, `api.ts` for external requests, `types.ts` for
+shared contracts, and `constants.ts` for defaults. Create supporting files when
+they have a responsibility; small components can consist of just `index.tsx`.
+Route files retain Next.js names such as `page.tsx` and `layout.tsx`.
+
+Keep component files at 100 lines or fewer and use arrow functions. Compose
+sections around a shared state object rather than duplicating state or passing
+long lists of individual fields. Standalone hooks, domain utilities, and tests
+can be longer when keeping related behavior together makes them easier to read.
+`pnpm check:architecture` checks the component limit and function style;
+`pnpm lint` includes this check.
 
 ## Development
 
@@ -203,3 +236,15 @@ pnpm tsc --noEmit
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Development checks
+
+- `pnpm lint` runs Oxlint with the migrated Next.js, React, accessibility, and TypeScript rules, plus type-aware promise checks through `oxlint-tsgolint`.
+- `pnpm lint:fix` applies safe lint fixes.
+- `pnpm format` formats the repository with Oxfmt; `pnpm format:check` verifies formatting in CI.
+- `pnpm typecheck` generates Next.js route types and runs TypeScript 7.
+- `pnpm test:coverage`, `pnpm test:e2e`, and `pnpm build` verify unit coverage, browser flows, and the production build.
+
+The Vitest pipeline uses Vite 8's Oxc/Rolldown toolchain. Next.js uses Turbopack and the stable React Compiler. Generated output and local agent configuration are excluded from linting and formatting.
+
+Oxlint migration preserves 79 supported rules from the former ESLint configuration. Seven rules were omitted by the official migration tool because they are unsupported or experimental, including React's legacy JSX usage checks and Next.js's relative `location.assign` check. TypeScript and the production build remain separate checks.

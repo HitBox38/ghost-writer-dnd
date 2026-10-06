@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Writer — Pyre quill</title>
+  <desc id="desc">A feather turning to flame. Fast, slanted, and closer to a writer’s signature. Transparent light SVG.</desc>
+  <style>svg{--ink:#242326;--fire:#762f3a}</style>
+  <path fill="var(--fire)" fill-rule="evenodd" d="M41 77c-6-21-1-31 13-43-1 10 2 15 5 17 4-19 20-24 23-41 11 13 10 25 7 34 10-4 18-11 21-21 6 27-4 48-28 64l-21 14Zm2-1 24-33-4-2-24 33Z"/>
+      <path fill="var(--ink)" fill-rule="evenodd" d="M30 94c-5-26 6-47 29-60 7-4 15-7 25-9-1 9-3 17-6 24l-18 4 14 4c-4 7-10 13-16 17l-15-1 8 6c-7 5-14 9-21 15Zm13-18 24-33-4-2-24 33Z"/>
+      <path fill="var(--ink)" d="m18 108 33-45 5 4-32 46-8 3Z"/>
+</svg>

@@ -16,6 +16,9 @@
 # production
 /build
 
+# Generated PDF.js assets (prepared by dev/build scripts)
+/public/pdfjs/
+
 # misc
 .DS_Store
 *.pem
@@ -35,3 +38,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local design review processes and verification logs
+/.impeccable/questions/
+/.impeccable/*.log

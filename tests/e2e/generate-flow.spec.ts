@@ -1,75 +1,111 @@
 import { test, expect } from "@playwright/test";
+import { seed, mockGeneration, generate, quipFixtures, localCharacters } from "@/tests/e2e/helpers";
 
-test.describe("Generate Flow", () => {
+test("first run leads to character creation", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toHaveURL("/generate");
+  await page.getByRole("link", { name: "Create your first character" }).click();
+  await expect(page).toHaveURL("/characters/new");
+});
+
+test.describe("Writing workspace", () => {
   test.beforeEach(async ({ page }) => {
-    // Clear localStorage before each test
+    await seed(page);
+    await mockGeneration(page);
     await page.goto("/generate");
-    await page.evaluate(() => localStorage.clear());
   });
-
-  test("should redirect to /generate from home", async ({ page }) => {
-    await page.goto("/");
-    await expect(page).toHaveURL("/generate");
-  });
-
-  test("should show no character state initially", async ({ page }) => {
-    await page.goto("/generate");
-    await expect(page.getByText("No Character Selected")).toBeVisible();
-  });
-
-  test("should create character and show generation controls", async ({ page }) => {
-    await page.goto("/generate");
-
-    // Click create character button
-    await page.getByRole("button", { name: /create first character/i }).click();
-
-    // Fill character form
-    await page.getByLabel(/character name/i).fill("Gandalf");
-    await page.getByLabel(/race/i).fill("Maia");
-    await page.getByLabel(/class/i).fill("Wizard");
-    await page.getByLabel(/level/i).fill("20");
-
-    // Submit form
-    await page.getByRole("button", { name: /create character/i }).click();
-
-    // Should see generation controls
-    await expect(page.getByText("Generation Type")).toBeVisible();
-    await expect(page.getByText("AI Provider")).toBeVisible();
-  });
-
-  test("should show API key warning when not configured", async ({ page }) => {
-    await page.goto("/generate");
-
-    // Create a character first
-    await page.getByRole("button", { name: /create first character/i }).click();
-    await page.getByLabel(/character name/i).fill("Test");
-    await page.getByRole("button", { name: /create character/i }).click();
-
-    // Should see API key warning
-    await expect(page.getByText(/configure your API key in settings/i)).toBeVisible();
-  });
-
-  test("should switch between generation types", async ({ page }) => {
-    await page.goto("/generate");
-
-    // Create character
-    await page.getByRole("button", { name: /create first character/i }).click();
-    await page.getByLabel(/character name/i).fill("Test");
-    await page.getByRole("button", { name: /create character/i }).click();
-
-    // Switch to Catchphrases
-    await page.getByRole("tab", { name: /catchphrases/i }).click();
-    await expect(page.getByRole("tab", { name: /catchphrases/i })).toHaveAttribute(
-      "data-state",
-      "active"
+  test("generates twelve lines, saves and unsaves in sync with the collection", async ({
+    page,
+  }) => {
+    await page.getByLabel("What's happening?").fill("A pompous knight challenges you");
+    await page.getByLabel("Number of lines").fill("12");
+    await generate(page);
+    await expect(page.getByRole("article")).toHaveCount(12);
+    await page
+      .getByRole("article")
+      .first()
+      .getByRole("button", { name: "Save", exact: true })
+      .click();
+    expect((await localCharacters(page))[0].favorites).toHaveLength(1);
+    await page.getByRole("link", { name: "Saved lines", exact: true }).click();
+    await expect(page.getByRole("article")).toHaveCount(1);
+    await page.getByRole("link", { name: "Write", exact: true }).click();
+    await expect(page.getByLabel("What's happening?")).toHaveValue(
+      "A pompous knight challenges you",
     );
+    await expect(page.getByRole("article")).toHaveCount(12);
+    await page.getByRole("button", { name: "Saved", exact: true }).click();
+    expect((await localCharacters(page))[0].favorites).toHaveLength(0);
   });
-
-  test("should navigate to favorites page", async ({ page }) => {
-    await page.goto("/generate");
-
-    await page.getByRole("link", { name: /favorites/i }).click();
-    await expect(page).toHaveURL("/favorites");
-    await expect(page.getByText("Favorites", { exact: true })).toBeVisible();
+  test("collapses the full scene column, retains drafts and restores focus", async ({ page }) => {
+    await page.getByLabel("What's happening?").fill("Keep this scene");
+    await page.getByLabel("Number of lines").fill("25");
+    await page.getByRole("button", { name: "Hide scene" }).click();
+    await expect(page.getByRole("button", { name: "Show scene" })).toBeFocused();
+    await expect(page.locator(".scene-sidebar")).toHaveAttribute("inert", "");
+    await page.getByRole("button", { name: "Show scene" }).click();
+    await expect(page.getByRole("button", { name: "Hide scene" })).toBeFocused();
+    await expect(page.getByLabel("What's happening?")).toHaveValue("Keep this scene");
+    await expect(page.getByLabel("Number of lines")).toHaveValue("25");
+  });
+  test("sorts without filtering and keeps layout choices", async ({ page }) => {
+    await generate(page);
+    const secondText = quipFixtures[1].text;
+    await page
+      .getByRole("article")
+      .nth(1)
+      .getByRole("button", { name: "Save", exact: true })
+      .click();
+    await page.getByRole("combobox", { name: "Sort lines" }).click();
+    await page.getByRole("option", { name: "Saved first", exact: true }).click();
+    await expect(page.getByRole("article").first()).toContainText(secondText);
+    await expect(page.getByRole("article")).toHaveCount(12);
+    await page.getByRole("button", { name: "List", exact: true }).click();
+    await page.getByRole("button", { name: "Hide scene" }).click();
+    await expect(page.getByRole("button", { name: "List", exact: true })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await page.getByRole("combobox", { name: "Sort lines" }).click();
+    await page.getByRole("option", { name: "Original order", exact: true }).click();
+    await expect(page.getByRole("article").first()).toContainText(quipFixtures[0].text);
+  });
+  test("preserves work through dedicated settings routes", async ({ page }) => {
+    await page.getByLabel("What's happening?").fill("The party meets a dragon");
+    await generate(page);
+    await page.getByRole("link", { name: "Settings", exact: true }).click();
+    await expect(page).toHaveURL("/settings/connections");
+    await page.getByRole("link", { name: "Appearance", exact: true }).click();
+    await page.getByRole("button", { name: "Dark", exact: true }).click();
+    await page.getByRole("link", { name: "Back to workspace" }).click();
+    await expect(page.getByLabel("What's happening?")).toHaveValue("The party meets a dragon");
+    await expect(page.getByRole("article")).toHaveCount(12);
+    await expect(page.locator("html")).toHaveClass(/dark/);
+  });
+  test("keeps all 25 long results reachable in the scrolling list", async ({ page }) => {
+    const lines = Array.from({ length: 25 }, (_, index) => ({
+      id: String(index),
+      text: `Line ${index + 1}. ${quipFixtures[index % 12].text}`,
+    }));
+    await mockGeneration(page, lines);
+    await page.getByLabel("Number of lines").fill("25");
+    await generate(page);
+    await expect(page.getByRole("article")).toHaveCount(25);
+    await page.getByRole("article").last().scrollIntoViewIfNeeded();
+    await expect(page.getByRole("article").last()).toBeVisible();
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page
+      .getByRole("article")
+      .last()
+      .getByRole("button", { name: "Copy", exact: true })
+      .click({ trial: true });
+  });
+  test("supports keyboard generation and rejects invalid counts", async ({ page }) => {
+    await page.getByLabel("Number of lines").fill("26");
+    await expect(page.getByRole("button", { name: "Generate lines" })).toBeDisabled();
+    await page.getByLabel("Number of lines").fill("1");
+    await page.getByLabel("What's happening?").focus();
+    await page.keyboard.press("Control+Enter");
+    await expect(page.getByRole("article")).toHaveCount(12);
   });
 });

@@ -12,6 +12,7 @@ export default defineConfig({
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],
+      include: ["{app,components,lib,stores}/**/*.{ts,tsx}"],
       exclude: [
         "node_modules/**",
         ".next/**",
@@ -24,9 +25,9 @@ export default defineConfig({
         "app/**/page.tsx",
         "app/**/layout.tsx",
         "app/globals.css",
-        "components/providers.tsx",
+        "components/providers/index.tsx",
+        "**/__tests__/**",
       ],
-      all: true,
       thresholds: {
         lines: 85,
         functions: 85,
@@ -37,7 +38,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./"),
+      "@": path.resolve(import.meta.dirname, "./"),
     },
   },
 });

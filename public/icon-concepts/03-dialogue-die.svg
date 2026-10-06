@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost Writer — Dialogue die</title>
+  <desc id="desc">A twenty-sided roleplaying die with two quotation marks in its central face.</desc>
+  <rect width="64" height="64" rx="14" fill="#762f3a"/>
+  <path d="m32 10 20 12v22L32 55 12 44V22Z" fill="#fff9f2"/>
+  <path d="m32 10-13 15-7-3m20-12 13 15 7-3M12 44l7-19h26l7 19M19 25l13 23 13-23M12 44l20 4 20-4M32 48v7" fill="none" stroke="#762f3a" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="m19 25 13 23 13-23Z" fill="#762f3a"/>
+  <path d="M25 28h5v5l-3 3h-3l3-3h-2Zm9 0h5v5l-3 3h-3l3-3h-2Z" fill="#fff9f2"/>
+</svg>

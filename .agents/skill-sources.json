@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "installedAt": "2026-09-25T20:37:45.7397232Z",
+  "scope": "project",
+  "skills": [
+    {
+      "name": "brandkit",
+      "repository": "Leonxlnx/taste-skill",
+      "path": "skills/brandkit",
+      "commit": "c184364c58658b2f131b4ae8bd3d206cabb3deee",
+      "fileCount": 1,
+      "contentSha256": "6f16652c8df82b2bc057be40561b395e06d0b5ae1befc9b2505bffa6f59f70dc"
+    },
+    {
+      "name": "redesign-existing-projects",
+      "repository": "Leonxlnx/taste-skill",
+      "path": "skills/redesign-skill",
+      "commit": "c184364c58658b2f131b4ae8bd3d206cabb3deee",
+      "fileCount": 1,
+      "contentSha256": "780ea605d495ca02174b9db2843eeeaa729e400060037a8eb4ec4cae7037fd49"
+    },
+    {
+      "name": "image-to-code",
+      "repository": "Leonxlnx/taste-skill",
+      "path": "skills/image-to-code-skill",
+      "commit": "c184364c58658b2f131b4ae8bd3d206cabb3deee",
+      "fileCount": 1,
+      "contentSha256": "831d4d0d655fabcca676a933118d03465c36d96cf1a5f5110131ada8bd5d38b3"
+    },
+    {
+      "name": "frontend-design",
+      "repository": "anthropics/skills",
+      "path": "skills/frontend-design",
+      "commit": "33375500bcea98d610eb30ce10ac4e59b89c390d",
+      "fileCount": 2,
+      "contentSha256": "480ebccfde5b36bb9d755872eee8b6fe90efb2f436a3e87f232455fc253db478"
+    },
+    {
+      "name": "vercel-react-best-practices",
+      "repository": "vercel-labs/agent-skills",
+      "path": "skills/react-best-practices",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "fileCount": 76,
+      "contentSha256": "d15d319a470fe77e24805a1e28d335ebb0efd43a05682219d751cdc45a4d738d"
+    },
+    {
+      "name": "web-design-guidelines",
+      "repository": "vercel-labs/agent-skills",
+      "path": "skills/web-design-guidelines",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "fileCount": 1,
+      "contentSha256": "bd299ea911913a663e7d79eb0ad46623aa2a84b9c2774c2dac5401b853bd1bae"
+    },
+    {
+      "name": "vercel-composition-patterns",
+      "repository": "vercel-labs/agent-skills",
+      "path": "skills/composition-patterns",
+      "commit": "063bee94c3f4df8453406c830b0a7df0f2860278",
+      "fileCount": 14,
+      "contentSha256": "b0bd9e803aee5df00f21de1a3d954943cf6b29b0bde4dd7fdae6c8f2eea44be4"
+    },
+    {
+      "name": "emil-design-eng",
+      "repository": "emilkowalski/skills",
+      "path": "skills/emil-design-eng",
+      "commit": "d16ebe60d09a5ba2afcb7054ede9d0a10c9f6128",
+      "fileCount": 1,
+      "contentSha256": "2bdf46622a90e646c1b00648704cc111c95cd2e30822f9d373549dd2740dae4b"
+    },
+    {
+      "name": "prototype",
+      "repository": "emilkowalski/skills",
+      "path": "skills/prototype",
+      "commit": "d16ebe60d09a5ba2afcb7054ede9d0a10c9f6128",
+      "fileCount": 2,
+      "contentSha256": "a1d12c65931ac447e7c913d53a3c2385bd7a9a90b28bbf5ac2429bcdf5de9560"
+    },
+    {
+      "name": "mobile-native",
+      "repository": "emilkowalski/skills",
+      "path": "skills/mobile-native",
+      "commit": "d16ebe60d09a5ba2afcb7054ede9d0a10c9f6128",
+      "fileCount": 1,
+      "contentSha256": "923db7fbea76d0398c16ee933c5c88570d9a0879c52cfda34d09a48526148679"
+    },
+    {
+      "name": "review-animations",
+      "repository": "emilkowalski/skills",
+      "path": "skills/review-animations",
+      "commit": "d16ebe60d09a5ba2afcb7054ede9d0a10c9f6128",
+      "fileCount": 2,
+      "contentSha256": "db4c86c9bada728ebf137921532056cf536eb8cf5309c00d70cfe075225fb009"
+    },
+    {
+      "name": "find-animation-opportunities",
+      "repository": "emilkowalski/skills",
+      "path": "skills/find-animation-opportunities",
+      "commit": "d16ebe60d09a5ba2afcb7054ede9d0a10c9f6128",
+      "fileCount": 1,
+      "contentSha256": "61bd00e0558072e0f8c0cae30057624f3f39eb2576265e3a3dd83e0bd792fe6f"
+    },
+    {
+      "name": "animate",
+      "repository": "emilkowalski/skills",
+      "path": "skills/animate",
+      "commit": "d16ebe60d09a5ba2afcb7054ede9d0a10c9f6128",
+      "fileCount": 2,
+      "contentSha256": "c045469392106fb6a68d29034e4d37db0918c3beda973a63f70197d502a58ecb"
+    },
+    {
+      "name": "react-doctor",
+      "repository": "millionco/react-doctor",
+      "path": "skills/react-doctor",
+      "commit": "d741d58e7831e37c9f6a5528340c103059bd1ccf",
+      "fileCount": 2,
+      "contentSha256": "8dc71f9d72a366457e25d0df5d53e439026ab9535640189bfdef57f707e8fdf0"
+    },
+    {
+      "name": "impeccable",
+      "repository": "pbakaus/impeccable",
+      "path": ".agents/skills/impeccable",
+      "commit": "9d715cc4f5564a990ca8345abfdd5df6dc9b41c8",
+      "fileCount": 59,
+      "contentSha256": "b8dc75be4d901f4adfe66f71d3d248af6d8404d42589f7222dffeab751ea5f67"
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "repository": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "path": ".claude/skills/ui-ux-pro-max",
+      "commit": "dcc40ff5133ef78276117db0cc34e7b83cc8aeba",
+      "localAdaptations": [
+        "PowerShell examples use absolute project paths and Codex bundled Python with -B instead of CLAUDE_PLUGIN_ROOT."
+      ],
+      "fileCount": 73,
+      "contentSha256": "d53cf5252e863b62abcaa94a5131b792d36ed1b5e840cfb97faa8f16f30d961e"
+    },
+    {
+      "name": "interface-design",
+      "repository": "Dammyjay93/interface-design",
+      "path": ".claude/skills/interface-design",
+      "commit": "2f9be3206855bcb2d1d0af262c8bae25cba6658d",
+      "fileCount": 2,
+      "contentSha256": "1000e233772435a026f3f7698ebfd82765652d06731e5c044a8ddf6cdb464a4e"
+    },
+    {
+      "name": "fixing-accessibility",
+      "repository": "ibelick/ui-skills",
+      "path": "skills/fixing-accessibility",
+      "commit": "fd0889bdf72aee45c32028b4643b09735d5b5a34",
+      "fileCount": 1,
+      "contentSha256": "628a480f65e83f449890cf568ed16199969aba95186a630458d01270d5677ab1"
+    }
+  ],
+  "providedByVercelPlugin": [
+    "shadcn",
+    "nextjs",
+    "ai-sdk",
+    "agent-browser",
+    "agent-browser-verify",
+    "verification"
+  ]
+}
